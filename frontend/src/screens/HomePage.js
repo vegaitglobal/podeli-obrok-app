@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import CustomTextInput from '../components/CustomTextInput/CustomTextInput';
 import { grey } from '../constants/colors';
 import AppIcon from '../images/AppIcon.png';
 
 const HomeContainer = styled.View`
   margin: 70px 16px 51px 16px;
-  align-items: center;
+  // align-items: center;
 `;
 const Image = styled.Image`
   height: 148px;
@@ -26,7 +27,7 @@ const Text = styled.Text`
 
 const HomePage = () => (
   <HomeContainer>
-    <Image resizeMode='contain' source={AppIcon} />
+    {/* <Image resizeMode='contain' source={AppIcon} />
     <Description>
       <Text>
         Aplikacija omogućava onima koji žele da podele hranu sa nekim, umesto da
@@ -34,7 +35,8 @@ const HomePage = () => (
         sa nekim naći će se na Gugl mapi i postaće vidljiv svima kojima taj
         obrok treba. Tako je!
       </Text>
-    </Description>
+    </Description> */}
+    <CustomTextInput />
   </HomeContainer>
 );
 
