@@ -1,27 +1,13 @@
-import { getRepository } from "typeorm"
+import { Meal } from "../entity/Meal";
+import { MealService } from "../service/MealService";
 import { NextFunction, Request, Response } from "express"
-import { User } from "../entity/User"
-import { MealService } from "../service/MealService"
 
 export class MealController {
+    private mealService: MealService = new MealService();
 
-    private mealService = new MealService();
+    async all(request: Request, response: Response, next: NextFunction): Promise<Meal[]> {
+        const deviceId = request.query.deviceId?.toString();
 
-    async all(request: Request, response: Response, next: NextFunction) {
-        return await this.mealService.all()
+        return this.mealService.getAll(deviceId);
     }
-
-    async one(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.findOne(request.params.id)
-    }
-
-    async save(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.save(request.body)
-    }
-
-    async remove(request: Request, response: Response, next: NextFunction) {
-        let userToRemove = await this.userRepository.findOneBy({ id: request.params.id })
-        await this.userRepository.remove(userToRemove)
-    }
-
 }

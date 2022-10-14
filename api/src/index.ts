@@ -3,10 +3,13 @@ import * as bodyParser from "body-parser"
 import { Request, Response } from "express"
 import { AppDataSource } from "./data-source"
 import { Routes } from "./routes"
-import { User } from "./entity/User"
+import { Meal } from "./entity/Meal"
+import { Reservation } from "./entity/Reservation"
+require('dotenv').config() // todo: fix this
+
 
 AppDataSource.initialize().then(async () => {
-
+    console.log(process.env);
     // create express app
     const app = express()
     app.use(bodyParser.json())
@@ -30,23 +33,34 @@ AppDataSource.initialize().then(async () => {
     // start express server
     app.listen(3000)
 
+    const punjenePaprike = AppDataSource.manager.create(Meal, {
+        address: 'ulica paprike',
+        daysToExpiry: 5,
+        description: 'punjene paprike punjene paprike punjene paprike',
+        deviceId: '31232',
+        hoursToExpiry: 5,
+        lat: 4343.4343,
+        long: -423423.656,
+        name: 'paprika',
+        phone: '44234',
+        startPickupTime: new Date(),
+        endPickupTime: new Date(),
+        smsOnly: true,
+    });
+
     // insert new users for test
     await AppDataSource.manager.save(
-        AppDataSource.manager.create(User, {
-            firstName: "Timber",
-            lastName: "Saw",
-            age: 27
-        })
+        punjenePaprike
     )
 
     await AppDataSource.manager.save(
-        AppDataSource.manager.create(User, {
-            firstName: "Phantom",
-            lastName: "Assassin",
-            age: 24
+        AppDataSource.manager.create(Reservation, {
+            cancelled: false,
+            deviceId: '123213',
+            meal: punjenePaprike
         })
     )
 
-    console.log("Express server has started on port 3000. Open http://localhost:3000/users to see results")
+    console.log("Express server has started on port 3000. Open http://localhost:3000/meals to see results")
 
 }).catch(error => console.log(error))

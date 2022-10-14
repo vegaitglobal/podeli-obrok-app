@@ -6,37 +6,40 @@ export class Meal {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({ nullable: false })
     deviceId: string;
 
-    @Column()
+    @Column({ nullable: false })
     name: string
 
     @Column()
     description: string
 
-    @Column()
-    city: string
+    @Column({ nullable: false })
+    address: string
 
-    @Column()
+    @Column({ nullable: false })
     phone: string
 
-    @Column()
+    @Column({ nullable: false })
     smsOnly: boolean
 
-    @Column()
+    @Column({ nullable: false })
     daysToExpiry: number;
 
-    @Column()
+    @Column({ nullable: false })
     hoursToExpiry: number;
 
-    @Column()
-    pickupTime: Date;
+    @Column({ nullable: false })
+    startPickupTime: Date;
 
-    @Column()
+    @Column({ nullable: false })
+    endPickupTime: Date;
+
+    @Column({ type: 'decimal', nullable: false })
     lat: number;
 
-    @Column()
+    @Column({ type: 'decimal', nullable: false })
     long: number;
 
     @OneToMany(() => Reservation, (reservation) => reservation.meal)

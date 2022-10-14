@@ -6,10 +6,10 @@ export class Reservation {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({ nullable: false })
     deviceId: string;
 
-    @Column()
+    @Column({ nullable: false })
     cancelled: boolean;
 
     @ManyToOne(() => Meal, (meal) => meal.reservations)
