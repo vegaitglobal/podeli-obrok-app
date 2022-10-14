@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {grey} from '../constants/colors';
+import { grey } from '../constants/colors';
 import AppIcon from '../images/AppIcon.png';
 
 const HomeContainer = styled.View`
@@ -26,13 +26,13 @@ const Text = styled.Text`
 
 const HomePage = () => (
   <HomeContainer>
-    <Image resizeMode="contain" source={AppIcon} />
+    <Image resizeMode='contain' source={AppIcon} />
     <Description>
       <Text>
         Aplikacija omogućava onima koji žele da podele hranu sa nekim, umesto da
         je bace, da to lakše urade. U par klikova, obrok koji želite da podelite
         sa nekim naći će se na Gugl mapi i postaće vidljiv svima kojima taj
-        obrok treba.
+        obrok treba. Tako je!
       </Text>
     </Description>
   </HomeContainer>
