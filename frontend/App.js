@@ -1,11 +1,11 @@
 import React from 'react';
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomePage from './src/screens/HomePage';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CustomStatusBar from './src/components/CustomStatusBar';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
-import { lightOrange, white } from './src/constants/colors';
+import {lightOrange, white} from './src/constants/colors';
+import HomeScreen from './src/screens/HomePage';
 
 const Stack = createNativeStackNavigator();
 const MainContainer = styled.View`
@@ -30,7 +30,7 @@ const App = () => {
       </SafeAreaView>
       <NavigationContainer theme={MyTheme}>
         <Stack.Navigator>
-          <Stack.Screen name='Home' component={HomePage} />
+          <Stack.Screen name="Home" component={HomeScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </MainContainer>
