@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
+import CustomCheckBox from '../../components/CustomCheckBox/CustomCheckBox';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import { lightOrange } from '../../constants/colors';
 
@@ -11,10 +12,18 @@ const DonorFormScreen = () => {
     pickUpStartTime: '',
     pickUpEndTime: '',
     phone: '',
+    onlyWithMessage: false,
     expirationDays: '',
     expirationHours: '',
   };
   const [newForm, setNewForm] = useState(initialState);
+
+  const checkboxHandler = () => {
+    setNewForm((prev) => ({
+      ...prev,
+      onlyWithMessage: !newForm.onlyWithMessage,
+    }));
+  };
 
   const onChange = ({ name, value }) => {
     setNewForm((prev) => ({ ...prev, [name]: value }));
@@ -68,14 +77,14 @@ const DonorFormScreen = () => {
           value={newForm.pickUpStartTime}
           onChange={onChange}
           name={'pickUpStartTime'}
-          containerStyle={{ width: '45%' }}
+          containerStyle={{ width: '48%' }}
         />
         <CustomTextInput
           placeholder='Do'
           value={newForm.pickUpEndTime}
           onChange={onChange}
           name={'pickUpEndTime'}
-          containerStyle={{ width: '45%', marginTop: 3 }}
+          containerStyle={{ width: '48%', marginTop: 3 }}
         />
       </View>
       <CustomTextInput
@@ -84,8 +93,19 @@ const DonorFormScreen = () => {
         value={newForm.phone}
         onChange={onChange}
         name={'phone'}
-        containerStyle={{ marginBottom: 30 }}
+        containerStyle={{ marginBottom: 10 }}
       />
+      <View
+        style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 30 }}
+      >
+        <CustomCheckBox
+          isActive={newForm.onlyWithMessage}
+          handleCheckBox={checkboxHandler}
+        />
+        <Text style={{ padding: 5, color: 'white' }}>
+          Kontaktirati iskljucivo preko poruka
+        </Text>
+      </View>
       <View
         style={{
           flexDirection: 'row',
@@ -100,16 +120,35 @@ const DonorFormScreen = () => {
           value={newForm.expirationDays}
           onChange={onChange}
           name={'expirationDays'}
-          containerStyle={{ width: '45%' }}
+          containerStyle={{ width: '48%' }}
         />
         <CustomTextInput
           placeholder='Broj sati'
           value={newForm.expirationHours}
           onChange={onChange}
           name={'expirationHours'}
-          containerStyle={{ width: '45%', marginTop: 3 }}
+          containerStyle={{ width: '48%', marginTop: 3 }}
         />
       </View>
+      <Pressable
+        style={{
+          backgroundColor: 'white',
+          borderRadius: 20,
+          paddingVertical: 10,
+          marginTop: 20,
+        }}
+      >
+        <Text
+          style={{
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            color: lightOrange,
+            fontWeight: 'bold',
+          }}
+        >
+          podeli obrok
+        </Text>
+      </Pressable>
     </ScrollView>
   );
 };
