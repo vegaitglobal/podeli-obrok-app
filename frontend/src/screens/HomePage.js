@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { grey } from '../constants/colors';
+import { Paragraph } from '../constants/TextStyles';
 import AppIcon from '../images/AppIcon.png';
 
 const HomeContainer = styled.View`
@@ -15,25 +15,16 @@ const Description = styled.View`
   margin: 22px 30px 58px 30px;
 `;
 
-const Text = styled.Text`
-  text-align: center;
-  line-height: 25px;
-  font-size: 18px;
-  font-weight: 400;
-  font-family: 'Roboto';
-  color: ${grey};
-`;
-
 const HomePage = () => (
   <HomeContainer>
     <Image resizeMode='contain' source={AppIcon} />
     <Description>
-      <Text>
+      <Paragraph>
         Aplikacija omogućava onima koji žele da podele hranu sa nekim, umesto da
         je bace, da to lakše urade. U par klikova, obrok koji želite da podelite
         sa nekim naći će se na Gugl mapi i postaće vidljiv svima kojima taj
         obrok treba. Tako je!
-      </Text>
+      </Paragraph>
     </Description>
   </HomeContainer>
 );
