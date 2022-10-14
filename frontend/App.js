@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import { lightOrange, white } from './src/constants/colors';
 import MealsListScreen from './src/screens/MealsListScreen/MealsListScreen';
+import DonorFormScreen from './src/screens/DonorFormScreen/DonorFormScreen';
 
 const Stack = createNativeStackNavigator();
 const MainContainer = styled.View`
@@ -32,8 +33,9 @@ const App = () => {
       </SafeAreaView>
       <NavigationContainer theme={MyTheme}>
         <Stack.Navigator>
-          <Stack.Screen name='Home' component={HomePage} />
-          <Stack.Screen name='MealsList' component={MealsListScreen} />
+          {/* <Stack.Screen name='Home' component={HomePage} />
+          <Stack.Screen name='MealsList' component={MealsListScreen} /> */}
+          <Stack.Screen name='DonorForm' component={DonorFormScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </MainContainer>
