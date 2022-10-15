@@ -3,8 +3,9 @@ import styled from 'styled-components/native';
 import AppLogo from '../images/AppIcon.png';
 import BlackLogo from '../images/blackLogo.png';
 import {Paragraph} from '../constants/textStyles';
-import {darkOrange, grey, lightOrange} from '../constants/colors';
+import {darkOrange, lightOrange} from '../constants/colors';
 import Button from '../components/Button';
+import {screens} from '../constants/screens';
 
 const HomeContainer = styled.View`
   margin: 70px 16px 51px 16px;
@@ -28,7 +29,7 @@ const Description = styled.View`
   margin: 22px 30px 58px 30px;
 `;
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const onPress = () => {};
   return (
     <HomeContainer>
@@ -43,7 +44,7 @@ const HomeScreen = () => {
         </Paragraph>
       </Description>
       <Button
-        onPress={onPress}
+        onPress={() => navigation.navigate(screens.map)}
         backgroundColor={darkOrange}
         content="Podeli obrok"
       />
