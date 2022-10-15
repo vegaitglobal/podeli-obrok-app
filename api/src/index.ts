@@ -6,9 +6,6 @@ import { Routes } from "./routes";
 import { Meal } from "./entity/Meal";
 import { Reservation } from "./entity/Reservation";
 import * as dotenv from "dotenv";
-import { MealDTO } from "./dto/MealDTO";
-import DTOValidationMiddleware from "./middleware/DTOValidationMiddleware";
-import { MealController } from "./controller/MealController";
 
 AppDataSource.initialize()
   .then(async () => {
@@ -39,11 +36,12 @@ AppDataSource.initialize()
         }
       );
     });
-    //primer middleware wire up-ovanja za tacno jednu rutu, tj. jednu funkciju u kontroleru
-    //this.router.post(`${this.path}`, DTOValidationMiddleware(MealDTO),this.MealController.create);
+
     // setup express app here
     // ...
+
     // start express server
+
     app.listen(3000);
 
     const punjenePaprike = AppDataSource.manager.create(Meal, {
