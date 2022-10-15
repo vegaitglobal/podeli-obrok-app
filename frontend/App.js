@@ -8,6 +8,7 @@ import { lightOrange, white } from './src/constants/colors';
 import HomeScreen from './src/screens/HomeScreen';
 import MealsListScreen from './src/screens/MealsListScreen/MealsListScreen';
 import DonorFormScreen from './src/screens/DonorFormScreen/DonorFormScreen';
+import DrawerNavigator from './src/navigation/DrawerNavigator';
 import MapScreen from './src/screens/MapScreen/MapScreen';
 import { screens } from './src/constants/screens';
 
