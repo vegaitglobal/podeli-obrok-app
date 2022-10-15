@@ -3,4 +3,5 @@ export const screens = {
   map: 'MapScreen',
   mealsList: 'MealsListScreen',
   addMeal: 'AddMeal',
+  appNavigator: 'AppNavigator',
 };
