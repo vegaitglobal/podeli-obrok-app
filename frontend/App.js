@@ -8,6 +8,7 @@ import { lightOrange, white } from './src/constants/colors';
 import HomeScreen from './src/screens/HomePage';
 import MealsListScreen from './src/screens/MealsListScreen/MealsListScreen';
 import DonorFormScreen from './src/screens/DonorFormScreen/DonorFormScreen';
+import DrawerNavigator from './src/navigation/DrawerNavigator';
 
 const Stack = createNativeStackNavigator();
 const MainContainer = styled.View`
@@ -31,12 +32,12 @@ const App = () => {
         <CustomStatusBar />
       </SafeAreaView>
       <NavigationContainer theme={MyTheme}>
-        <Stack.Navigator>
-          <Stack.Screen name='MealsList' component={MealsListScreen} />
-          <Stack.Screen name='DonorForm' component={DonorFormScreen} />
+        <DrawerNavigator />
+        {/* <Stack.Navigator>
           <Stack.Screen name='Home' component={HomeScreen} />
           <Stack.Screen name='MealsList' component={MealsListScreen} />
-        </Stack.Navigator>
+          <Stack.Screen name='DonorForm' component={DonorFormScreen} />
+        </Stack.Navigator> */}
       </NavigationContainer>
     </MainContainer>
   );
