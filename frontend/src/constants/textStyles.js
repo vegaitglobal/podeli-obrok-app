@@ -1,4 +1,4 @@
-import {grey, white} from './colors';
+import {darkOrange, grey, white} from './colors';
 import styled from 'styled-components/native';
 
 export const Paragraph = styled.Text`
@@ -15,7 +15,11 @@ export const ButtonContent = styled(Paragraph)`
   letter-spacing: 1.35px;
   text-transform: uppercase;
 `;
-
+export const PrimaryButtonContent = styled(Paragraph)`
+  color: ${darkOrange};
+  letter-spacing: 1.35px;
+  text-transform: uppercase;
+`;
 export const ZoomContent = styled(Paragraph)`
   color: ${white};
   font-size: 18px;

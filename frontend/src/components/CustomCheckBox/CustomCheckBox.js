@@ -1,7 +1,14 @@
 import React from 'react';
-import { Pressable, View } from 'react-native';
+import {Pressable, View} from 'react-native';
+import styled from 'styled-components';
+import TickIcon from '../../images/tick.png';
 
-const CustomCheckBox = ({ handleCheckBox = () => {}, isActive = false }) => {
+const TickImage = styled.Image`
+  width: 14px;
+  height: 10px;
+`;
+
+const CustomCheckBox = ({handleCheckBox = () => {}, isActive = false}) => {
   return (
     <Pressable
       onPress={handleCheckBox}
@@ -14,11 +21,8 @@ const CustomCheckBox = ({ handleCheckBox = () => {}, isActive = false }) => {
         borderColor: 'white',
         borderWidth: 1,
         backgroundColor: isActive ? 'white' : 'transparent',
-      }}
-    >
-      {isActive && (
-        <View style={{ width: 10, height: 10, backgroundColor: 'red' }} />
-      )}
+      }}>
+      {isActive && <TickImage source={TickIcon} resizeMode="contain" />}
     </Pressable>
   );
 };
