@@ -44,7 +44,7 @@ const HomeScreen = ({navigation}) => {
         </Paragraph>
       </Description>
       <Button
-        onPress={onPress}
+        onPress={() => navigation.navigate(screens.addMeal)}
         backgroundColor={darkOrange}
         content="Podeli obrok"
       />
