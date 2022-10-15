@@ -34,7 +34,6 @@ export const Routes = [
     controller: ReservationController,
     action: "delete",
   },
-
   // POST Meal - kreiranje obroka
   // GET Reservation - preuzimanje rezervacije na osnovu deviceId
   // POST Reservation - rezervisanje
