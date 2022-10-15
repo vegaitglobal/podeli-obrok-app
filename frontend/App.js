@@ -12,6 +12,8 @@ import DrawerNavigator from './src/navigation/DrawerNavigator';
 import MapScreen from './src/screens/MapScreen/MapScreen';
 import { screens } from './src/constants/screens';
 import AboutUsScreen from './src/screens/AboutUsScreen/AboutUsScreen';
+import AuthorWordScreen from './src/screens/AuthorWordScreen/AuthorWordScreen';
+import DonationsScreen from './src/screens/DonationsScreen/DonationsScreen';
 
 const Stack = createNativeStackNavigator();
 const MainContainer = styled.View`
@@ -41,6 +43,11 @@ const App = () => {
           <Stack.Screen name={screens.map} component={MapScreen} />
           <Stack.Screen name={screens.addMeal} component={DonorFormScreen} />
           <Stack.Screen name={screens.aboutUs} component={AboutUsScreen} />
+          <Stack.Screen
+            name={screens.authorWord}
+            component={AuthorWordScreen}
+          />
+          <Stack.Screen name={screens.donation} component={DonationsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </MainContainer>
