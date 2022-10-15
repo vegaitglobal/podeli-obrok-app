@@ -6,7 +6,9 @@ const InputText = styled.TextInput`
   color: ${grey};
   font-style: italic;
   margin-left: 9px;
-  line-height: 41px;
+  height: 45px;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CustomTextInput = ({
