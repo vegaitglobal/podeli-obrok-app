@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+import React, { useState } from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import styled from 'styled-components/native';
-import {grey} from '../../constants/colors';
-import {ZoomContent} from '../../constants/textStyles';
+import { grey } from '../../constants/colors';
+import { ZoomContent } from '../../constants/textStyles';
 import locationsMock from './MapPinsMock';
 import MapMarker from '../../images/mapPin.png';
+import MealInfoModal from './MealInfoModal';
 
 const MapContainer = styled.View`
   height: 100%;
@@ -30,7 +31,7 @@ const ZoomButton = styled.TouchableOpacity`
   width: 35px;
   position: absolute;
   right: 10px;
-  ${({bottomPosition}) => `bottom: ${bottomPosition}`};
+  ${({ bottomPosition }) => `bottom: ${bottomPosition}`};
   background-color: ${grey};
   border-radius: 10px;
   align-items: center;
@@ -70,18 +71,19 @@ const MapScreen = () => {
     <MapContainer>
       <MapView
         region={currentRegion}
-        onRegionChange={region => setCurrentRegion(region)}
+        onRegionChange={(region) => setCurrentRegion(region)}
         style={styles.map}
         initialRegion={{
           latitude: 37.78825,
           longitude: -122.4324,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
-        }}>
+        }}
+      >
         {locationsMock.map((marker, index) => (
           <Marker key={index} coordinate={marker}>
             <TouchableOpacity onPress={onPressMarker}>
-              <MapPin source={MapMarker} resizeMode="contain" />
+              <MapPin source={MapMarker} resizeMode='contain' />
             </TouchableOpacity>
           </Marker>
         ))}
@@ -92,6 +94,10 @@ const MapScreen = () => {
       <ZoomButton bottomPosition={'60px'} onPress={onZoomOut}>
         <ZoomContent>-</ZoomContent>
       </ZoomButton>
+      <MealInfoModal
+        isVisible={showMealModal}
+        closeModal={() => setShowMealModal(false)}
+      />
     </MapContainer>
   );
 };
