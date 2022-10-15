@@ -35,7 +35,6 @@ const App = () => {
           <Stack.Screen name='MealsList' component={MealsListScreen} />
           <Stack.Screen name='DonorForm' component={DonorFormScreen} />
           <Stack.Screen name='Home' component={HomeScreen} />
-          <Stack.Screen name='MealsList' component={MealsListScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </MainContainer>
