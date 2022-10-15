@@ -1,5 +1,5 @@
 import * as express from "express";
-import { ReservationDTO } from "../dto/ReservationDto";
+import { ReservationDTO } from "../dto/ReservationDTO";
 import { makeValidateBody } from "express-class-validator";
 import {
   all,
