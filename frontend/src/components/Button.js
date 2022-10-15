@@ -1,7 +1,6 @@
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-import {Paragraph} from '../constants/textStyles';
-import {white} from '../constants/colors';
+import {ButtonContent} from '../constants/textStyles';
 
 const ButtonContainer = styled.TouchableOpacity`
   height: 36px;
@@ -10,11 +9,6 @@ const ButtonContainer = styled.TouchableOpacity`
   border-radius: 20px;
   align-items: center;
   justify-content: center;
-`;
-const ButtonContent = styled(Paragraph)`
-  color: ${white};
-  letter-spacing: 1.35px;
-  text-transform: uppercase;
 `;
 
 const Button = ({onPress, backgroundColor, content}) => {
