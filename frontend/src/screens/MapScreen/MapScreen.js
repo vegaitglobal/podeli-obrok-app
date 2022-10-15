@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import styled from 'styled-components/native';
 import {grey} from '../../constants/colors';

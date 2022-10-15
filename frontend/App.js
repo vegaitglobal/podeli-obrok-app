@@ -7,6 +7,7 @@ import styled from 'styled-components/native';
 import {lightOrange, white} from './src/constants/colors';
 import HomeScreen from './src/screens/HomeScreen';
 import MealsListScreen from './src/screens/MealsListScreen/MealsListScreen';
+import DonorFormScreen from './src/screens/DonorFormScreen/DonorFormScreen';
 import MapScreen from './src/screens/MapScreen/MapScreen';
 import {screens} from './src/constants/screens';
 
@@ -36,6 +37,7 @@ const App = () => {
           <Stack.Screen name={screens.home} component={HomeScreen} />
           <Stack.Screen name={screens.mealsList} component={MealsListScreen} />
           <Stack.Screen name={screens.map} component={MapScreen} />
+          <Stack.Screen name={screens.addMeal} component={DonorFormScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </MainContainer>
