@@ -9,31 +9,33 @@ export class ReservationService {
 
   private mealRepository: Repository<Meal> = AppDataSource.getRepository(Meal);
 
-  async getAll(deviceId?: string): Promise<Reservation[]> {
+  async getAll(reservedByDeviceId?: string): Promise<Reservation[]> {
     return this.reservationRepository.find({
       where: {
-        deviceId: deviceId,
+        reservedByDeviceId: reservedByDeviceId,
       },
+      relations: ["meal"],
     });
   }
 
   async save(reservation): Promise<Reservation | null> {
     const { mealId } = reservation;
-    console.log({ mealId });
     const meal = await this.mealRepository.findOne({ where: { id: mealId } });
-    console.log({ meal });
     if (!meal) {
       return null;
     }
     return this.reservationRepository.save(reservation);
   }
 
-  async delete(reservationId: number): Promise<void> {
+  async delete(reservationId: number): Promise<boolean> {
     const reservation = await this.reservationRepository.findOne({
       where: { id: reservationId },
     });
+    if (!reservation) {
+      return false;
+    }
     reservation.cancelled = true;
     await this.reservationRepository.save(reservation);
-    return;
+    return true;
   }
 }

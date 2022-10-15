@@ -1,26 +1,16 @@
 import { Meal } from "../entity/Meal";
 import { MealService } from "../service/MealService";
-import { NextFunction, Request, Response } from "express";
 
-export class MealController {
-  private mealService: MealService = new MealService();
+export const all = async (req, res, next): Promise<Meal[]> => {
+  const mealService: MealService = new MealService();
+  const createdByDeviceId = req.query.createdByDeviceId?.toString();
+  const meals = await mealService.getAll(createdByDeviceId);
+  return res.json(meals);
+};
 
-  async all(
-    request: Request,
-    response: Response,
-    next: NextFunction
-  ): Promise<Meal[]> {
-    const deviceId = request.query.deviceId?.toString();
-
-    return this.mealService.getAll(deviceId);
-  }
-
-  async create(
-    request: Request,
-    response: Response,
-    next: NextFunction
-  ): Promise<Meal> {
-    response.status(201);
-    return this.mealService.save(request.body);
-  }
-}
+export const create = async (req, res, next): Promise<Meal> => {
+  console.log(req.data);
+  const mealService: MealService = new MealService();
+  const meals = await mealService.save(req.body);
+  return res.json(meals);
+};

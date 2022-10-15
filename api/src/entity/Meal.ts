@@ -7,7 +7,7 @@ export class Meal {
   id: number;
 
   @Column({ nullable: false })
-  deviceId: string;
+  createdByDeviceId: string;
 
   @Column({ nullable: false })
   name: string;

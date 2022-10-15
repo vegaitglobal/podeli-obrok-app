@@ -5,15 +5,16 @@ import { Meal } from "../entity/Meal";
 export class MealService {
   private mealRepository: Repository<Meal> = AppDataSource.getRepository(Meal);
 
-  async getAll(deviceId?: string): Promise<Meal[]> {
+  async getAll(createdByDeviceId?: string): Promise<Meal[]> {
     return this.mealRepository.find({
       where: {
-        deviceId: deviceId,
+        createdByDeviceId: createdByDeviceId,
       },
     });
   }
 
   async save(meal: Meal): Promise<Meal> {
+    console.log(meal);
     meal.expiresOn = this.calculateExpiresOn(meal);
     return this.mealRepository.save(meal);
   }
