@@ -6,7 +6,7 @@ export class MealService {
   private mealRepository: Repository<Meal> = AppDataSource.getRepository(Meal);
 
   async getAll(deviceId?: string): Promise<Meal[]> {
-    return await this.mealRepository.find({
+    return this.mealRepository.find({
       where: {
         deviceId: deviceId,
       },
@@ -14,6 +14,16 @@ export class MealService {
   }
 
   async save(meal: Meal): Promise<Meal> {
-    return await this.mealRepository.save(meal);
+    meal.expiresOn = this.calculateExpiresOn(meal);
+    return this.mealRepository.save(meal);
+  }
+
+  private calculateExpiresOn(meal: Meal): Date {
+    const expiresOn: Date = new Date();
+    expiresOn.setHours(
+      expiresOn.getHours() + meal.daysToExpiry * 24 + meal.hoursToExpiry
+    );
+
+    return expiresOn;
   }
 }

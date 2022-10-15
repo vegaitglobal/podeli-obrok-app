@@ -44,31 +44,31 @@ AppDataSource.initialize()
 
     app.listen(3000);
 
-    const punjenePaprike = AppDataSource.manager.create(Meal, {
-      address: "ulica paprike",
-      daysToExpiry: 5,
-      description: "punjene paprike punjene paprike punjene paprike",
-      deviceId: "31232",
-      hoursToExpiry: 5,
-      lat: 4343.4343,
-      long: -423423.656,
-      name: "paprika",
-      phone: "44234",
-      startPickupTime: new Date(),
-      endPickupTime: new Date(),
-      smsOnly: true,
-    });
+    // const punjenePaprike = AppDataSource.manager.create(Meal, {
+    //   address: "ulica paprike",
+    //   daysToExpiry: 5,
+    //   description: "punjene paprike punjene paprike punjene paprike",
+    //   deviceId: "31232",
+    //   hoursToExpiry: 5,
+    //   lat: 4343.4343,
+    //   long: -423423.656,
+    //   name: "paprika",
+    //   phone: "44234",
+    //   startPickupTime: new Date(),
+    //   endPickupTime: new Date(),
+    //   smsOnly: true,
+    // });
 
     // insert new users for test
-    await AppDataSource.manager.save(punjenePaprike);
+    // await AppDataSource.manager.save(punjenePaprike);
 
-    await AppDataSource.manager.save(
-      AppDataSource.manager.create(Reservation, {
-        cancelled: false,
-        deviceId: "123213",
-        meal: punjenePaprike,
-      })
-    );
+    // await AppDataSource.manager.save(
+    //   AppDataSource.manager.create(Reservation, {
+    //     cancelled: false,
+    //     deviceId: "123213",
+    //     meal: punjenePaprike,
+    //   })
+    // );
 
     console.log(
       "Express server has started on port 3000. Open http://localhost:3000/meals to see results"

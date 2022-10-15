@@ -1,5 +1,5 @@
 import { MealController } from "./controller/MealController";
-import { ReservationController } from "./controller/Reservation";
+import { ReservationController } from "./controller/ReservationController";
 
 // getAll
 // getByDeviceId
@@ -30,7 +30,7 @@ export const Routes = [
   },
   {
     method: "delete",
-    route: "/reservation",
+    route: "/reservation/:id",
     controller: ReservationController,
     action: "delete",
   },

@@ -19,9 +19,8 @@ export class MealController {
     request: Request,
     response: Response,
     next: NextFunction
-  ): Promise<Meal[]> {
-    const { meal } = request.body;
-
-    return this.mealService.getAll(meal);
+  ): Promise<Meal> {
+    response.status(201);
+    return this.mealService.save(request.body);
   }
 }
