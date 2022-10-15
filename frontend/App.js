@@ -5,10 +5,12 @@ import CustomStatusBar from './src/components/CustomStatusBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import { lightOrange, white } from './src/constants/colors';
-import HomeScreen from './src/screens/HomePage';
+import HomeScreen from './src/screens/HomeScreen';
 import MealsListScreen from './src/screens/MealsListScreen/MealsListScreen';
 import DonorFormScreen from './src/screens/DonorFormScreen/DonorFormScreen';
 import DrawerNavigator from './src/navigation/DrawerNavigator';
+import MapScreen from './src/screens/MapScreen/MapScreen';
+import { screens } from './src/constants/screens';
 
 const Stack = createNativeStackNavigator();
 const MainContainer = styled.View`
@@ -32,12 +34,12 @@ const App = () => {
         <CustomStatusBar />
       </SafeAreaView>
       <NavigationContainer theme={MyTheme}>
-        <DrawerNavigator />
-        {/* <Stack.Navigator>
-          <Stack.Screen name='Home' component={HomeScreen} />
-          <Stack.Screen name='MealsList' component={MealsListScreen} />
-          <Stack.Screen name='DonorForm' component={DonorFormScreen} />
-        </Stack.Navigator> */}
+        <Stack.Navigator>
+          <Stack.Screen name={screens.home} component={HomeScreen} />
+          <Stack.Screen name={screens.mealsList} component={MealsListScreen} />
+          <Stack.Screen name={screens.map} component={MapScreen} />
+          <Stack.Screen name={screens.addMeal} component={DonorFormScreen} />
+        </Stack.Navigator>
       </NavigationContainer>
     </MainContainer>
   );
