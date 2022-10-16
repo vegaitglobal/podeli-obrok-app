@@ -38,7 +38,6 @@ export const View1Styled = styled(View)`
 export const View2Styled = styled(View)`
   background-color: ${lightOrange};
   border-radius: 20px;
-  width: 90%;
 `;
 
 const MealInfoModal = ({
@@ -87,7 +86,7 @@ const MealInfoModal = ({
         style={{
           height: '100%',
           justifyContent: 'center',
-          alignSelf: 'center',
+          paddingHorizontal: 20,
         }}
       >
         <View2Styled>
