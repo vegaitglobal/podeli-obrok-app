@@ -1,15 +1,22 @@
-import { Image, Modal, Pressable, Text, View } from 'react-native';
+import {
+  Image,
+  Modal,
+  Pressable,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
+import Swiper from 'react-native-swiper';
 import styled from 'styled-components/native';
 import { white, lightOrange } from '../../constants/colors';
 import CloseIcon from '../../images/close-icon.png';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ButtonContent } from '../../constants/textStyles';
 
 const BoldText = styled(Text)`
   color: ${white};
-  font-size: 14;
-  line-height: 18;
-  margin-bottom: 20;
+  font-size: 14px;
+  line-height: 18px;
+  margin-bottom: 20px;
   font-weight: bold;
 `;
 
@@ -17,7 +24,7 @@ export const DescriptionStyled = styled(Text)`
   color: ${white};
   fontsize: 14;
   lineheight: 18;
-  margin-bottom: 18;
+  margin-bottom: 18px;
 `;
 
 export const View1Styled = styled(View)`
@@ -30,23 +37,59 @@ export const View1Styled = styled(View)`
 
 export const View2Styled = styled(View)`
   background-color: ${lightOrange};
-  border-radius: 20;
+  border-radius: 20px;
   width: 90%;
 `;
 
 const MealInfoModal = ({
   isVisible = false,
   closeModal = () => {},
-  mealName = 'Supa od sove',
-  description = 'Jako lepa supa od sove veruj mi Zorane. A ti ako ne verujes pojedi supu od krokodila.',
-  adress = 'Bulevar bulevara BB, (sprat nema, stan izgoreo)',
-  pickUpStartTime = 17,
-  pickUpEndTime = 19,
   onReserveMeal,
 }) => {
-  return (
-    <Modal visible={isVisible} transparent={true}>
-      <View1Styled>
+  const modalsMockData = [
+    {
+      id: 1,
+      mealName: 'Supa od sove',
+      description:
+        'Jako lepa supa od sove veruj mi Zorane. A ti ako ne verujes pojedi supu od krokodila. supa od sove veruj mi Zorane. A ti ako ne verujes pojedi supu od krokodila supa od sove veruj mi Zorane. A ti ako ne verujes pojedi supu od krokodila supa od sove veruj mi Zorane. A ti ako ne verujes pojedi supu od krokodila supa od sove veruj mi Zorane. A ti ako ne verujes pojedi supu od krokodila',
+      adress: 'Bulevar bulevara BB, (sprat nema, stan izgoreo)',
+      pickUpStartTime: 17,
+      pickUpEndTime: 19,
+      expirationDays: 2,
+      experationHours: 15,
+    },
+    {
+      id: 2,
+      mealName: 'Supa od jazavca',
+      description: 'Moliom.',
+      adress: 'Bulevar bulevara BB, (sprat nema, stan izgoreo)',
+      pickUpStartTime: 11,
+      pickUpEndTime: 9,
+      expirationDays: 22,
+      experationHours: 15,
+    },
+    {
+      id: 3,
+      mealName: 'Supa od jazavca',
+      description: 'Moliom.',
+      adress: 'Bulevar bulevara BB, (sprat nema, stan izgoreo)',
+      pickUpStartTime: 11,
+      pickUpEndTime: 9,
+      expirationDays: 22,
+      experationHours: 15,
+    },
+  ];
+
+  const renderModals = modalsMockData.map((item) => {
+    return (
+      <View
+        key={item.id}
+        style={{
+          height: '100%',
+          justifyContent: 'center',
+          alignSelf: 'center',
+        }}
+      >
         <View2Styled>
           <View style={{ padding: 15, marginLeft: 18 }}>
             <View
@@ -65,13 +108,13 @@ const MealInfoModal = ({
                   lineHeight: 28,
                 }}
               >
-                {mealName}
+                {item.mealName}
               </Text>
               <Pressable onPress={closeModal}>
                 <Image source={CloseIcon} style={{ width: 30, height: 30 }} />
               </Pressable>
             </View>
-            <DescriptionStyled>{description}</DescriptionStyled>
+            <DescriptionStyled>{item.description}</DescriptionStyled>
             <Text
               style={{
                 color: 'white',
@@ -82,7 +125,7 @@ const MealInfoModal = ({
             >
               Adresa preuzimanja:
             </Text>
-            <BoldText>{adress}</BoldText>
+            <BoldText>{item.adress}</BoldText>
             <View
               style={{
                 flexDirection: 'row',
@@ -107,7 +150,7 @@ const MealInfoModal = ({
                     color: 'white',
                     fontWeight: 'bold',
                   }}
-                >{`${pickUpStartTime}h `}</Text>
+                >{`${item.pickUpStartTime}h `}</Text>
                 <Text
                   style={{
                     color: 'white',
@@ -121,7 +164,7 @@ const MealInfoModal = ({
                     color: 'white',
                     fontWeight: 'bold',
                   }}
-                >{` ${pickUpEndTime}h`}</Text>
+                >{` ${item.pickUpEndTime}h`}</Text>
               </View>
             </View>
             <View
@@ -152,9 +195,13 @@ const MealInfoModal = ({
               >
                 <View style={{ alignItems: 'center' }}>
                   <Text
-                    style={{ color: 'white', fontSize: 30, fontWeight: 'bold' }}
+                    style={{
+                      color: 'white',
+                      fontSize: 30,
+                      fontWeight: 'bold',
+                    }}
                   >
-                    02
+                    {item.expirationDays}
                   </Text>
                   <Text
                     style={{
@@ -169,9 +216,13 @@ const MealInfoModal = ({
                 </View>
                 <View style={{ alignItems: 'center' }}>
                   <Text
-                    style={{ color: 'white', fontSize: 30, fontWeight: 'bold' }}
+                    style={{
+                      color: 'white',
+                      fontSize: 30,
+                      fontWeight: 'bold',
+                    }}
                   >
-                    15
+                    {item.experationHours}
                   </Text>
                   <Text
                     style={{
@@ -208,6 +259,42 @@ const MealInfoModal = ({
             <ButtonContent>Rezerviši obrok</ButtonContent>
           </TouchableOpacity>
         </View2Styled>
+      </View>
+    );
+  });
+
+  return (
+    <Modal visible={isVisible} transparent={true}>
+      <View1Styled>
+        <Swiper
+          horizontal
+          loop={false}
+          dot={
+            <View
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: 50,
+                borderColor: 'white',
+                borderWidth: 1,
+                marginRight: 5,
+              }}
+            />
+          }
+          activeDot={
+            <View
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: 50,
+                backgroundColor: 'white',
+                marginRight: 5,
+              }}
+            />
+          }
+        >
+          {renderModals}
+        </Swiper>
       </View1Styled>
     </Modal>
   );
