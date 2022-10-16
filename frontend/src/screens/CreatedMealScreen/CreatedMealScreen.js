@@ -1,13 +1,12 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import styled from 'styled-components';
-import { lightOrange, white } from '../../constants/colors';
-import { ButtonContent, Paragraph } from '../../constants/textStyles';
+import {lightOrange, white} from '../../constants/colors';
+import {ButtonContent, Paragraph} from '../../constants/textStyles';
 import checkMark from '../../images/checkMark.png';
 import dashedCircle from '../../images/dashedCircle.png';
-import Button from '../../components/Button';
-import { screens } from '../../constants/screens';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {screens} from '../../constants/screens';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const ViewWraper = styled(View)`
   padding-top: 30px;
@@ -62,22 +61,21 @@ const TouchableWrapper = styled.TouchableOpacity`
   margin-left: 77px;
 `;
 
-const CreatedMealScreen = ({ navigation }) => {
+const CreatedMealScreen = ({navigation}) => {
   return (
     <ViewWraper>
-      <DasheCircleImage source={dashedCircle} resizeMode='contain' />
-      <CheckMarkImage source={checkMark} resizeMode='contain' />
+      <DasheCircleImage source={dashedCircle} resizeMode="contain" />
+      <CheckMarkImage source={checkMark} resizeMode="contain" />
       <StyledParagraph>
         Informacije o obroku koji želite da podelite su uspešno poslate.
       </StyledParagraph>
       <BoldParagraph>Hvala Vam što pomažete!</BoldParagraph>
       <ButtonWraper>
         <TouchableOpacity onPress={() => navigation.navigate(screens.home)}>
-          <ButtonContent> Pocetni ekran</ButtonContent>
+          <ButtonContent> Početni ekran</ButtonContent>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate(screens.mealsList)}
-        >
+          onPress={() => navigation.navigate(screens.mealsList)}>
           <TouchableWrapper>
             <ButtonContent>Moji obroci</ButtonContent>
           </TouchableWrapper>
