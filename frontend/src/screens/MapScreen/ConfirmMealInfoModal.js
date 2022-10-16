@@ -4,7 +4,7 @@ import { white, lightOrange } from '../../constants/colors';
 import CloseIcon from '../../images/close-icon.png';
 import checkMark from '../../images/checkMark.png';
 import dashedCircle from '../../images/dashedCircle.png';
-import { View1Styled, View2Styled } from './MealInfoModal';
+import { View2Styled } from './MealInfoModal';
 import { Paragraph } from '../../constants/textStyles';
 
 const ViewWrap = styled.View`
@@ -152,6 +152,15 @@ const CorrDateTime = styled.Text`
 `;
 const IconContainer = styled.View`
   margin-top: -20px;
+`;
+
+const View1Styled = styled(View)`
+  background-color: rgba(52, 52, 52, 0.5);
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding-horizontal: 20px;
 `;
 
 const ConfirmMealInfoModal = ({

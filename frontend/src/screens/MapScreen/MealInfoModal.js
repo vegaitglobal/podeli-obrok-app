@@ -50,7 +50,7 @@ const MealInfoModal = ({
       id: 1,
       mealName: 'Supa od sove',
       description:
-        'Jako lepa supa od sove veruj mi Zorane. A ti ako ne verujes pojedi supu od krokodila. supa od sove veruj mi Zorane. A ti ako ne verujes pojedi supu od krokodila supa od sove veruj mi Zorane. A ti ako ne verujes pojedi supu od krokodila supa od sove veruj mi Zorane. A ti ako ne verujes pojedi supu od krokodila supa od sove veruj mi Zorane. A ti ako ne verujes pojedi supu od krokodila',
+        'Supa od sove na najfiniji nacin. Spremna za Zokija od strane najfinijih kuvara',
       adress: 'Bulevar bulevara BB, (sprat nema)',
       pickUpStartTime: 17,
       pickUpEndTime: 19,
@@ -60,7 +60,8 @@ const MealInfoModal = ({
     {
       id: 2,
       mealName: 'Supa od jazavca',
-      description: 'Moliom.',
+      description:
+        'Supa od jazavca na najfiniji nacin. Spremna za Zokija od strane najfinijih kuvara.',
       adress: 'Bulevar bulevara BB, (sprat nema)',
       pickUpStartTime: 11,
       pickUpEndTime: 9,
@@ -69,8 +70,9 @@ const MealInfoModal = ({
     },
     {
       id: 3,
-      mealName: 'Supa od jazavca',
-      description: 'Moliom.',
+      mealName: 'Supa od kenguretine',
+      description:
+        'Supa od kengura na najfiniji nacin. Spremna za Zokija od strane najfinijih kuvara. Ovi kuvari nikada ne peru ruke, pa je ova supa od posebnog ukusa.',
       adress: 'Bulevar bulevara BB, (sprat 21, stan 11)',
       pickUpStartTime: 11,
       pickUpEndTime: 9,
