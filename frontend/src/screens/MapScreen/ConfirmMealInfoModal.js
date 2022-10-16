@@ -1,16 +1,11 @@
-import { Image, Modal, Pressable, Text, View } from 'react-native';
+import {Image, Modal, Pressable, View} from 'react-native';
 import styled from 'styled-components/native';
-import { white, lightOrange } from '../../constants/colors';
+import {white, lightOrange} from '../../constants/colors';
 import CloseIcon from '../../images/close-icon.png';
 import checkMark from '../../images/checkMark.png';
 import dashedCircle from '../../images/dashedCircle.png';
-import { View1Styled, View2Styled } from './MealInfoModal';
-import {
-  //CheckMarkImage,
-  //DasheCircleImage,
-  StyledParagraph,
-} from '../CreatedMealScreen/CreatedMealScreen';
-import { Paragraph } from '../../constants/textStyles';
+import {View1Styled, View2Styled} from './MealInfoModal';
+import {Paragraph} from '../../constants/textStyles';
 
 const ViewWrap = styled.View`
   padding-top: 5px;
@@ -42,6 +37,7 @@ const DasheCircleImage = styled.Image`
 const Description = styled(Paragraph)`
   color: ${white};
   font-size: 14px;
+  text-align: normal;
 `;
 const DescriptionContainer = styled.View`
   margin-top: 21px;
@@ -176,18 +172,17 @@ const ConfirmMealInfoModal = ({
               justifyContent: 'flex-start',
               marginBottom: 20,
               marginLeft: 20,
-            }}
-          >
+            }}>
             <Pressable onPress={closeModal}>
               <Image
                 source={CloseIcon}
-                style={{ width: 30, height: 30, marginTop: 15 }}
+                style={{width: 30, height: 30, marginTop: 15}}
               />
             </Pressable>
           </View>
           <IconContainer>
-            <DasheCircleImage source={dashedCircle} resizeMode='contain' />
-            <CheckMarkImage source={checkMark} resizeMode='contain' />
+            <DasheCircleImage source={dashedCircle} resizeMode="contain" />
+            <CheckMarkImage source={checkMark} resizeMode="contain" />
           </IconContainer>
           <DescriptionContainer>
             <Description>
@@ -199,7 +194,7 @@ const ConfirmMealInfoModal = ({
           <Line />
           <MealDescription>
             <BoldText>{mealName}</BoldText>
-            <Description style={{ textAlign: 'left' }}>
+            <Description style={{textAlign: 'left'}}>
               Jako lepa supa od sove veruj mi Zorane. A ti ako ne verujes pojedi
               supu od krokodila.
             </Description>
