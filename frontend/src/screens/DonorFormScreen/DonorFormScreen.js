@@ -6,12 +6,15 @@ import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import PrimaryButton from '../../components/PrimaryButton';
 import { lightOrange, white } from '../../constants/colors';
 import styled from 'styled-components';
+import { useNavigation } from '@react-navigation/native';
+import { screens } from '../../constants/screens';
 
 const ButtonContainer = styled.View`
   margin-bottom: 43px;
 `;
 
 const DonorFormScreen = () => {
+  const navigation = useNavigation();
   const initialState = {
     mealName: '',
     additionalComment: '',
@@ -43,7 +46,10 @@ const DonorFormScreen = () => {
     });
     if (flag) {
       Alert.alert('Sva polja moraju biti popunjena.');
+      return;
     }
+
+    navigation.navigate(screens.createdMeal);
   };
 
   return (
