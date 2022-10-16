@@ -1,12 +1,12 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { DrawerActions, useNavigation } from '@react-navigation/native';
-import { Pressable, View, Text, StyleSheet } from 'react-native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {DrawerActions, useNavigation} from '@react-navigation/native';
+import {Pressable, View, Text, StyleSheet} from 'react-native';
 
 import MealsListScreen from '../screens/MealsListScreen/MealsListScreen';
 import AboutUsScreen from '../screens/AboutUsScreen/AboutUsScreen';
 import AuthorWordScreen from '../screens/AuthorWordScreen/AuthorWordScreen';
 import DonationsScreen from '../screens/DonationsScreen/DonationsScreen';
-import { lightOrange, white } from '../constants/colors';
+import {lightOrange, white} from '../constants/colors';
 import styled from 'styled-components/native';
 
 const Drawer = createDrawerNavigator();
@@ -33,22 +33,20 @@ const DrawerNavigator = () => {
       screenOptions={{
         drawerPosition: 'right',
         drawerType: 'front',
-        drawerStyle: { backgroundColor: lightOrange },
+        drawerStyle: {backgroundColor: lightOrange},
         headerLeft: false,
         headerRight: () => (
           <Pressable
-            style={{ backgroundColor: 'red', marginRight: 20 }}
-            onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-          >
+            style={{backgroundColor: 'red', marginRight: 20}}
+            onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
             <DrawerLine />
             <DrawerLine />
             <DrawerLine />
           </Pressable>
         ),
-      }}
-    >
+      }}>
       <Drawer.Screen
-        name='MealsList'
+        name="MealsList"
         component={MealsListScreen}
         options={{
           drawerLabel: 'Rezervisani obroci',
@@ -56,7 +54,7 @@ const DrawerNavigator = () => {
         }}
       />
       <Drawer.Screen
-        name='AboutUs'
+        name="AboutUs"
         component={AboutUsScreen}
         options={{
           drawerLabel: 'O nama',
@@ -64,7 +62,7 @@ const DrawerNavigator = () => {
         }}
       />
       <Drawer.Screen
-        name='AuthorWord'
+        name="AuthorWord"
         component={AuthorWordScreen}
         options={{
           drawerLabel: 'Reč autora',
@@ -72,7 +70,7 @@ const DrawerNavigator = () => {
         }}
       />
       <Drawer.Screen
-        name='Donations'
+        name="Donations"
         component={DonationsScreen}
         options={{
           drawerLabel: 'Donacije',

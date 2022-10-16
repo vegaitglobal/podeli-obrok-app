@@ -41,7 +41,7 @@ const ZoomButton = styled.TouchableOpacity`
   margin-top: 20px;
 `;
 
-const MapScreen = ({ navigation }) => {
+const MapScreen = (props) => {
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 45.25167,
     longitude: 19.83694,
