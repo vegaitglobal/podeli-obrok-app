@@ -1,15 +1,10 @@
-import { Image, Modal, Pressable, Text, View } from 'react-native';
+import { Image, Modal, Pressable, View } from 'react-native';
 import styled from 'styled-components/native';
 import { white, lightOrange } from '../../constants/colors';
 import CloseIcon from '../../images/close-icon.png';
 import checkMark from '../../images/checkMark.png';
 import dashedCircle from '../../images/dashedCircle.png';
 import { View1Styled, View2Styled } from './MealInfoModal';
-import {
-  //CheckMarkImage,
-  //DasheCircleImage,
-  StyledParagraph,
-} from '../CreatedMealScreen/CreatedMealScreen';
 import { Paragraph } from '../../constants/textStyles';
 
 const ViewWrap = styled.View`
@@ -42,6 +37,7 @@ const DasheCircleImage = styled.Image`
 const Description = styled(Paragraph)`
   color: ${white};
   font-size: 14px;
+  text-align: normal;
 `;
 const DescriptionContainer = styled.View`
   margin-top: 21px;

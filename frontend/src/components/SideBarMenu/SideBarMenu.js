@@ -11,8 +11,8 @@ const SidebarContainer = styled.Text`
   position: absolute;
   width: 180px;
   height: 100%;
-  left: 210px;
-  top: 83px;
+  right: 0px;
+  top: 90px;
   background: ${lightOrange};
 `;
 export const ButtonContent = styled(Paragraph)`
@@ -47,14 +47,14 @@ const SideBarMenu = ({setSidebar}) => {
           setSidebar(false);
           navigation.navigate(screens.authorWord, {screen: screens.authorWord});
         }}>
-        <ButtonContent> Rec autora</ButtonContent>
+        <ButtonContent>reč autora</ButtonContent>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
           setSidebar(false);
           navigation.navigate(screens.donation, {screen: screens.donation});
         }}>
-        <ButtonContent> Donacije</ButtonContent>
+        <ButtonContent>Donacije</ButtonContent>
       </TouchableOpacity>
     </SidebarContainer>
   );
