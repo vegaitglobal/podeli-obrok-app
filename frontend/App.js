@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CustomStatusBar from './src/components/CustomStatusBar';
@@ -8,6 +8,8 @@ import {white} from './src/constants/colors';
 import HomeScreen from './src/screens/HomeScreen';
 import {screens} from './src/constants/screens';
 import AppStackNavigator from './src/navigation/AppNavigator';
+import {connect} from 'react-redux';
+import SideBarMenu from './src/components/SideBarMenu/SideBarMenu';
 
 const Stack = createNativeStackNavigator();
 const MainContainer = styled.View`
@@ -21,7 +23,8 @@ const MyTheme = {
     background: 'rgb(255, 255, 255)',
   },
 };
-const App = () => {
+const App = props => {
+  const {sidebarMenu} = props;
   return (
     <MainContainer>
       <SafeAreaView>
@@ -39,8 +42,13 @@ const App = () => {
           />
         </Stack.Navigator>
       </NavigationContainer>
+      {sidebarMenu && <SideBarMenu />}
     </MainContainer>
   );
 };
 
-export default App;
+const mapStateToProps = state => ({
+  sidebarMenu: state.sidebar.isActive,
+});
+
+export default connect(mapStateToProps, null)(App);

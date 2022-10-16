@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {TouchableOpacity} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {screens} from '../constants/screens';
@@ -11,6 +11,8 @@ import styled from 'styled-components';
 import NavBarLogo from '../images/navBarLogo.png';
 import HamburgerIcon from '../images/hamburger.png';
 import BackIcon from '../images/backIcon.png';
+import {setSidebarMenuActiveAction} from '../redux/actions/sidebarMenuAction';
+import {connect} from 'react-redux';
 
 const AppStack = createNativeStackNavigator();
 const MyTheme = {
@@ -40,7 +42,7 @@ const HeaderBackButton = () => (
   <HeaderImageContainer source={BackIcon} resizeMode="contain" />
 );
 
-const AppStackNavigator = ({navigation}) => {
+const AppStackNavigator = ({navigation, setSidebar, sidebarMenu}) => {
   const route = useRoute();
   const checkBackAction = () => {
     if (
@@ -49,6 +51,7 @@ const AppStackNavigator = ({navigation}) => {
     )
       navigation.navigate(screens.home);
   };
+
   return (
     <AppStack.Navigator
       screenOptions={{
@@ -58,8 +61,7 @@ const AppStackNavigator = ({navigation}) => {
         },
         headerTitle: () => <LogoTitle />,
         headerRight: () => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate(screens.drawerNavigator)}>
+          <TouchableOpacity onPress={() => setSidebar(true)}>
             <HeaderHamburger />
           </TouchableOpacity>
         ),
@@ -76,5 +78,12 @@ const AppStackNavigator = ({navigation}) => {
     </AppStack.Navigator>
   );
 };
+const mapStateToProps = state => ({
+  sidebarMenu: state.sidebar.isActive,
+});
 
-export default AppStackNavigator;
+const mapDispatchToProps = dispatch => ({
+  setSidebar: val => dispatch(setSidebarMenuActiveAction(val)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppStackNavigator);
