@@ -42,8 +42,8 @@ const App = (props) => {
             component={AppStackNavigator}
           />
         </Stack.Navigator>
+        {sidebarMenu && <SideBarMenu />}
       </NavigationContainer>
-      {sidebarMenu && <SideBarMenu />}
     </MainContainer>
   );
 };

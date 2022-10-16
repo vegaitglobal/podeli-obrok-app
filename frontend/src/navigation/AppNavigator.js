@@ -65,7 +65,7 @@ const AppStackNavigator = ({ navigation, setSidebar, sidebarMenu }) => {
         },
         headerTitle: () => <LogoTitle />,
         headerRight: () => (
-          <TouchableOpacity onPress={() => setSidebar(true)}>
+          <TouchableOpacity onPress={() => setSidebar(!sidebarMenu)}>
             <HeaderHamburger />
           </TouchableOpacity>
         ),
@@ -77,13 +77,16 @@ const AppStackNavigator = ({ navigation, setSidebar, sidebarMenu }) => {
       }}
       theme={MyTheme}
     >
-      <Stack.Screen name={screens.mealsList} component={MealsListScreen} />
-      <Stack.Screen name={screens.map} component={MapScreen} />
-      <Stack.Screen name={screens.addMeal} component={DonorFormScreen} />
-      <Stack.Screen name={screens.aboutUs} component={AboutUsScreen} />
-      <Stack.Screen name={screens.authorWord} component={AuthorWordScreen} />
-      <Stack.Screen name={screens.donation} component={DonationsScreen} />
-      <Stack.Screen name={screens.createdMeal} component={CreatedMealScreen} />
+      <AppStack.Screen name={screens.mealsList} component={MealsListScreen} />
+      <AppStack.Screen name={screens.map} component={MapScreen} />
+      <AppStack.Screen name={screens.addMeal} component={DonorFormScreen} />
+      <AppStack.Screen name={screens.aboutUs} component={AboutUsScreen} />
+      <AppStack.Screen name={screens.authorWord} component={AuthorWordScreen} />
+      <AppStack.Screen name={screens.donation} component={DonationsScreen} />
+      <AppStack.Screen
+        name={screens.createdMeal}
+        component={CreatedMealScreen}
+      />
     </AppStack.Navigator>
   );
 };
