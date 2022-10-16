@@ -13,9 +13,9 @@ import HamburgerIcon from '../images/hamburger.png';
 import BackIcon from '../images/backIcon.png';
 import {setSidebarMenuActiveAction} from '../redux/actions/sidebarMenuAction';
 import {connect} from 'react-redux';
-import AboutUsScreen from '../screens/AboutUsScreen';
-import AuthorWordScreen from '../screens/AuthorWordScreen';
-import DonationsScreen from '../screens/DonationsScreen';
+import AboutUsScreen from '../screens/AboutUsScreen/AboutUsScreen';
+import AuthorWordScreen from '../screens/AuthorWordScreen/AuthorWordScreen';
+import DonationsScreen from '../screens/DonationsScreen/DonationsScreen';
 
 const AppStack = createNativeStackNavigator();
 const MyTheme = {
