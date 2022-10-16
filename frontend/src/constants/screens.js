@@ -3,6 +3,7 @@ export const screens = {
   map: 'MapScreen',
   mealsList: 'MealsListScreen',
   addMeal: 'AddMeal',
+  appNavigator: 'AppNavigator',
   aboutUs: 'AboutUsScreen',
   authorWord: 'AuthorWordScreen',
   donation: 'DonationsScreen',
