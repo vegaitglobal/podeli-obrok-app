@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {screens} from '../constants/screens';
@@ -13,6 +13,9 @@ import HamburgerIcon from '../images/hamburger.png';
 import BackIcon from '../images/backIcon.png';
 import {setSidebarMenuActiveAction} from '../redux/actions/sidebarMenuAction';
 import {connect} from 'react-redux';
+import AboutUsScreen from '../screens/AboutUsScreen';
+import AuthorWordScreen from '../screens/AuthorWordScreen';
+import DonationsScreen from '../screens/DonationsScreen';
 
 const AppStack = createNativeStackNavigator();
 const MyTheme = {
@@ -72,9 +75,12 @@ const AppStackNavigator = ({navigation, setSidebar, sidebarMenu}) => {
         ),
       }}
       theme={MyTheme}>
-      <AppStack.Screen name={screens.map} component={MapScreen} />
-      <AppStack.Screen name={screens.mealsList} component={MealsListScreen} />
-      <AppStack.Screen name={screens.addMeal} component={DonorFormScreen} />
+      <Stack.Screen name={screens.mealsList} component={MealsListScreen} />
+      <Stack.Screen name={screens.map} component={MapScreen} />
+      <Stack.Screen name={screens.addMeal} component={DonorFormScreen} />
+      <Stack.Screen name={screens.aboutUs} component={AboutUsScreen} />
+      <Stack.Screen name={screens.authorWord} component={AuthorWordScreen} />
+      <Stack.Screen name={screens.donation} component={DonationsScreen} />
     </AppStack.Navigator>
   );
 };

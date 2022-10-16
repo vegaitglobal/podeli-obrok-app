@@ -10,7 +10,7 @@ const MealText = styled(Text)`
   font-size: 20px;
   font-weight: 500;
   font-family: 'Roboto';
-  margin-bottom: 20;
+  margin-bottom: 20px;
 `;
 
 //TODO: use real data

@@ -4,4 +4,7 @@ export const screens = {
   mealsList: 'MealsListScreen',
   addMeal: 'AddMeal',
   appNavigator: 'AppNavigator',
+  aboutUs: 'AboutUsScreen',
+  authorWord: 'AuthorWordScreen',
+  donation: 'DonationsScreen',
 };
