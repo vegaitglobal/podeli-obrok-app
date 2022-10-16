@@ -6,4 +6,5 @@ export const screens = {
   aboutUs: 'AboutUsScreen',
   authorWord: 'AuthorWordScreen',
   donation: 'DonationsScreen',
+  createdMeal: 'CreatedMealScreen',
 };

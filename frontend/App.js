@@ -14,6 +14,7 @@ import { screens } from './src/constants/screens';
 import AboutUsScreen from './src/screens/AboutUsScreen/AboutUsScreen';
 import AuthorWordScreen from './src/screens/AuthorWordScreen/AuthorWordScreen';
 import DonationsScreen from './src/screens/DonationsScreen/DonationsScreen';
+import CreatedMealScreen from './src/screens/CreatedMealScreen/CreatedMealScreen';
 
 const Stack = createNativeStackNavigator();
 const MainContainer = styled.View`
@@ -37,10 +38,10 @@ const App = () => {
         <CustomStatusBar />
       </SafeAreaView>
       <NavigationContainer theme={MyTheme}>
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName={screens.map}>
+          <Stack.Screen name={screens.map} component={MapScreen} />
           <Stack.Screen name={screens.home} component={HomeScreen} />
           <Stack.Screen name={screens.mealsList} component={MealsListScreen} />
-          <Stack.Screen name={screens.map} component={MapScreen} />
           <Stack.Screen name={screens.addMeal} component={DonorFormScreen} />
           <Stack.Screen name={screens.aboutUs} component={AboutUsScreen} />
           <Stack.Screen
@@ -48,6 +49,10 @@ const App = () => {
             component={AuthorWordScreen}
           />
           <Stack.Screen name={screens.donation} component={DonationsScreen} />
+          <Stack.Screen
+            name={screens.createdMeal}
+            component={CreatedMealScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </MainContainer>

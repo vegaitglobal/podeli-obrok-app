@@ -7,6 +7,8 @@ import { ZoomContent } from '../../constants/textStyles';
 import locationsMock from './MapPinsMock';
 import MapMarker from '../../images/mapPin.png';
 import MealInfoModal from './MealInfoModal';
+import { screens } from '../../constants/screens';
+import ConfirmMealInfoModal from './ConfirmMealInfoModal';
 
 const MapContainer = styled.View`
   height: 100%;
@@ -39,7 +41,7 @@ const ZoomButton = styled.TouchableOpacity`
   margin-top: 20px;
 `;
 
-const MapScreen = () => {
+const MapScreen = ({ navigation }) => {
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 45.25167,
     longitude: 19.83694,
@@ -47,9 +49,14 @@ const MapScreen = () => {
     longitudeDelta: 0.0421,
   });
   const [showMealModal, setShowMealModal] = useState(false);
-
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const onPressMarker = () => {
     setShowMealModal(!showMealModal);
+  };
+
+  const onReserveMeal = () => {
+    setShowMealModal(false);
+    setShowConfirmationModal(true);
   };
   const onZoomIn = () => {
     setCurrentRegion({
@@ -97,6 +104,11 @@ const MapScreen = () => {
       <MealInfoModal
         isVisible={showMealModal}
         closeModal={() => setShowMealModal(false)}
+        onReserveMeal={() => onReserveMeal()}
+      />
+      <ConfirmMealInfoModal
+        isVisible={showConfirmationModal}
+        closeModal={() => setShowConfirmationModal(false)}
       />
     </MapContainer>
   );

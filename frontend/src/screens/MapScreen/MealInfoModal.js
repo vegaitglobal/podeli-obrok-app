@@ -1,8 +1,9 @@
 import { Image, Modal, Pressable, Text, View } from 'react-native';
-import styledComponents from 'styled-components';
-import { white, lightOrange } from '../../constants/colors';
 import styled from 'styled-components/native';
+import { white, lightOrange } from '../../constants/colors';
 import CloseIcon from '../../images/close-icon.png';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ButtonContent } from '../../constants/textStyles';
 
 const BoldText = styled(Text)`
   color: ${white};
@@ -12,14 +13,14 @@ const BoldText = styled(Text)`
   font-weight: bold;
 `;
 
-const DescriptionStyled = styled(Text)`
+export const DescriptionStyled = styled(Text)`
   color: ${white};
   fontsize: 14;
   lineheight: 18;
   margin-bottom: 18;
 `;
 
-const View1Styled = styled(View)`
+export const View1Styled = styled(View)`
   background-color: rgba(52, 52, 52, 0.5);
   width: 100%;
   height: 100%;
@@ -27,7 +28,7 @@ const View1Styled = styled(View)`
   justify-content: center;
 `;
 
-const View2Styled = styled(View)`
+export const View2Styled = styled(View)`
   background-color: ${lightOrange};
   border-radius: 20;
   width: 90%;
@@ -41,9 +42,8 @@ const MealInfoModal = ({
   adress = 'Bulevar bulevara BB, (sprat nema, stan izgoreo)',
   pickUpStartTime = 17,
   pickUpEndTime = 19,
+  onReserveMeal,
 }) => {
-  const handleReserve = () => {};
-
   return (
     <Modal visible={isVisible} transparent={true}>
       <View1Styled>
@@ -195,8 +195,8 @@ const MealInfoModal = ({
               marginTop: 20,
             }}
           />
-          <Text
-            onPress={handleReserve}
+          <TouchableOpacity
+            onPress={() => onReserveMeal()}
             style={{
               textAlign: 'center',
               textTransform: 'uppercase',
@@ -205,8 +205,8 @@ const MealInfoModal = ({
               fontWeight: '600',
             }}
           >
-            Rezerviši obrok
-          </Text>
+            <ButtonContent>Rezerviši obrok</ButtonContent>
+          </TouchableOpacity>
         </View2Styled>
       </View1Styled>
     </Modal>
