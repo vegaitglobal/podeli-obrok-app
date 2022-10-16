@@ -7,9 +7,9 @@ import { ButtonContent } from '../../constants/textStyles';
 
 const BoldText = styled(Text)`
   color: ${white};
-  font-size: 14;
-  line-height: 18;
-  margin-bottom: 20;
+  font-size: 14px;
+  line-height: 18px;
+  margin-bottom: 20px;
   font-weight: bold;
 `;
 
@@ -17,7 +17,7 @@ export const DescriptionStyled = styled(Text)`
   color: ${white};
   fontsize: 14;
   lineheight: 18;
-  margin-bottom: 18;
+  margin-bottom: 18px;
 `;
 
 export const View1Styled = styled(View)`
