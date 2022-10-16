@@ -21,9 +21,9 @@ const ViewWrap = styled.View`
 
 const BoldText = styled.Text`
   color: ${white};
-  font-size: 14;
-  line-height: 18;
-  margin-bottom: 10;
+  font-size: 14px;
+  line-height: 18px;
+  margin-bottom: 10px;
   font-weight: bold;
 `;
 const CheckMarkImage = styled.Image`
