@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import AppLogo from '../images/AppIcon.png';
 import BlackLogo from '../images/blackLogo.png';
 import {Paragraph} from '../constants/textStyles';
-import {darkOrange, lightOrange, white} from '../constants/colors';
+import {darkOrange, lightOrange} from '../constants/colors';
 import Button from '../components/Button';
 import {screens} from '../constants/screens';
 
@@ -29,7 +29,7 @@ const Description = styled.View`
   margin: 22px 30px 58px 30px;
 `;
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation }) => {
   return (
     <HomeContainer>
       <Image resizeMode="contain" source={AppLogo} />
@@ -44,15 +44,15 @@ const HomeScreen = ({navigation}) => {
       </Description>
       <Button
         onPress={() =>
-          navigation.navigate(screens.appNavigator, {screen: screens.addMeal})
+          navigation.navigate(screens.addMeal)
         }
         backgroundColor={darkOrange}
         content="Podeli obrok"
       />
       <Button
-        onPress={() =>
-          navigation.navigate(screens.appNavigator, {screen: screens.map})
-        }
+        onPress={() => {
+          navigation.navigate(screens.map);
+        }}
         backgroundColor={lightOrange}
         content="Preuzmi obrok"
       />

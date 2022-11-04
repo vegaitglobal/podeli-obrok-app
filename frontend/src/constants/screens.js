@@ -8,4 +8,5 @@ export const screens = {
   authorWord: 'AuthorWordScreen',
   donation: 'DonationsScreen',
   createdMeal: 'CreatedMealScreen',
+  sideBar: 'SideBar',
 };

@@ -1,18 +1,19 @@
-import {useNavigation} from '@react-navigation/native';
+import React from 'react';
+import { connect } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Paragraph} from '../../constants/textStyles';
-import {lightOrange, white} from '../../constants/colors';
-import {screens} from '../../constants/screens';
-import {connect} from 'react-redux';
-import {setSidebarMenuActiveAction} from '../../redux/actions/sidebarMenuAction';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Paragraph } from '../../constants/textStyles';
+import { lightOrange, white } from '../../constants/colors';
+import { screens } from '../../constants/screens';
+import { setSidebarMenuActiveAction } from '../../redux/actions/sidebarMenuAction';
 
 const SidebarContainer = styled.Text`
   position: absolute;
   width: 180px;
   height: 100%;
   right: 0px;
-  top: 90px;
+  top: ${({topPosition}) => topPosition ? topPosition : 0}px;
   background: ${lightOrange};
 `;
 export const ButtonContent = styled(Paragraph)`
@@ -24,10 +25,10 @@ export const ButtonContent = styled(Paragraph)`
   margin left: 15px;
 `;
 
-const SideBarMenu = ({setSidebar}) => {
+const SideBarMenu = ({setSidebar, topPosition}) => {
   const navigation = useNavigation();
   return (
-    <SidebarContainer>
+    <SidebarContainer topPosition={topPosition}>
       <TouchableOpacity
         onPress={() => {
           setSidebar(false);
@@ -59,8 +60,8 @@ const SideBarMenu = ({setSidebar}) => {
     </SidebarContainer>
   );
 };
-const mapStateToProps = state => ({
-  sidebarMenu: state.sidebar.isActive,
+const mapStateToProps = ({sidebar}) => ({
+  topPosition: sidebar.topPosition,
 });
 
 const mapDispatchToProps = dispatch => ({

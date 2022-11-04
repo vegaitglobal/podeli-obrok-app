@@ -1,15 +1,14 @@
-import React from 'react';
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CustomStatusBar from './src/components/CustomStatusBar';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, {useEffect} from 'react';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import DeviceInfo from 'react-native-device-info';
 import styled from 'styled-components/native';
-import { white } from './src/constants/colors';
-import HomeScreen from './src/screens/HomeScreen';
-import { screens } from './src/constants/screens';
+import {white} from './src/constants/colors';
 import AppStackNavigator from './src/navigation/AppNavigator';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import SideBarMenu from './src/components/SideBarMenu/SideBarMenu';
+import {setDeviceId} from './src/redux/actions/deviceIdActions';
+import { navigationRef } from './src/navigation/RootNavigation';
 
 const Stack = createNativeStackNavigator();
 const MainContainer = styled.View`
@@ -23,33 +22,30 @@ const MyTheme = {
     background: 'rgb(255, 255, 255)',
   },
 };
-const App = (props) => {
-  const { sidebarMenu } = props;
+const App = ({ sidebarMenu, setDeviceId }) => {
+  useEffect(() => {
+    DeviceInfo.getUniqueId().then(uniqueId => {
+      setDeviceId(uniqueId);
+    });
+  }, []);
+
   return (
     <MainContainer>
-      <SafeAreaView>
-        <CustomStatusBar />
-      </SafeAreaView>
-      <NavigationContainer theme={MyTheme}>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name={screens.home} component={HomeScreen} />
-          <Stack.Screen
-            name={screens.appNavigator}
-            component={AppStackNavigator}
-          />
-        </Stack.Navigator>
-        {sidebarMenu && <SideBarMenu />}
+      <NavigationContainer ref={navigationRef} theme={MyTheme}>
+        <AppStackNavigator/>
+        {sidebarMenu && <SideBarMenu/>}
       </NavigationContainer>
     </MainContainer>
   );
 };
 
-const mapStateToProps = (state) => ({
-  sidebarMenu: state.sidebar.isActive,
+const mapStateToProps = ({sidebar, device}) => ({
+  sidebarMenu: sidebar.isActive,
+  deviceId: device.id,
 });
 
-export default connect(mapStateToProps, null)(App);
+const mapDispatch = dispatch => ({
+  setDeviceId: value => dispatch(setDeviceId(value)),
+});
+
+export default connect(mapStateToProps, mapDispatch)(App);

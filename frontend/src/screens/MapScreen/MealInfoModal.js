@@ -1,9 +1,9 @@
-import { Image, Modal, Pressable, Text, View } from 'react-native';
+import {Image, Modal, Pressable, Text, View} from 'react-native';
 import styled from 'styled-components/native';
-import { white, lightOrange } from '../../constants/colors';
+import {white, lightOrange} from '../../constants/colors';
 import CloseIcon from '../../images/close-icon.png';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { ButtonContent } from '../../constants/textStyles';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {ButtonContent} from '../../constants/textStyles';
 
 const BoldText = styled(Text)`
   color: ${white};
@@ -37,38 +37,39 @@ export const View2Styled = styled(View)`
 const MealInfoModal = ({
   isVisible = false,
   closeModal = () => {},
-  mealName = 'Supa od sove',
-  description = 'Jako lepa supa od sove veruj mi Zorane. A ti ako ne verujes pojedi supu od krokodila.',
-  adress = 'Bulevar bulevara BB, (sprat nema, stan izgoreo)',
-  pickUpStartTime = 17,
-  pickUpEndTime = 19,
+  mealName,
+  description,
+  address,
+  pickUpStartTime,
+  pickUpEndTime,
+  expiresOn,
   onReserveMeal,
 }) => {
+  const expiresOnHours = new Date(expiresOn).getHours();
+  const expiresOnDays = new Date(expiresOn).getDate() - new Date().getDate();
   return (
     <Modal visible={isVisible} transparent={true}>
       <View1Styled>
         <View2Styled>
-          <View style={{ padding: 15, marginLeft: 18 }}>
+          <View style={{padding: 15, marginLeft: 18}}>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 marginBottom: 20,
-              }}
-            >
+              }}>
               <Text
                 style={{
                   color: 'white',
                   fontWeight: '500',
                   fontSize: 24,
                   lineHeight: 28,
-                }}
-              >
+                }}>
                 {mealName}
               </Text>
               <Pressable onPress={closeModal}>
-                <Image source={CloseIcon} style={{ width: 30, height: 30 }} />
+                <Image source={CloseIcon} style={{width: 30, height: 30}} />
               </Pressable>
             </View>
             <DescriptionStyled>{description}</DescriptionStyled>
@@ -78,18 +79,16 @@ const MealInfoModal = ({
                 fontSize: 14,
                 lineHeight: 18,
                 marginBottom: 10,
-              }}
-            >
+              }}>
               Adresa preuzimanja:
             </Text>
-            <BoldText>{adress}</BoldText>
+            <BoldText>{address}</BoldText>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-              }}
-            >
+              }}>
               <Text
                 style={{
                   color: 'white',
@@ -97,31 +96,27 @@ const MealInfoModal = ({
                   lineHeight: 18,
                   marginBottom: 10,
                   fontWeight: '600',
-                }}
-              >
+                }}>
                 Vreme preuzimanja:{' '}
               </Text>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{flexDirection: 'row'}}>
                 <Text
                   style={{
                     color: 'white',
                     fontWeight: 'bold',
-                  }}
-                >{`${pickUpStartTime}h `}</Text>
+                  }}>{`${new Date(pickUpStartTime).getHours()}h `}</Text>
                 <Text
                   style={{
                     color: 'white',
                     fontWeight: 'bold',
-                  }}
-                >
+                  }}>
                   -
                 </Text>
                 <Text
                   style={{
                     color: 'white',
                     fontWeight: 'bold',
-                  }}
-                >{` ${pickUpEndTime}h`}</Text>
+                  }}>{` ${new Date(pickUpEndTime).getHours()}h`}</Text>
               </View>
             </View>
             <View
@@ -130,8 +125,7 @@ const MealInfoModal = ({
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 marginTop: 15,
-              }}
-            >
+              }}>
               <Text
                 style={{
                   color: 'white',
@@ -139,8 +133,7 @@ const MealInfoModal = ({
                   lineHeight: 18,
                   marginBottom: 10,
                   fontWeight: '600',
-                }}
-              >
+                }}>
                 Ispravnost obroka:
               </Text>
               <View
@@ -148,13 +141,11 @@ const MealInfoModal = ({
                   flexDirection: 'row',
                   width: '30%',
                   justifyContent: 'space-between',
-                }}
-              >
-                <View style={{ alignItems: 'center' }}>
+                }}>
+                <View style={{alignItems: 'center'}}>
                   <Text
-                    style={{ color: 'white', fontSize: 30, fontWeight: 'bold' }}
-                  >
-                    02
+                    style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
+                    {expiresOnDays}
                   </Text>
                   <Text
                     style={{
@@ -162,16 +153,14 @@ const MealInfoModal = ({
                       lineHeight: 18,
                       marginBottom: 10,
                       fontWeight: '600',
-                    }}
-                  >
+                    }}>
                     Dana
                   </Text>
                 </View>
-                <View style={{ alignItems: 'center' }}>
+                <View style={{alignItems: 'center'}}>
                   <Text
-                    style={{ color: 'white', fontSize: 30, fontWeight: 'bold' }}
-                  >
-                    15
+                    style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
+                    {expiresOnHours}
                   </Text>
                   <Text
                     style={{
@@ -179,8 +168,7 @@ const MealInfoModal = ({
                       lineHeight: 18,
                       marginBottom: 10,
                       fontWeight: '600',
-                    }}
-                  >
+                    }}>
                     Sati
                   </Text>
                 </View>
@@ -203,8 +191,7 @@ const MealInfoModal = ({
               paddingVertical: 15,
               color: 'white',
               fontWeight: '600',
-            }}
-          >
+            }}>
             <ButtonContent>Rezerviši obrok</ButtonContent>
           </TouchableOpacity>
         </View2Styled>

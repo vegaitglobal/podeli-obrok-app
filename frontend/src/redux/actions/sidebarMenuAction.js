@@ -1,5 +1,5 @@
 export const SET_SIDEBAR_ACTIVE = 'SET_SIDEBAR_ACTIVE';
-export const SET_SIDEBAR_UNACTIVE = 'SET_SIDEBAR_UNACTIVE';
+export const SET_SIDEBAR_POSITION = 'SET_SIDEBAR_POSITION';
 
 export const setSidebarMenuActiveAction = isActive => {
   return {
@@ -8,9 +8,7 @@ export const setSidebarMenuActiveAction = isActive => {
   };
 };
 
-// export const setSidebarMenuUnacticeAction = isActive => {
-//   return {
-//     type: SET_SIDEBAR_UNACTIVE,
-//     isActive: isActive,
-//   };
-// };
+export const setSidebarPosition = topPosition => ({
+    type: SET_SIDEBAR_POSITION,
+    payload: topPosition,
+});

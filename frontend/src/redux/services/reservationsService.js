@@ -1,7 +1,5 @@
-export const getReservationsByDeviceId = async () => {
-  const ax = axios.create({baseURL});
-  const deviceId = '123';
-  return ax.get(`/reservations?reservedByDeviceId=${deviceId}`);
+export const getReservationsByDeviceId = async deviceId => {
+  return fetch(`${baseURL}/reservations?reservedByDeviceId=${deviceId}`);
 };
 
 //payload example for createReservationForMeal

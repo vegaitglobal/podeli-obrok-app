@@ -5,8 +5,8 @@ import {screens} from '../constants/screens';
 import MapScreen from '../screens/MapScreen/MapScreen';
 import MealsListScreen from '../screens/MealsListScreen/MealsListScreen';
 import DonorFormScreen from '../screens/DonorFormScreen/DonorFormScreen';
-import {DefaultTheme, useRoute} from '@react-navigation/native';
-import {lightOrange, white} from '../constants/colors';
+import {DefaultTheme, useNavigation} from '@react-navigation/native';
+import {darkOrange, lightOrange, white} from '../constants/colors';
 import styled from 'styled-components';
 import NavBarLogo from '../images/navBarLogo.png';
 import HamburgerIcon from '../images/hamburger.png';
@@ -18,6 +18,8 @@ import AuthorWordScreen from '../screens/AuthorWordScreen/AuthorWordScreen';
 import DonationsScreen from '../screens/DonationsScreen/DonationsScreen';
 import CreatedMealScreen from '../screens/CreatedMealScreen/CreatedMealScreen';
 import CloseIcon from '../images/close-icon.png';
+import HomeScreen from '../screens/HomeScreen';
+import * as RootNavigation from './RootNavigation';
 
 const AppStack = createNativeStackNavigator();
 const MyTheme = {
@@ -47,11 +49,7 @@ const HeaderBackButton = () => (
   <HeaderImageContainer source={BackIcon} resizeMode="contain" />
 );
 
-const AppStackNavigator = ({navigation, setSidebar, sidebarMenu}) => {
-  const route = useRoute();
-  const checkBackAction = () => {
-    navigation.navigate(screens.home);
-  };
+const AppStackNavigator = ({ setSidebar, sidebarMenu}) => {
 
   return (
     <AppStack.Navigator
@@ -60,7 +58,9 @@ const AppStackNavigator = ({navigation, setSidebar, sidebarMenu}) => {
         headerStyle: {
           backgroundColor: lightOrange,
         },
-        headerTitle: () => <LogoTitle />,
+        headerTitleAlign: 'center',
+        headerBackVisible: false,
+        headerTitle: () => <LogoTitle/>,
         headerRight: () => (
           <TouchableOpacity onPress={() => setSidebar(!sidebarMenu)}>
             {sidebarMenu ? (
@@ -71,12 +71,18 @@ const AppStackNavigator = ({navigation, setSidebar, sidebarMenu}) => {
           </TouchableOpacity>
         ),
         headerLeft: () => (
-          <TouchableOpacity onPress={checkBackAction}>
+          <TouchableOpacity onPress={() => {
+            setSidebar(false);
+            RootNavigation.navigate(screens.home);
+          }}>
             <HeaderBackButton />
           </TouchableOpacity>
         ),
+        statusBarColor: darkOrange,
+        statusBarStyle: 'dark',
       }}
       theme={MyTheme}>
+      <AppStack.Screen options={{ headerShown: false }} name={screens.home} component={HomeScreen}/>
       <AppStack.Screen name={screens.mealsList} component={MealsListScreen} />
       <AppStack.Screen name={screens.map} component={MapScreen} />
       <AppStack.Screen name={screens.addMeal} component={DonorFormScreen} />

@@ -1,15 +1,11 @@
-import axios from 'axios';
+const baseURL = 'http://10.0.2.2:3000';
 
-export const getAllMeals = async () => {
-  const ax = axios.create({baseURL});
-  return ax.get('/meals');
+export const getAllMeals = () => {
+  return fetch(`${baseURL}/meals`);
 };
-
 //moji obroci
-export const getMealsByDeviceid = async () => {
-  const ax = axios.create({baseURL});
-  const deviceId = '123';
-  return ax.get(`/meals?createdByDeviceId=${deviceId}`);
+export const getMealsByDeviceid = async deviceId => {
+  return fetch(`${baseURL}/meals?createdByDeviceId=${deviceId}`);
 };
 
 //payload for create meal:
@@ -29,6 +25,14 @@ export const getMealsByDeviceid = async () => {
 //   "long": -56.656
 // }
 export const createMeal = async meal => {
-  const ax = axios.create({baseURL});
-  return ax.post('/meals', meal);
+  return fetch(`${baseURL}/meals`, {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json; charset=utf-8',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(meal)
+  })
+    .then((response) => console.log('response: ', response))
+    .catch((error) => console.log('error: ', error));
 };
