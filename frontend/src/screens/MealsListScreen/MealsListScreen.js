@@ -1,21 +1,22 @@
-import React, { memo } from 'react';
-import { FlatList, Text } from 'react-native';
+import React from 'react';
+import { FlatList } from 'react-native';
+import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 
 import MealSection from '../../components/MealSection/MealSection';
-import mealsListMock from './mealsListMock';
+import { black } from '../../constants/colors';
 
-const MealText = styled(Text)`
+const MealText = styled.Text`
   line-height: 27px;
   font-size: 20px;
   font-weight: 500;
   font-family: 'Roboto';
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  color: ${black};
 `;
 
-//TODO: use real data
-const MealsListScreen = ({ isUserDonor = false }) => {
-  if (!mealsListMock.length) return null;
+const MealsListScreen = ({ route, meals }) => {
+  const { isUserDonor = false } = route?.params;
 
   const heading = (
     <MealText>{`${isUserDonor ? 'Moji' : 'Rezervisani'} obroci`}</MealText>
@@ -23,12 +24,12 @@ const MealsListScreen = ({ isUserDonor = false }) => {
 
   const renderMeals = ({ item }) => (
     <MealSection
-      mealName={item.mealName}
-      mealDescription={item.mealDescription}
-      pickUpStartTime={item.pickUpStartTime}
-      pickUpEndTime={item.pickUpEndTime}
-      donorAddress={item.donorAddress}
-      donorPhone={item.donorPhone}
+      mealName={item.name}
+      mealDescription={item.description}
+      pickUpStartTime={item.startPickupTime}
+      pickUpEndTime={item.endPickupTime}
+      donorAddress={item.address}
+      donorPhone={item.phone}
       isUserDonor={isUserDonor}
       handleCancelMeal={() => console.log(item.id)}
     />
@@ -38,11 +39,15 @@ const MealsListScreen = ({ isUserDonor = false }) => {
     <FlatList
       showsVerticalScrollIndicator={false}
       style={{ padding: 20 }}
-      data={mealsListMock}
+      data={meals}
       renderItem={renderMeals}
       ListHeaderComponent={heading}
     />
   );
 };
 
-export default memo(MealsListScreen);
+const mapState = ({ donatedMeals, reservedMeals }) => ({
+  meals: donatedMeals || reservedMeals,
+})
+
+export default connect(mapState)(MealsListScreen);

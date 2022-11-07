@@ -59,21 +59,20 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition }) => {
   useEffect(() => {
     getAllMeals()
     .then(response => response.json())
-      .then(res => {
-        console.log(res);
+    .then(res => {
       setMeals(res);
     });
     setSidebarPosition(HEADER_HEIGHT.toFixed(2));
 }, []);
 
   const onPressMarker = activeMeal => {
-    console.log('pressed');
     setShowMealModal(!showMealModal);
     setActiveMealState(activeMeal);
   };
 
   const onReserveMeal = () => {
     setShowMealModal(false);
+    // TODO: reservation request to BE
     setShowConfirmationModal(true);
   };
   const onZoomIn = () => {
@@ -105,7 +104,7 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition }) => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}>
-        {meals.length > 0 && meals.map((meal, index) => (
+        {meals?.map((meal, index) => (
             <Marker
               onPress={() => onPressMarker(meal)}
               key={index}

@@ -4,6 +4,7 @@ import {white, lightOrange} from '../../constants/colors';
 import CloseIcon from '../../images/close-icon.png';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {ButtonContent} from '../../constants/textStyles';
+import moment from 'moment';
 
 const BoldText = styled(Text)`
   color: ${white};
@@ -45,8 +46,11 @@ const MealInfoModal = ({
   expiresOn,
   onReserveMeal,
 }) => {
-  const expiresOnHours = new Date(expiresOn).getHours();
-  const expiresOnDays = new Date(expiresOn).getDate() - new Date().getDate();
+  const expiresOnHours = moment(expiresOn).subtract(moment()).hour();
+  const expiresOnDays = moment(expiresOn).subtract(moment().day(), 'days').day();
+  // if days and hours are one digit add 0 in front, else keep the current format
+  const expiresOnDaysFormat = (expiresOnDays.toString().length === 1) ? ('0' + expiresOnDays.toString()) : expiresOnDays.toString();
+  const expiresOnHoursFormat = (expiresOnHours.toString().length === 1) ? ('0' + expiresOnHours.toString()) : expiresOnHours.toString();
   return (
     <Modal visible={isVisible} transparent={true}>
       <View1Styled>
@@ -95,9 +99,8 @@ const MealInfoModal = ({
                   fontSize: 14,
                   lineHeight: 18,
                   marginBottom: 10,
-                  fontWeight: '600',
                 }}>
-                Vreme preuzimanja:{' '}
+                Vreme preuzimanja:
               </Text>
               <View style={{flexDirection: 'row'}}>
                 <Text
@@ -132,7 +135,6 @@ const MealInfoModal = ({
                   fontSize: 14,
                   lineHeight: 18,
                   marginBottom: 10,
-                  fontWeight: '600',
                 }}>
                 Ispravnost obroka:
               </Text>
@@ -145,7 +147,7 @@ const MealInfoModal = ({
                 <View style={{alignItems: 'center'}}>
                   <Text
                     style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
-                    {expiresOnDays}
+                    {expiresOnDaysFormat}
                   </Text>
                   <Text
                     style={{
@@ -160,7 +162,7 @@ const MealInfoModal = ({
                 <View style={{alignItems: 'center'}}>
                   <Text
                     style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
-                    {expiresOnHours}
+                    {expiresOnHoursFormat}
                   </Text>
                   <Text
                     style={{

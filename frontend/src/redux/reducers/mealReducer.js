@@ -1,12 +1,10 @@
-import {GET_ALL_MEALS, GET_MEALS_BY_DEVICE_ID} from '../actions/mealActions';
+import { SET_ALL_MEALS } from '../actions/mealActions';
 
-const initialState = [];
+const initialState = null;
 export const mealReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_ALL_MEALS:
+    case SET_ALL_MEALS:
       return action.payload
-    case GET_MEALS_BY_DEVICE_ID:
-      ({...action.payload});
     default:
       return state;
   }

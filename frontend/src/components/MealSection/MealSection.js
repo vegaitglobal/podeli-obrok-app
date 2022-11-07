@@ -1,36 +1,46 @@
+import moment from 'moment';
 import React from 'react';
 import { Text, View } from 'react-native';
 import styled from 'styled-components/native';
+import { black, grey, lightOrange } from '../../constants/colors';
 
-import { grey, lightOrange } from '../../constants/colors';
-
-const MealName = styled(Text)`
-  line-height: 16px;
-  font-size: 18px;
-  font-weight: 700;
+const MealName = styled.Text`
+  line-height: 24px;
+  font-size: 16px;
+  font-weight: 600;
   font-family: 'Roboto';
-  margin-bottom: 20px;
+  margin-bottom: 9px;
+  color: ${black};
 `;
-const MealDescription = styled(Text)`
+const MealDescription = styled.Text`
   margin-bottom: 10px;
   font-family: 'Roboto';
 `;
-const PickUpTime = styled(Text)`
+const PickUpTimeLabel = styled.Text`
 margin-bottom: 2px; 
-font-weight: 500, 
 color: ${grey};
-font-family: 'Roboto'`;
+font-size: 14px;
+line-height: 18px;
+`;
 
+const BoldText = styled.Text`
+font-weight: 600;
+color: ${grey};
+font-size: 14px;
+line-height: 18px;
+`;
 const MealSection = ({
-  mealName = '',
-  mealDescription = '',
-  pickUpStartTime = '',
-  pickUpEndTime = '',
+  mealName,
+  mealDescription,
+  pickUpStartTime,
+  pickUpEndTime,
   handleCancelMeal = () => {},
-  isUserDonor = false,
-  donorAddress = '',
-  donorPhone = '',
+  isUserDonor,
+  donorAddress,
+  donorPhone,
 }) => {
+  const pickUpStartTimeConverted = moment(pickUpStartTime).hour();
+  const pickUpEndTimeConverted = moment(pickUpEndTime).hour();
   return (
     <View
       style={{
@@ -41,12 +51,12 @@ const MealSection = ({
     >
       <MealName>{mealName}</MealName>
 
-      {!isUserDonor ? (
+      {isUserDonor ? (
         <MealDescription>{mealDescription}</MealDescription>
       ) : (
         <View style={{ marginBottom: 10 }}>
           <Text>Adresa preuzimanja</Text>
-          <Text>{donorAddress}</Text>
+          <BoldText>{donorAddress}</BoldText>
         </View>
       )}
 
@@ -58,7 +68,7 @@ const MealSection = ({
         }}
       >
         <View>
-          <PickUpTime>Vreme preuzimanja:</PickUpTime>
+          <PickUpTimeLabel>Vreme preuzimanja:</PickUpTimeLabel>
           <View
             style={{
               flexDirection: 'row',
@@ -66,31 +76,32 @@ const MealSection = ({
               marginBottom: 10,
             }}
           >
-            <Text>{`${pickUpStartTime}h`}</Text>
-            <Text>{' - '}</Text>
-            <Text>{`${pickUpEndTime}h`}</Text>
+            <BoldText>{`${pickUpStartTimeConverted}h - ${pickUpEndTimeConverted}h`}</BoldText>
           </View>
         </View>
         {!isUserDonor && (
           <View>
-            <Text style={{ marginBottom: 2, fontWeight: '500', color: grey }}>
-              Telefon
+            <Text style={{ marginBottom: 2, fontWeight: '400', color: grey }}>
+              Telefon:
             </Text>
-            <Text>{donorPhone}</Text>
+            <BoldText>{donorPhone}</BoldText>
           </View>
         )}
       </View>
 
-      <Text
+      {!isUserDonor && <Text
         style={{
           color: lightOrange,
           textTransform: 'uppercase',
           alignSelf: 'flex-end',
+          fontWeight: '500',
+          fontSize: 14,
+          lineHeight: 18,
         }}
         onPress={handleCancelMeal}
       >
-        otkazi obrok
-      </Text>
+        otkaži obrok
+      </Text>}
     </View>
   );
 };

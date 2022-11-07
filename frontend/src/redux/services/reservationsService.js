@@ -1,3 +1,5 @@
+import { baseURL } from "./mealService";
+
 export const getReservationsByDeviceId = async deviceId => {
   return fetch(`${baseURL}/reservations?reservedByDeviceId=${deviceId}`);
 };

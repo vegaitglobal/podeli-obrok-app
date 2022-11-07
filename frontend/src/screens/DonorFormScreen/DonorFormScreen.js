@@ -11,12 +11,13 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { setSidebarPosition } from '../../redux/actions/sidebarMenuAction';
 import { useHeaderHeight } from '@react-navigation/elements';
+import { screens } from '../../constants/screens';
 
 const ButtonContainer = styled.View`
   margin-bottom: 43px;
 `;
 
-const DonorFormScreen = ({deviceId, setSidebarPosition}) => {
+const DonorFormScreen = ({deviceId, setSidebarPosition, navigation}) => {
   const initialState = {
     mealName: '',
     additionalComment: '',
@@ -45,32 +46,33 @@ const DonorFormScreen = ({deviceId, setSidebarPosition}) => {
   };
 
   const handleSubmit = () => {
-    let flag = false;
-    Object.values(newForm).map(item => {
-      if (item === '') {
-        flag = true;
-      }
-    });
-    if (flag) {
-      Alert.alert('Sva polja moraju biti popunjena.');
-    }
+    navigation.navigate(screens.createdMeal);
+    // let flag = false;
+    // Object.values(newForm).map(item => {
+    //   if (item === '') {
+    //     flag = true;
+    //   }
+    // });
+    // if (flag) {
+    //   Alert.alert('Sva polja moraju biti popunjena.');
+    // }
 
-    const payload = {
-      createdByDeviceId: deviceId,
-      name: newForm.mealName,
-      description: newForm.additionalComment,
-      address: newForm.adress,
-      phone: newForm.phone,
-      smsOnly: onlyWithMessage,
-      daysToExpiry: +newForm.expirationDays,
-      hoursToExpiry: +newForm.expirationHours,
-      startPickupTime: moment().set('hour', newForm.pickUpStartTime).set('minute', 0).format(),
-      endPickupTime: moment().set('hour', newForm.pickUpEndTime).set('minute', 0).format(), 
-      lat: 45.2599285,
-      long: 19.8312298
-    };
-    console.log(payload);
-    createMeal(payload);
+    // const payload = {
+    //   createdByDeviceId: deviceId,
+    //   name: newForm.mealName,
+    //   description: newForm.additionalComment,
+    //   address: newForm.adress,
+    //   phone: newForm.phone,
+    //   smsOnly: onlyWithMessage,
+    //   daysToExpiry: +newForm.expirationDays,
+    //   hoursToExpiry: +newForm.expirationHours,
+    //   startPickupTime: moment().set('hour', newForm.pickUpStartTime).set('minute', 0).format(),
+    //   endPickupTime: moment().set('hour', newForm.pickUpEndTime).set('minute', 0).format(), 
+    //   lat: 45.2599285,
+    //   long: 19.8312298
+    // };
+    // console.log(payload);
+    // createMeal(payload);
   };
 
   return (

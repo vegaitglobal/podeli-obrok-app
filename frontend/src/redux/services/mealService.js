@@ -1,14 +1,18 @@
-const baseURL = 'http://10.0.2.2:3000';
+import { screens } from '../../constants/screens';
+import * as RootNavigation from '../../navigation/RootNavigation';
+
+export const baseURL = 'http://10.0.2.2:3000';
 
 export const getAllMeals = () => {
   return fetch(`${baseURL}/meals`);
 };
-//moji obroci
+
+// get donated meals for a user
 export const getMealsByDeviceid = async deviceId => {
   return fetch(`${baseURL}/meals?createdByDeviceId=${deviceId}`);
 };
 
-//payload for create meal:
+// payload for create meal:
 // {
 //   "createdByDeviceId": "333433",
 //   "name": "paprika paprika",
@@ -33,6 +37,8 @@ export const createMeal = async meal => {
     },
     body: JSON.stringify(meal)
   })
-    .then((response) => console.log('response: ', response))
+    .then(() => {
+      RootNavigation.navigate(screens.createdMeal);
+    })
     .catch((error) => console.log('error: ', error));
 };
