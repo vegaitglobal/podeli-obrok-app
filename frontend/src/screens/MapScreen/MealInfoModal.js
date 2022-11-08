@@ -1,12 +1,19 @@
-import {Image, Modal, Pressable, Text, View} from 'react-native';
+import React from 'react';
+import {
+  Image,
+  Modal,
+  Pressable,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import styled from 'styled-components/native';
-import {white, lightOrange} from '../../constants/colors';
+import { white, lightOrange } from '../../constants/colors';
 import CloseIcon from '../../images/close-icon.png';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {ButtonContent} from '../../constants/textStyles';
-import moment from 'moment';
+import { ButtonContent } from '../../constants/textStyles';
+import { checkNumberDigit } from '../../util/expirationDateUtil';
 
-const BoldText = styled(Text)`
+const BoldText = styled.Text`
   color: ${white};
   font-size: 14;
   line-height: 18;
@@ -14,14 +21,14 @@ const BoldText = styled(Text)`
   font-weight: bold;
 `;
 
-export const DescriptionStyled = styled(Text)`
+export const DescriptionStyled = styled.Text`
   color: ${white};
   fontsize: 14;
   lineheight: 18;
   margin-bottom: 18;
 `;
 
-export const View1Styled = styled(View)`
+export const View1Styled = styled.View`
   background-color: rgba(52, 52, 52, 0.5);
   width: 100%;
   height: 100%;
@@ -29,7 +36,7 @@ export const View1Styled = styled(View)`
   justify-content: center;
 `;
 
-export const View2Styled = styled(View)`
+export const View2Styled = styled.View`
   background-color: ${lightOrange};
   border-radius: 20;
   width: 90%;
@@ -43,37 +50,35 @@ const MealInfoModal = ({
   address,
   pickUpStartTime,
   pickUpEndTime,
-  expiresOn,
+  daysToExpiry,
+  hoursToExpiry,
   onReserveMeal,
 }) => {
-  const expiresOnHours = moment(expiresOn).subtract(moment()).hour();
-  const expiresOnDays = moment(expiresOn).subtract(moment().day(), 'days').day();
-  // if days and hours are one digit add 0 in front, else keep the current format
-  const expiresOnDaysFormat = (expiresOnDays.toString().length === 1) ? ('0' + expiresOnDays.toString()) : expiresOnDays.toString();
-  const expiresOnHoursFormat = (expiresOnHours.toString().length === 1) ? ('0' + expiresOnHours.toString()) : expiresOnHours.toString();
   return (
     <Modal visible={isVisible} transparent={true}>
       <View1Styled>
         <View2Styled>
-          <View style={{padding: 15, marginLeft: 18}}>
+          <View style={{ padding: 15, marginLeft: 18 }}>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 marginBottom: 20,
-              }}>
+              }}
+            >
               <Text
                 style={{
                   color: 'white',
                   fontWeight: '500',
                   fontSize: 24,
                   lineHeight: 28,
-                }}>
+                }}
+              >
                 {mealName}
               </Text>
               <Pressable onPress={closeModal}>
-                <Image source={CloseIcon} style={{width: 30, height: 30}} />
+                <Image source={CloseIcon} style={{ width: 30, height: 30 }} />
               </Pressable>
             </View>
             <DescriptionStyled>{description}</DescriptionStyled>
@@ -83,7 +88,8 @@ const MealInfoModal = ({
                 fontSize: 14,
                 lineHeight: 18,
                 marginBottom: 10,
-              }}>
+              }}
+            >
               Adresa preuzimanja:
             </Text>
             <BoldText>{address}</BoldText>
@@ -92,34 +98,39 @@ const MealInfoModal = ({
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-              }}>
+              }}
+            >
               <Text
                 style={{
                   color: 'white',
                   fontSize: 14,
                   lineHeight: 18,
                   marginBottom: 10,
-                }}>
+                }}
+              >
                 Vreme preuzimanja:
               </Text>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text
                   style={{
                     color: 'white',
                     fontWeight: 'bold',
-                  }}>{`${new Date(pickUpStartTime).getHours()}h `}</Text>
+                  }}
+                >{`${new Date(pickUpStartTime).getHours()}h `}</Text>
                 <Text
                   style={{
                     color: 'white',
                     fontWeight: 'bold',
-                  }}>
+                  }}
+                >
                   -
                 </Text>
                 <Text
                   style={{
                     color: 'white',
                     fontWeight: 'bold',
-                  }}>{` ${new Date(pickUpEndTime).getHours()}h`}</Text>
+                  }}
+                >{` ${new Date(pickUpEndTime).getHours()}h`}</Text>
               </View>
             </View>
             <View
@@ -128,14 +139,16 @@ const MealInfoModal = ({
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 marginTop: 15,
-              }}>
+              }}
+            >
               <Text
                 style={{
                   color: 'white',
                   fontSize: 14,
                   lineHeight: 18,
                   marginBottom: 10,
-                }}>
+                }}
+              >
                 Ispravnost obroka:
               </Text>
               <View
@@ -143,11 +156,13 @@ const MealInfoModal = ({
                   flexDirection: 'row',
                   width: '30%',
                   justifyContent: 'space-between',
-                }}>
-                <View style={{alignItems: 'center'}}>
+                }}
+              >
+                <View style={{ alignItems: 'center' }}>
                   <Text
-                    style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
-                    {expiresOnDaysFormat}
+                    style={{ color: 'white', fontSize: 30, fontWeight: 'bold' }}
+                  >
+                    {checkNumberDigit(daysToExpiry)}
                   </Text>
                   <Text
                     style={{
@@ -155,14 +170,16 @@ const MealInfoModal = ({
                       lineHeight: 18,
                       marginBottom: 10,
                       fontWeight: '600',
-                    }}>
+                    }}
+                  >
                     Dana
                   </Text>
                 </View>
-                <View style={{alignItems: 'center'}}>
+                <View style={{ alignItems: 'center' }}>
                   <Text
-                    style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
-                    {expiresOnHoursFormat}
+                    style={{ color: 'white', fontSize: 30, fontWeight: 'bold' }}
+                  >
+                    {checkNumberDigit(hoursToExpiry)}
                   </Text>
                   <Text
                     style={{
@@ -170,7 +187,8 @@ const MealInfoModal = ({
                       lineHeight: 18,
                       marginBottom: 10,
                       fontWeight: '600',
-                    }}>
+                    }}
+                  >
                     Sati
                   </Text>
                 </View>
@@ -186,14 +204,15 @@ const MealInfoModal = ({
             }}
           />
           <TouchableOpacity
-            onPress={() => onReserveMeal()}
+            onPress={onReserveMeal}
             style={{
               textAlign: 'center',
               textTransform: 'uppercase',
               paddingVertical: 15,
               color: 'white',
               fontWeight: '600',
-            }}>
+            }}
+          >
             <ButtonContent>Rezerviši obrok</ButtonContent>
           </TouchableOpacity>
         </View2Styled>

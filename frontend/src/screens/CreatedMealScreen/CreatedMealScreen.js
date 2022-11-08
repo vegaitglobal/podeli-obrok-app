@@ -1,11 +1,11 @@
 import React from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import { lightOrange, white } from '../../constants/colors';
-import {ButtonContent, Paragraph} from '../../constants/textStyles';
+import { ButtonContent, Paragraph } from '../../constants/textStyles';
 import checkMark from '../../images/checkMark.png';
 import dashedCircle from '../../images/dashedCircle.png';
-import {screens} from '../../constants/screens';
+import { screens } from '../../constants/screens';
 import { getMealsByDeviceid } from '../../redux/services/mealService';
 import { setMealsByDeviceIdAction } from '../../redux/actions/mealActions';
 import { connect } from 'react-redux';
@@ -17,13 +17,6 @@ const ViewWraper = styled(View)`
   background-color: ${lightOrange};
   align-items: center;
   flex: 1;
-`;
-
-const Title = styled.Text`
-  margin-bottom: 13px;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 27px;
 `;
 
 export const StyledParagraph = styled(Paragraph)`
@@ -80,11 +73,11 @@ const CreatedMealScreen = ({ navigation, deviceId, setDonatedMeals }) => {
               .then((res) => {
                 setDonatedMeals(res);
                 navigation.navigate(screens.mealsList, { isUserDonor: true });
-              }
-              )
+              })
               .catch((error) => console.log(error));
-          }}>
-            <ButtonContent>Moji obroci</ButtonContent>
+          }}
+        >
+          <ButtonContent>Moji obroci</ButtonContent>
         </TouchableOpacity>
       </ButtonWraper>
     </ViewWraper>

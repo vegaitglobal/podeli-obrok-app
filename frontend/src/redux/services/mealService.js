@@ -8,7 +8,7 @@ export const getAllMeals = () => {
 };
 
 // get donated meals for a user
-export const getMealsByDeviceid = async deviceId => {
+export const getMealsByDeviceid = async (deviceId) => {
   return fetch(`${baseURL}/meals?createdByDeviceId=${deviceId}`);
 };
 
@@ -28,14 +28,14 @@ export const getMealsByDeviceid = async deviceId => {
 //   "lat": 78.4343,
 //   "long": -56.656
 // }
-export const createMeal = async meal => {
+export const createMeal = async (meal) => {
   return fetch(`${baseURL}/meals`, {
     method: 'POST',
     headers: {
-        Accept: 'application/json; charset=utf-8',
-        'Content-Type': 'application/json',
+      Accept: 'application/json; charset=utf-8',
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(meal)
+    body: JSON.stringify(meal),
   })
     .then(() => {
       RootNavigation.navigate(screens.createdMeal);

@@ -1,23 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {Alert, ScrollView, Text, View} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import React, { useEffect, useState } from 'react';
+import { Alert, ScrollView, Text, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import CustomCheckBox from '../../components/CustomCheckBox/CustomCheckBox';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import PrimaryButton from '../../components/PrimaryButton';
-import {lightOrange, white} from '../../constants/colors';
+import { lightOrange, white } from '../../constants/colors';
 import styled from 'styled-components';
-import {createMeal} from '../../redux/services/mealService';
+import { createMeal } from '../../redux/services/mealService';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { setSidebarPosition } from '../../redux/actions/sidebarMenuAction';
 import { useHeaderHeight } from '@react-navigation/elements';
-import { screens } from '../../constants/screens';
 
 const ButtonContainer = styled.View`
   margin-bottom: 43px;
 `;
 
-const DonorFormScreen = ({deviceId, setSidebarPosition, navigation}) => {
+const DonorFormScreen = ({ deviceId, setSidebarPosition }) => {
   const initialState = {
     mealName: '',
     additionalComment: '',
@@ -38,41 +37,46 @@ const DonorFormScreen = ({deviceId, setSidebarPosition, navigation}) => {
   }, []);
 
   const checkboxHandler = () => {
-    setOnlyWithMessage(prev => !prev);
+    setOnlyWithMessage((prev) => !prev);
   };
-  
-  const onChange = ({name, value}) => {
-    setNewForm(prev => ({...prev, [name]: value}));
+
+  const onChange = ({ name, value }) => {
+    setNewForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = () => {
-    navigation.navigate(screens.createdMeal);
-    // let flag = false;
-    // Object.values(newForm).map(item => {
-    //   if (item === '') {
-    //     flag = true;
-    //   }
-    // });
-    // if (flag) {
-    //   Alert.alert('Sva polja moraju biti popunjena.');
-    // }
+    let flag = false;
+    Object.values(newForm).map((item) => {
+      if (item === '') {
+        flag = true;
+      }
+    });
+    if (flag) {
+      Alert.alert('Sva polja moraju biti popunjena.');
+      return;
+    }
 
-    // const payload = {
-    //   createdByDeviceId: deviceId,
-    //   name: newForm.mealName,
-    //   description: newForm.additionalComment,
-    //   address: newForm.adress,
-    //   phone: newForm.phone,
-    //   smsOnly: onlyWithMessage,
-    //   daysToExpiry: +newForm.expirationDays,
-    //   hoursToExpiry: +newForm.expirationHours,
-    //   startPickupTime: moment().set('hour', newForm.pickUpStartTime).set('minute', 0).format(),
-    //   endPickupTime: moment().set('hour', newForm.pickUpEndTime).set('minute', 0).format(), 
-    //   lat: 45.2599285,
-    //   long: 19.8312298
-    // };
-    // console.log(payload);
-    // createMeal(payload);
+    const payload = {
+      createdByDeviceId: deviceId,
+      name: newForm.mealName,
+      description: newForm.additionalComment,
+      address: newForm.adress,
+      phone: newForm.phone,
+      smsOnly: onlyWithMessage,
+      daysToExpiry: +newForm.expirationDays,
+      hoursToExpiry: +newForm.expirationHours,
+      startPickupTime: moment()
+        .set('hour', newForm.pickUpStartTime)
+        .set('minute', 0)
+        .format(),
+      endPickupTime: moment()
+        .set('hour', newForm.pickUpEndTime)
+        .set('minute', 0)
+        .format(),
+      lat: 45.2599285,
+      long: 19.8312298,
+    };
+    createMeal(payload);
   };
 
   return (
@@ -83,7 +87,8 @@ const DonorFormScreen = ({deviceId, setSidebarPosition, navigation}) => {
         backgroundColor: lightOrange,
         paddingHorizontal: 15,
         paddingVertical: 20,
-      }}>
+      }}
+    >
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <CustomTextInput
           label="Unestite naziv obroka"
@@ -91,7 +96,7 @@ const DonorFormScreen = ({deviceId, setSidebarPosition, navigation}) => {
           value={newForm.mealName}
           onChange={onChange}
           name={'mealName'}
-          containerStyle={{marginBottom: 30}}
+          containerStyle={{ marginBottom: 30 }}
         />
         <CustomTextInput
           label="Upišite dodatni komentar"
@@ -99,7 +104,7 @@ const DonorFormScreen = ({deviceId, setSidebarPosition, navigation}) => {
           value={newForm.additionalComment}
           onChange={onChange}
           name={'additionalComment'}
-          containerStyle={{marginBottom: 30}}
+          containerStyle={{ marginBottom: 30 }}
         />
         <CustomTextInput
           label="Adresa preuzimanja"
@@ -107,7 +112,7 @@ const DonorFormScreen = ({deviceId, setSidebarPosition, navigation}) => {
           value={newForm.adress}
           onChange={onChange}
           name={'adress'}
-          containerStyle={{marginBottom: 30}}
+          containerStyle={{ marginBottom: 30 }}
         />
         <View
           style={{
@@ -115,14 +120,15 @@ const DonorFormScreen = ({deviceId, setSidebarPosition, navigation}) => {
             marginBottom: 30,
             justifyContent: 'space-between',
             alignItems: 'center',
-          }}>
+          }}
+        >
           <CustomTextInput
             label="Vreme preuzimanja"
             placeholder="Od"
             value={newForm.pickUpStartTime}
             onChange={onChange}
             name={'pickUpStartTime'}
-            containerStyle={{width: '48%'}}
+            containerStyle={{ width: '48%' }}
             isNumeric
           />
           <CustomTextInput
@@ -130,7 +136,7 @@ const DonorFormScreen = ({deviceId, setSidebarPosition, navigation}) => {
             value={newForm.pickUpEndTime}
             onChange={onChange}
             name={'pickUpEndTime'}
-            containerStyle={{width: '48%', marginTop: 3}}
+            containerStyle={{ width: '48%', marginTop: 3 }}
             required={false}
             isNumeric
           />
@@ -141,7 +147,7 @@ const DonorFormScreen = ({deviceId, setSidebarPosition, navigation}) => {
           value={newForm.phone}
           onChange={onChange}
           name={'phone'}
-          containerStyle={{marginBottom: 10}}
+          containerStyle={{ marginBottom: 10 }}
           isNumeric
         />
         <View
@@ -149,12 +155,13 @@ const DonorFormScreen = ({deviceId, setSidebarPosition, navigation}) => {
             flexDirection: 'row',
             alignItems: 'center',
             marginBottom: 30,
-          }}>
+          }}
+        >
           <CustomCheckBox
             isActive={onlyWithMessage}
             handleCheckBox={checkboxHandler}
           />
-          <Text style={{padding: 5, color: 'white'}}>
+          <Text style={{ padding: 5, color: 'white' }}>
             Kontaktirati isključivo preko poruka
           </Text>
         </View>
@@ -164,14 +171,15 @@ const DonorFormScreen = ({deviceId, setSidebarPosition, navigation}) => {
             marginBottom: 30,
             justifyContent: 'space-between',
             alignItems: 'center',
-          }}>
+          }}
+        >
           <CustomTextInput
             label="Ispravnost obroka"
             placeholder="Broj dana"
             value={newForm.expirationDays}
             onChange={onChange}
             name={'expirationDays'}
-            containerStyle={{width: '48%'}}
+            containerStyle={{ width: '48%' }}
             isNumeric
           />
           <CustomTextInput
@@ -179,7 +187,7 @@ const DonorFormScreen = ({deviceId, setSidebarPosition, navigation}) => {
             value={newForm.expirationHours}
             onChange={onChange}
             name={'expirationHours'}
-            containerStyle={{width: '48%', marginTop: 3}}
+            containerStyle={{ width: '48%', marginTop: 3 }}
             required={false}
             isNumeric
           />

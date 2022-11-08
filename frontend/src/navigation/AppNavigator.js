@@ -1,18 +1,18 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {screens} from '../constants/screens';
+import { TouchableOpacity } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { screens } from '../constants/screens';
 import MapScreen from '../screens/MapScreen/MapScreen';
 import MealsListScreen from '../screens/MealsListScreen/MealsListScreen';
 import DonorFormScreen from '../screens/DonorFormScreen/DonorFormScreen';
-import {DefaultTheme, useNavigation} from '@react-navigation/native';
-import {darkOrange, lightOrange, white} from '../constants/colors';
+import { DefaultTheme, useNavigation } from '@react-navigation/native';
+import { darkOrange, lightOrange, white } from '../constants/colors';
 import styled from 'styled-components';
 import NavBarLogo from '../images/navBarLogo.png';
 import HamburgerIcon from '../images/hamburger.png';
 import BackIcon from '../images/backIcon.png';
-import {setSidebarMenuActiveAction} from '../redux/actions/sidebarMenuAction';
-import {connect} from 'react-redux';
+import { setSidebarMenuActiveAction } from '../redux/actions/sidebarMenuAction';
+import { connect } from 'react-redux';
 import AboutUsScreen from '../screens/AboutUsScreen/AboutUsScreen';
 import AuthorWordScreen from '../screens/AuthorWordScreen/AuthorWordScreen';
 import DonationsScreen from '../screens/DonationsScreen/DonationsScreen';
@@ -49,8 +49,7 @@ const HeaderBackButton = () => (
   <HeaderImageContainer source={BackIcon} resizeMode="contain" />
 );
 
-const AppStackNavigator = ({ setSidebar, sidebarMenu}) => {
-
+const AppStackNavigator = ({ setSidebar, sidebarMenu }) => {
   return (
     <AppStack.Navigator
       screenOptions={{
@@ -60,7 +59,7 @@ const AppStackNavigator = ({ setSidebar, sidebarMenu}) => {
         },
         headerTitleAlign: 'center',
         headerBackVisible: false,
-        headerTitle: () => <LogoTitle/>,
+        headerTitle: () => <LogoTitle />,
         headerRight: () => (
           <TouchableOpacity onPress={() => setSidebar(!sidebarMenu)}>
             {sidebarMenu ? (
@@ -71,18 +70,25 @@ const AppStackNavigator = ({ setSidebar, sidebarMenu}) => {
           </TouchableOpacity>
         ),
         headerLeft: () => (
-          <TouchableOpacity onPress={() => {
-            setSidebar(false);
-            RootNavigation.navigate(screens.home);
-          }}>
+          <TouchableOpacity
+            onPress={() => {
+              setSidebar(false);
+              RootNavigation.navigate(screens.home);
+            }}
+          >
             <HeaderBackButton />
           </TouchableOpacity>
         ),
         statusBarColor: darkOrange,
         statusBarStyle: 'dark',
       }}
-      theme={MyTheme}>
-      <AppStack.Screen options={{ headerShown: false }} name={screens.home} component={HomeScreen}/>
+      theme={MyTheme}
+    >
+      <AppStack.Screen
+        options={{ headerShown: false }}
+        name={screens.home}
+        component={HomeScreen}
+      />
       <AppStack.Screen name={screens.mealsList} component={MealsListScreen} />
       <AppStack.Screen name={screens.map} component={MapScreen} />
       <AppStack.Screen name={screens.addMeal} component={DonorFormScreen} />
@@ -96,12 +102,12 @@ const AppStackNavigator = ({ setSidebar, sidebarMenu}) => {
     </AppStack.Navigator>
   );
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   sidebarMenu: state.sidebar.isActive,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setSidebar: val => dispatch(setSidebarMenuActiveAction(val)),
+const mapDispatchToProps = (dispatch) => ({
+  setSidebar: (val) => dispatch(setSidebarMenuActiveAction(val)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppStackNavigator);
