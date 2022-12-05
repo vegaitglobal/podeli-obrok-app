@@ -1,11 +1,12 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
+import { func, bool } from 'prop-types';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { screens } from '../constants/screens';
 import MapScreen from '../screens/MapScreen/MapScreen';
 import MealsListScreen from '../screens/MealsListScreen/MealsListScreen';
 import DonorFormScreen from '../screens/DonorFormScreen/DonorFormScreen';
-import { DefaultTheme, useNavigation } from '@react-navigation/native';
+import { DefaultTheme } from '@react-navigation/native';
 import { darkOrange, lightOrange, white } from '../constants/colors';
 import styled from 'styled-components';
 import NavBarLogo from '../images/navBarLogo.png';
@@ -102,6 +103,12 @@ const AppStackNavigator = ({ setSidebar, sidebarMenu }) => {
     </AppStack.Navigator>
   );
 };
+
+AppStackNavigator.propTypes = {
+  setSidebar: func,
+  sidebarMenu: bool,
+};
+
 const mapStateToProps = (state) => ({
   sidebarMenu: state.sidebar.isActive,
 });

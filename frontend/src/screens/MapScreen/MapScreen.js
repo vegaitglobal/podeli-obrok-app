@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
@@ -66,8 +67,6 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
     setSidebarPosition(HEADER_HEIGHT.toFixed(2));
   }, []);
 
-  useEffect(() => console.log('MEALS: ', meals), [meals]);
-
   const onPressMarker = (activeMeal) => {
     setShowMealModal(!showMealModal);
     setActiveMealState(activeMeal);
@@ -90,7 +89,7 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
               setShowConfirmationModal(true);
             });
         })
-        .catch((error) => console.log('error message: ', error));
+        .catch((error) => console.log('error: ', error));
     }
   };
   const onZoomIn = () => {

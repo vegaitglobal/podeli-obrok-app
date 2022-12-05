@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
+import { func, string } from 'prop-types';
 import styled from 'styled-components/native';
 import { lightOrange, white } from '../../constants/colors';
 import { ButtonContent, Paragraph } from '../../constants/textStyles';
@@ -9,6 +10,7 @@ import { screens } from '../../constants/screens';
 import { getMealsByDeviceid } from '../../redux/services/mealService';
 import { setMealsByDeviceIdAction } from '../../redux/actions/mealActions';
 import { connect } from 'react-redux';
+import { navigationPropType } from '../../constants/propTypes/navigationPropType';
 
 const ViewWraper = styled(View)`
   padding-top: 30px;
@@ -82,6 +84,12 @@ const CreatedMealScreen = ({ navigation, deviceId, setDonatedMeals }) => {
       </ButtonWraper>
     </ViewWraper>
   );
+};
+
+CreatedMealScreen.propTypes = {
+  navigation: navigationPropType,
+  setDonatedMeals: func,
+  deviceId: string,
 };
 
 const mapState = ({ device }) => ({

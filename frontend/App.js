@@ -1,16 +1,15 @@
-import React, {useEffect} from 'react';
-import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, { useEffect } from 'react';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import { func, bool } from 'prop-types';
 import DeviceInfo from 'react-native-device-info';
 import styled from 'styled-components/native';
-import {white} from './src/constants/colors';
+import { white } from './src/constants/colors';
 import AppStackNavigator from './src/navigation/AppNavigator';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import SideBarMenu from './src/components/SideBarMenu/SideBarMenu';
-import {setDeviceId} from './src/redux/actions/deviceIdActions';
+import { setDeviceId } from './src/redux/actions/deviceIdActions';
 import { navigationRef } from './src/navigation/RootNavigation';
 
-const Stack = createNativeStackNavigator();
 const MainContainer = styled.View`
   flex: 1;
   background-color: ${white};
@@ -24,7 +23,7 @@ const MyTheme = {
 };
 const App = ({ sidebarMenu, setDeviceId }) => {
   useEffect(() => {
-    DeviceInfo.getUniqueId().then(uniqueId => {
+    DeviceInfo.getUniqueId().then((uniqueId) => {
       setDeviceId(uniqueId);
     });
   }, []);
@@ -32,20 +31,25 @@ const App = ({ sidebarMenu, setDeviceId }) => {
   return (
     <MainContainer>
       <NavigationContainer ref={navigationRef} theme={MyTheme}>
-        <AppStackNavigator/>
-        {sidebarMenu && <SideBarMenu/>}
+        <AppStackNavigator />
+        {sidebarMenu && <SideBarMenu />}
       </NavigationContainer>
     </MainContainer>
   );
 };
 
-const mapStateToProps = ({sidebar, device}) => ({
+App.propTypes = {
+  setDeviceId: func,
+  sidebarMenu: bool,
+};
+
+const mapStateToProps = ({ sidebar, device }) => ({
   sidebarMenu: sidebar.isActive,
   deviceId: device.id,
 });
 
-const mapDispatch = dispatch => ({
-  setDeviceId: value => dispatch(setDeviceId(value)),
+const mapDispatch = (dispatch) => ({
+  setDeviceId: (value) => dispatch(setDeviceId(value)),
 });
 
 export default connect(mapStateToProps, mapDispatch)(App);

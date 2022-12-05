@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import { func, string } from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import { Paragraph } from '../../constants/textStyles';
@@ -32,7 +33,7 @@ const SideBarMenu = ({ setSidebar, topPosition }) => {
       <TouchableOpacity
         onPress={() => {
           setSidebar(false);
-          navigation.navigate(screens.mealsList, { screen: screens.mealsList });
+          navigation.navigate(screens.mealsList);
         }}
       >
         <ButtonContent>Moji obroci</ButtonContent>
@@ -64,6 +65,12 @@ const SideBarMenu = ({ setSidebar, topPosition }) => {
     </SidebarContainer>
   );
 };
+
+SideBarMenu.propTypes = {
+  setSidebar: func,
+  topPosition: string,
+};
+
 const mapStateToProps = ({ sidebar }) => ({
   topPosition: sidebar.topPosition,
 });

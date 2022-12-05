@@ -3,6 +3,7 @@ import * as RootNavigation from '../../navigation/RootNavigation';
 
 export const baseURL = 'http://10.0.2.2:3000';
 
+// get available meals
 export const getAllMeals = () => {
   return fetch(`${baseURL}/meals`);
 };
@@ -16,8 +17,8 @@ export const getMealsByDeviceid = async (deviceId) => {
 // {
 //   "createdByDeviceId": "333433",
 //   "name": "paprika paprika",
-//   "description": "punjene paprike punjene paprike punjene paprike",
-//   "address": "ulica paprike",
+//   "description": "punjene paprike",
+//   "address": "Bulevar Oslobodjenja",
 //   "phone": "44234",
 //   "smsOnly": true,
 //   "daysToExpiry": 5,
