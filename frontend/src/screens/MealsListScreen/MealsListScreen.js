@@ -1,48 +1,108 @@
-import React, { memo } from 'react';
-import { FlatList, Text } from 'react-native';
+import React, { useEffect } from 'react';
+import { FlatList } from 'react-native';
+import { string, func } from 'prop-types';
+import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-
 import MealSection from '../../components/MealSection/MealSection';
-import mealsListMock from './mealsListMock';
+import { black } from '../../constants/colors';
+import { mealsListPropType } from '../../constants/propTypes/mealsPropType';
+import { routePropType } from '../../constants/propTypes/navigationPropType';
+import { getMealsByDeviceid } from '../../redux/services/mealService';
+import { getReservationsByDeviceId } from '../../redux/services/reservationsService';
+import { setMealsByDeviceIdAction } from '../../redux/actions/mealActions';
+import { setReservationsByDeviceId } from '../../redux/actions/reservationActions';
 
-const MealText = styled(Text)`
+const MealText = styled.Text`
   line-height: 27px;
   font-size: 20px;
   font-weight: 500;
   font-family: 'Roboto';
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  color: ${black};
+`;
+const Heading = styled.View`
+  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 `;
 
-//TODO: use real data
-const MealsListScreen = ({ isUserDonor = false }) => {
-  if (!mealsListMock.length) return null;
+const MealsListScreen = ({
+  route,
+  meals,
+  donatedMeals,
+  deviceId,
+  setDonations,
+  setReservations,
+}) => {
+  useEffect(() => {
+    getMealsByDeviceid(deviceId)
+      .then((response) => response.json())
+      .then((res) => {
+        setDonations(res);
+      })
+      .catch((error) => console.log(error));
+    getReservationsByDeviceId(deviceId)
+      .then((response) => response.json())
+      .then((res) => {
+        setReservations(res);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
+  const isUserDonor = route?.params || donatedMeals.length > 0;
   const heading = (
     <MealText>{`${isUserDonor ? 'Moji' : 'Rezervisani'} obroci`}</MealText>
   );
 
   const renderMeals = ({ item }) => (
     <MealSection
-      mealName={item.mealName}
-      mealDescription={item.mealDescription}
-      pickUpStartTime={item.pickUpStartTime}
-      pickUpEndTime={item.pickUpEndTime}
-      donorAddress={item.donorAddress}
-      donorPhone={item.donorPhone}
+      mealName={item?.name}
+      mealDescription={item?.description}
+      pickUpStartTime={item?.startPickupTime}
+      pickUpEndTime={item?.endPickupTime}
+      donorAddress={item?.address}
+      donorPhone={item?.phone}
+      meal={item}
       isUserDonor={isUserDonor}
+      // TODO
       handleCancelMeal={() => console.log(item.id)}
     />
   );
 
-  return (
+  return meals.length > 0 ? (
     <FlatList
       showsVerticalScrollIndicator={false}
       style={{ padding: 20 }}
-      data={mealsListMock}
+      data={meals}
       renderItem={renderMeals}
       ListHeaderComponent={heading}
     />
+  ) : (
+    <Heading>
+      <MealText>Trenutno nema obroka u listi</MealText>
+    </Heading>
   );
 };
 
-export default memo(MealsListScreen);
+MealsListScreen.propTypes = {
+  route: routePropType,
+  meals: mealsListPropType,
+  donatedMeals: mealsListPropType,
+  deviceId: string,
+  setReservations: func,
+  setDonations: func,
+};
+
+const mapState = ({ donatedMeals, reservedMeals, device }) => ({
+  meals: donatedMeals.length > 0 ? donatedMeals : reservedMeals,
+  donatedMeals,
+  deviceId: device.id,
+});
+
+const mapDispatch = (dispatch) => ({
+  setDonations: (meals) => dispatch(setMealsByDeviceIdAction(meals)),
+  setReservations: (meals) => dispatch(setReservationsByDeviceId(meals)),
+});
+
+export default connect(mapState, mapDispatch)(MealsListScreen);

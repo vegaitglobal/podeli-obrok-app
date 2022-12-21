@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Image,
   Modal,
@@ -11,8 +12,9 @@ import styled from 'styled-components/native';
 import { white, lightOrange } from '../../constants/colors';
 import CloseIcon from '../../images/close-icon.png';
 import { ButtonContent } from '../../constants/textStyles';
+import { checkNumberDigit } from '../../util/expirationDateUtil';
 
-const BoldText = styled(Text)`
+const BoldText = styled.Text`
   color: ${white};
   font-size: 14px;
   line-height: 18px;
@@ -20,14 +22,14 @@ const BoldText = styled(Text)`
   font-weight: bold;
 `;
 
-export const DescriptionStyled = styled(Text)`
+export const DescriptionStyled = styled.Text`
   color: ${white};
   font-size: 14px;
   line-height: 18px;
   margin-bottom: 18px;
 `;
 
-export const View1Styled = styled(View)`
+export const View1Styled = styled.View`
   background-color: rgba(52, 52, 52, 0.5);
   width: 100%;
   height: 100%;
@@ -35,7 +37,7 @@ export const View1Styled = styled(View)`
   justify-content: center;
 `;
 
-export const View2Styled = styled(View)`
+export const View2Styled = styled.View`
   background-color: ${lightOrange};
   border-radius: 20px;
 `;
@@ -43,6 +45,13 @@ export const View2Styled = styled(View)`
 const MealInfoModal = ({
   isVisible = false,
   closeModal = () => {},
+  mealName,
+  description,
+  address,
+  pickUpStartTime,
+  pickUpEndTime,
+  daysToExpiry,
+  hoursToExpiry,
   onReserveMeal,
 }) => {
   const modalsMockData = [
@@ -126,7 +135,7 @@ const MealInfoModal = ({
             >
               Adresa preuzimanja:
             </Text>
-            <BoldText>{item.adress}</BoldText>
+            <BoldText>{address}</BoldText>
             <View
               style={{
                 flexDirection: 'row',
@@ -140,10 +149,9 @@ const MealInfoModal = ({
                   fontSize: 14,
                   lineHeight: 18,
                   marginBottom: 10,
-                  fontWeight: '600',
                 }}
               >
-                Vreme preuzimanja:{' '}
+                Vreme preuzimanja:
               </Text>
               <View style={{ flexDirection: 'row' }}>
                 <Text
@@ -182,7 +190,6 @@ const MealInfoModal = ({
                   fontSize: 14,
                   lineHeight: 18,
                   marginBottom: 10,
-                  fontWeight: '600',
                 }}
               >
                 Ispravnost obroka:
@@ -248,7 +255,7 @@ const MealInfoModal = ({
             }}
           />
           <TouchableOpacity
-            onPress={() => onReserveMeal()}
+            onPress={onReserveMeal}
             style={{
               textAlign: 'center',
               textTransform: 'uppercase',

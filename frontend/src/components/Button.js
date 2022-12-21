@@ -1,17 +1,18 @@
+import React from 'react';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-import {ButtonContent} from '../constants/textStyles';
+import { ButtonContent } from '../constants/textStyles';
 
 const ButtonContainer = styled.TouchableOpacity`
   height: 36px;
   width: 100%;
-  ${({backgroundColor}) => `background-color: ${backgroundColor}`};
+  ${({ backgroundColor }) => `background-color: ${backgroundColor}`};
   border-radius: 20px;
   align-items: center;
   justify-content: center;
 `;
 
-const Button = ({onPress, backgroundColor, content}) => {
+const Button = ({ onPress, backgroundColor, content }) => {
   return (
     <ButtonContainer onPress={onPress} backgroundColor={backgroundColor}>
       <ButtonContent>{content}</ButtonContent>
@@ -19,7 +20,7 @@ const Button = ({onPress, backgroundColor, content}) => {
   );
 };
 
-const {func, string} = PropTypes;
+const { func, string } = PropTypes;
 Button.propTypes = {
   onPress: func.isRequired,
   content: string.isRequired,

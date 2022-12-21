@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
+import { string, func, bool, any } from 'prop-types';
 import styled from 'styled-components';
 import { grey } from '../../constants/colors';
 
@@ -60,15 +61,26 @@ const CustomTextInput = ({
           name={name}
           placeholder={placeholder}
           value={value}
-          autoCapitalize='none'
+          autoCapitalize="none"
           autoCorrect={false}
-          onChangeText={(text) => handleInput({ name: name, value: text })}
+          onChangeText={(text) => handleInput({ name, value: text })}
           onBlur={() => isValid(value)}
           keyboardType={isNumeric ? 'numeric' : 'default'}
         />
       </View>
     </View>
   );
+};
+
+CustomTextInput.propTypes = {
+  value: string,
+  onChange: func,
+  placeholder: string,
+  label: string,
+  name: string,
+  required: bool,
+  isNumeric: bool,
+  containerStyle: any,
 };
 
 export default CustomTextInput;

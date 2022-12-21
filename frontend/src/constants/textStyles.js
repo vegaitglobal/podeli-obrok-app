@@ -14,6 +14,7 @@ export const ButtonContent = styled(Paragraph)`
   color: ${white};
   letter-spacing: 1.35px;
   text-transform: uppercase;
+  font-weight: 500;
 `;
 export const PrimaryButtonContent = styled(Paragraph)`
   color: ${darkOrange};

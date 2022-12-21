@@ -1,21 +1,22 @@
-import {
-  SET_SIDEBAR_ACTIVE,
-  SET_SIDEBAR_UNACTIVE,
-} from '../actions/sidebarMenuAction';
+import {SET_SIDEBAR_ACTIVE, SET_SIDEBAR_POSITION} from '../actions/sidebarMenuAction';
 
-const initalState = {isActive: false};
+const initalState = {
+  isActive: false,
+  topPosition: 0
+};
 
 export const sidebarMenuReducer = (state = initalState, action) => {
   switch (action.type) {
     case SET_SIDEBAR_ACTIVE:
       return {
+        ...state,
         isActive: action.payload,
       };
-    // case SET_SIDEBAR_UNACTIVE:
-    //   return {
-    //     ...state,
-    //     count: action.payload,
-    //   };
+    case SET_SIDEBAR_POSITION:
+      return {
+        ...state,
+        topPosition: action.payload,
+      }
     default:
       return state;
   }

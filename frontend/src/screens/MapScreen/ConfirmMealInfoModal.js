@@ -1,18 +1,14 @@
+import React from 'react';
 import { Image, Modal, Pressable, View } from 'react-native';
 import styled from 'styled-components/native';
-import { white, lightOrange } from '../../constants/colors';
+import { white } from '../../constants/colors';
 import CloseIcon from '../../images/close-icon.png';
 import checkMark from '../../images/checkMark.png';
 import dashedCircle from '../../images/dashedCircle.png';
-import { View2Styled } from './MealInfoModal';
+import { View1Styled, View2Styled } from './MealInfoModal';
 import { Paragraph } from '../../constants/textStyles';
-
-const ViewWrap = styled.View`
-  padding-top: 5px;
-  padding-left: 24px;
-  padding-right: 32px;
-  background-color: ${lightOrange};
-`;
+import { checkNumberDigit } from '../../util/expirationDateUtil';
+import moment from 'moment';
 
 const BoldText = styled.Text`
   color: ${white};
@@ -37,7 +33,6 @@ const DasheCircleImage = styled.Image`
 const Description = styled(Paragraph)`
   color: ${white};
   font-size: 14px;
-  text-align: normal;
 `;
 const DescriptionContainer = styled.View`
   margin-top: 21px;
@@ -154,23 +149,20 @@ const IconContainer = styled.View`
   margin-top: -20px;
 `;
 
-const View1Styled = styled(View)`
-  background-color: rgba(52, 52, 52, 0.5);
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  padding-horizontal: 20px;
-`;
-
 const ConfirmMealInfoModal = ({
-  isVisible = false,
-  closeModal = () => {},
-  mealName = 'Supa od sove',
-  adress = 'Bulevar bulevara BB, (sprat nema, stan izgoreo)',
-  pickUpStartTime = 17,
-  pickUpEndTime = 19,
+  address,
+  startPickupTime,
+  endPickupTime,
+  name,
+  phone,
+  daysToExpiry,
+  hoursToExpiry,
+  description,
+  isVisible,
+  closeModal,
 }) => {
+  const pickupStartTime = moment(startPickupTime).hour();
+  const pickupEndTime = moment(endPickupTime).hour();
   return (
     <Modal visible={isVisible} transparent={true}>
       <View1Styled>
@@ -191,37 +183,40 @@ const ConfirmMealInfoModal = ({
             </Pressable>
           </View>
           <IconContainer>
-            <DasheCircleImage source={dashedCircle} resizeMode='contain' />
-            <CheckMarkImage source={checkMark} resizeMode='contain' />
+            <DasheCircleImage source={dashedCircle} resizeMode="contain" />
+            <CheckMarkImage source={checkMark} resizeMode="contain" />
           </IconContainer>
           <DescriptionContainer>
             <Description>
               Uspešno ste rezervisali označeni obrok i on više nije vidljiv
               drugim korisnicima. Molimo ispoštujte navedeno vreme i mesto
-              preuzimanja
+              preuzimanja.
             </Description>
           </DescriptionContainer>
           <Line />
           <MealDescription>
-            <BoldText>{mealName}</BoldText>
+            <BoldText>{name}</BoldText>
             <Description style={{ textAlign: 'left' }}>
-              Jako lepa supa od sove veruj mi Zorane. A ti ako ne verujes pojedi
-              supu od krokodila.
+              {description}
             </Description>
           </MealDescription>
           <AdressTitle> Adresa preuzimanja:</AdressTitle>
-          <AdressDescription>{adress}</AdressDescription>
+          <AdressDescription>{address}</AdressDescription>
           <DeliveryContainer>
             <TimeLabel>Vreme preuzimanja:</TimeLabel>
-            <Time>17-23h</Time>
+            <Time>{`${pickupStartTime}h - ${pickupEndTime}h`}</Time>
           </DeliveryContainer>
           <PhoneContainer>
             <PhoneLabel>Telefon:</PhoneLabel>
-            <Number>0631234567</Number>
+            <Number>{phone}</Number>
           </PhoneContainer>
           <CorrectnessContainer>
             <CorrectnessLabel>Ispravnost obroka:</CorrectnessLabel>
-            <CorrDateTime>02 Dana 15 Sati</CorrDateTime>
+            <CorrDateTime>
+              {`${checkNumberDigit(daysToExpiry)} Dana ${checkNumberDigit(
+                hoursToExpiry,
+              )} Sati`}
+            </CorrDateTime>
           </CorrectnessContainer>
         </View2Styled>
       </View1Styled>

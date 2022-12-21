@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { PrimaryButtonContent } from '../constants/textStyles';
@@ -23,11 +24,12 @@ const PrimaryButton = ({ onPress, backgroundColor, content, disabled }) => {
   );
 };
 
-const { func, string } = PropTypes;
+const { func, string, bool } = PropTypes;
 PrimaryButton.propTypes = {
   onPress: func.isRequired,
   content: string.isRequired,
   backgroundColor: string.isRequired,
+  disabled: bool,
 };
 
 export default PrimaryButton;

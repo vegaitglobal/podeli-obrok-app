@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components/native';
+import { string, func } from 'prop-types';
 import AppLogo from '../images/AppIcon.png';
 import BlackLogo from '../images/blackLogo.png';
 import { Paragraph } from '../constants/textStyles';
-import { darkOrange, lightOrange, white } from '../constants/colors';
+import { darkOrange, lightOrange } from '../constants/colors';
 import Button from '../components/Button';
 import { screens } from '../constants/screens';
+import { navigationPropType } from '../constants/propTypes/navigationPropType';
+import { connect } from 'react-redux';
+import { getReservationsByDeviceId } from '../redux/services/reservationsService';
+import { setReservationsByDeviceId } from '../redux/actions/reservationActions';
+import { setMealsByDeviceIdAction } from '../redux/actions/mealActions';
+import { getMealsByDeviceid } from '../redux/services/mealService';
 
 const HomeContainer = styled.View`
   margin: 70px 16px 51px 16px;
@@ -29,11 +36,28 @@ const Description = styled.View`
   margin: 22px 30px 58px 30px;
 `;
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({
+  navigation,
+  deviceId,
+  setReservations,
+  setDonations,
+}) => {
+  useEffect(() => {
+    getMealsByDeviceid(deviceId)
+      .then((response) => response.json())
+      .then((res) => {
+        setDonations(res);
+      })
+      .catch((error) => console.log(error));
+    getReservationsByDeviceId(deviceId)
+      .then((response) => response.json())
+      .then((res) => setReservations(res))
+      .catch((error) => console.log(error));
+  }, []);
   return (
     <HomeContainer>
-      <Image resizeMode='contain' source={AppLogo} />
-      <BlackLogoImage resizeMode='contain' source={BlackLogo} />
+      <Image resizeMode="contain" source={AppLogo} />
+      <BlackLogoImage resizeMode="contain" source={BlackLogo} />
       <Description>
         <Paragraph>
           Aplikacija omogućava onima koji žele da podele hranu sa nekim, umesto
@@ -43,21 +67,35 @@ const HomeScreen = ({ navigation }) => {
         </Paragraph>
       </Description>
       <Button
-        onPress={() =>
-          navigation.navigate(screens.appNavigator, { screen: screens.addMeal })
-        }
+        onPress={() => navigation.navigate(screens.addMeal)}
         backgroundColor={darkOrange}
-        content='Podeli obrok'
+        content="Podeli obrok"
       />
       <Button
-        onPress={() =>
-          navigation.navigate(screens.appNavigator, { screen: screens.map })
-        }
+        onPress={() => {
+          navigation.navigate(screens.map);
+        }}
         backgroundColor={lightOrange}
-        content='Preuzmi obrok'
+        content="Preuzmi obrok"
       />
     </HomeContainer>
   );
 };
 
-export default HomeScreen;
+HomeScreen.propTypes = {
+  navigation: navigationPropType,
+  deviceId: string,
+  setReservations: func,
+  setDonations: func,
+};
+
+const mapState = ({ device }) => ({
+  deviceId: device.id,
+});
+
+const mapDispatch = (dispatch) => ({
+  setDonations: (meals) => dispatch(setMealsByDeviceIdAction(meals)),
+  setReservations: (meals) => dispatch(setReservationsByDeviceId(meals)),
+});
+
+export default connect(mapState, mapDispatch)(HomeScreen);

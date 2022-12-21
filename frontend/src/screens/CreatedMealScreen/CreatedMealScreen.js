@@ -1,26 +1,24 @@
 import React from 'react';
-import {View} from 'react-native';
-import styled from 'styled-components';
-import {lightOrange, white} from '../../constants/colors';
-import {ButtonContent, Paragraph} from '../../constants/textStyles';
+import { View, TouchableOpacity } from 'react-native';
+import { func, string } from 'prop-types';
+import styled from 'styled-components/native';
+import { lightOrange, white } from '../../constants/colors';
+import { ButtonContent, Paragraph } from '../../constants/textStyles';
 import checkMark from '../../images/checkMark.png';
 import dashedCircle from '../../images/dashedCircle.png';
-import {screens} from '../../constants/screens';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { screens } from '../../constants/screens';
+import { getMealsByDeviceid } from '../../redux/services/mealService';
+import { setMealsByDeviceIdAction } from '../../redux/actions/mealActions';
+import { connect } from 'react-redux';
+import { navigationPropType } from '../../constants/propTypes/navigationPropType';
 
 const ViewWraper = styled(View)`
   padding-top: 30px;
   padding-left: 24px;
   padding-right: 32px;
   background-color: ${lightOrange};
+  align-items: center;
   flex: 1;
-`;
-
-const Title = styled.Text`
-  margin-bottom: 13px;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 27px;
 `;
 
 export const StyledParagraph = styled(Paragraph)`
@@ -37,7 +35,6 @@ const BoldParagraph = styled(Paragraph)`
 `;
 
 export const CheckMarkImage = styled.Image`
-  width: 92px;
   height: 92px;
   align-self: center;
   margin-top: 181px;
@@ -53,15 +50,12 @@ export const DasheCircleImage = styled.Image`
 const ButtonWraper = styled.View`
   flex-direction: row;
   position: absolute;
-  bottom: 40px;
-  left: 40px;
+  bottom: 33px;
+  width: 100%;
   justify-content: space-between;
 `;
-const TouchableWrapper = styled.TouchableOpacity`
-  margin-left: 77px;
-`;
 
-const CreatedMealScreen = ({navigation}) => {
+const CreatedMealScreen = ({ navigation, deviceId, setDonatedMeals }) => {
   return (
     <ViewWraper>
       <DasheCircleImage source={dashedCircle} resizeMode="contain" />
@@ -75,14 +69,35 @@ const CreatedMealScreen = ({navigation}) => {
           <ButtonContent> Početni ekran</ButtonContent>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate(screens.mealsList)}>
-          <TouchableWrapper>
-            <ButtonContent>Moji obroci</ButtonContent>
-          </TouchableWrapper>
+          onPress={() => {
+            getMealsByDeviceid(deviceId)
+              .then((response) => response.json())
+              .then((res) => {
+                setDonatedMeals(res);
+                navigation.navigate(screens.mealsList, { isUserDonor: true });
+              })
+              .catch((error) => console.log(error));
+          }}
+        >
+          <ButtonContent>Moji obroci</ButtonContent>
         </TouchableOpacity>
       </ButtonWraper>
     </ViewWraper>
   );
 };
 
-export default CreatedMealScreen;
+CreatedMealScreen.propTypes = {
+  navigation: navigationPropType,
+  setDonatedMeals: func,
+  deviceId: string,
+};
+
+const mapState = ({ device }) => ({
+  deviceId: device.id,
+});
+
+const mapDispatch = (dispatch) => ({
+  setDonatedMeals: (meals) => dispatch(setMealsByDeviceIdAction(meals)),
+});
+
+export default connect(mapState, mapDispatch)(CreatedMealScreen);

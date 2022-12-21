@@ -1,14 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import styled from 'styled-components/native';
-import {grey} from '../../constants/colors';
-import {ZoomContent} from '../../constants/textStyles';
-import locationsMock from './MapPinsMock';
+import { grey } from '../../constants/colors';
+import { ZoomContent } from '../../constants/textStyles';
+import ConfirmMealInfoModal from './ConfirmMealInfoModal';
 import MapMarker from '../../images/mapPin.png';
 import MealInfoModal from './MealInfoModal';
-import {screens} from '../../constants/screens';
-import ConfirmMealInfoModal from './ConfirmMealInfoModal';
+import { getAllMeals } from '../../redux/services/mealService';
+import { connect } from 'react-redux';
+import { setAllMealsAction } from '../../redux/actions/mealActions';
+import { setSidebarPosition } from '../../redux/actions/sidebarMenuAction';
+import { useHeaderHeight } from '@react-navigation/elements';
+import { createReservationForMeal } from '../../redux/services/reservationsService';
 
 const MapContainer = styled.View`
   height: 100%;
@@ -33,7 +38,7 @@ const ZoomButton = styled.TouchableOpacity`
   width: 35px;
   position: absolute;
   right: 10px;
-  ${({bottomPosition}) => `bottom: ${bottomPosition}`};
+  ${({ bottomPosition }) => `bottom: ${bottomPosition}`};
   background-color: ${grey};
   border-radius: 10px;
   align-items: center;
@@ -41,7 +46,7 @@ const ZoomButton = styled.TouchableOpacity`
   margin-top: 20px;
 `;
 
-const MapScreen = () => {
+const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 45.25167,
     longitude: 19.83694,
@@ -50,14 +55,42 @@ const MapScreen = () => {
   });
   const [showMealModal, setShowMealModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [activeMealState, setActiveMealState] = useState(null);
+  const HEADER_HEIGHT = useHeaderHeight();
 
-  const onPressMarker = () => {
+  useEffect(() => {
+    getAllMeals()
+      .then((response) => response.json())
+      .then((res) => {
+        setMeals(res);
+      });
+    setSidebarPosition(HEADER_HEIGHT.toFixed(2));
+  }, []);
+
+  const onPressMarker = (activeMeal) => {
     setShowMealModal(!showMealModal);
+    setActiveMealState(activeMeal);
   };
 
   const onReserveMeal = () => {
-    setShowMealModal(false);
-    setShowConfirmationModal(true);
+    if (activeMealState) {
+      const body = {
+        reservedByDeviceId: deviceId,
+        cancelled: false,
+        mealId: activeMealState.id,
+      };
+      createReservationForMeal(body)
+        .then(() => {
+          getAllMeals()
+            .then((response) => response.json())
+            .then((res) => {
+              setMeals(res);
+              setShowMealModal(false);
+              setShowConfirmationModal(true);
+            });
+        })
+        .catch((error) => console.log('error: ', error));
+    }
   };
   const onZoomIn = () => {
     setCurrentRegion({
@@ -75,23 +108,27 @@ const MapScreen = () => {
       longitudeDelta: currentRegion.longitudeDelta * 2,
     });
   };
+
   return (
     <MapContainer>
       <MapView
         region={currentRegion}
-        onRegionChange={region => setCurrentRegion(region)}
+        onRegionChangeComplete={(region) => setCurrentRegion(region)}
         style={styles.map}
         initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
+          latitude: 44.8125,
+          longitude: 20.4612,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
-        }}>
-        {locationsMock.map((marker, index) => (
-          <Marker key={index} coordinate={marker}>
-            <TouchableOpacity onPress={onPressMarker}>
-              <MapPin source={MapMarker} resizeMode="contain" />
-            </TouchableOpacity>
+        }}
+      >
+        {meals?.map((meal, index) => (
+          <Marker
+            onPress={() => onPressMarker(meal)}
+            key={index}
+            coordinate={{ latitude: +meal.lat, longitude: +meal.long }}
+          >
+            <MapPin source={MapMarker} resizeMode="contain" />
           </Marker>
         ))}
       </MapView>
@@ -104,9 +141,24 @@ const MapScreen = () => {
       <MealInfoModal
         isVisible={showMealModal}
         closeModal={() => setShowMealModal(false)}
-        onReserveMeal={() => onReserveMeal()}
+        onReserveMeal={onReserveMeal}
+        mealName={activeMealState?.name}
+        description={activeMealState?.description}
+        address={activeMealState?.address}
+        pickUpStartTime={activeMealState?.startPickupTime}
+        pickUpEndTime={activeMealState?.endPickupTime}
+        daysToExpiry={activeMealState?.daysToExpiry}
+        hoursToExpiry={activeMealState?.hoursToExpiry}
       />
       <ConfirmMealInfoModal
+        address={activeMealState?.address}
+        name={activeMealState?.name}
+        phone={activeMealState?.phone}
+        startPickupTime={activeMealState?.startPickupTime}
+        endPickupTime={activeMealState?.endPickupTime}
+        description={activeMealState?.description}
+        daysToExpiry={activeMealState?.daysToExpiry}
+        hoursToExpiry={activeMealState?.hoursToExpiry}
         isVisible={showConfirmationModal}
         closeModal={() => setShowConfirmationModal(false)}
       />
@@ -114,4 +166,14 @@ const MapScreen = () => {
   );
 };
 
-export default MapScreen;
+const mapState = ({ allMeals, device }) => ({
+  meals: allMeals,
+  deviceId: device.id,
+});
+
+const mapDispatch = (dispatch) => ({
+  setMeals: (meals) => dispatch(setAllMealsAction(meals)),
+  setSidebarPosition: (top) => dispatch(setSidebarPosition(top)),
+});
+
+export default connect(mapState, mapDispatch)(MapScreen);

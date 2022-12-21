@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { string, func } from 'prop-types';
 import CustomCheckBox from '../../components/CustomCheckBox/CustomCheckBox';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import PrimaryButton from '../../components/PrimaryButton';
 import { lightOrange, white } from '../../constants/colors';
 import styled from 'styled-components';
-import { useNavigation } from '@react-navigation/native';
-import { screens } from '../../constants/screens';
+import { createMeal } from '../../redux/services/mealService';
+import { connect } from 'react-redux';
+import moment from 'moment';
+import { setSidebarPosition } from '../../redux/actions/sidebarMenuAction';
+import { useHeaderHeight } from '@react-navigation/elements';
 
 const ButtonContainer = styled.View`
   margin-bottom: 43px;
 `;
 
-const DonorFormScreen = () => {
-  const navigation = useNavigation();
+const DonorFormScreen = ({ deviceId, setSidebarPosition }) => {
   const initialState = {
     mealName: '',
     additionalComment: '',
@@ -28,6 +31,11 @@ const DonorFormScreen = () => {
 
   const [newForm, setNewForm] = useState(initialState);
   const [onlyWithMessage, setOnlyWithMessage] = useState(false);
+
+  const HEADER_HEIGHT = useHeaderHeight();
+  useEffect(() => {
+    setSidebarPosition(HEADER_HEIGHT.toFixed(2));
+  }, []);
 
   const checkboxHandler = () => {
     setOnlyWithMessage((prev) => !prev);
@@ -49,7 +57,27 @@ const DonorFormScreen = () => {
       return;
     }
 
-    navigation.navigate(screens.createdMeal);
+    const payload = {
+      createdByDeviceId: deviceId,
+      name: newForm.mealName,
+      description: newForm.additionalComment,
+      address: newForm.adress,
+      phone: newForm.phone,
+      smsOnly: onlyWithMessage,
+      daysToExpiry: +newForm.expirationDays,
+      hoursToExpiry: +newForm.expirationHours,
+      startPickupTime: moment()
+        .set('hour', newForm.pickUpStartTime)
+        .set('minute', 0)
+        .format(),
+      endPickupTime: moment()
+        .set('hour', newForm.pickUpEndTime)
+        .set('minute', 0)
+        .format(),
+      lat: 45.2599285,
+      long: 19.8312298,
+    };
+    createMeal(payload);
   };
 
   return (
@@ -64,24 +92,24 @@ const DonorFormScreen = () => {
     >
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <CustomTextInput
-          label='Unestite naziv obroka'
-          placeholder='Naziv obroka'
+          label="Unestite naziv obroka"
+          placeholder="Naziv obroka"
           value={newForm.mealName}
           onChange={onChange}
           name={'mealName'}
           containerStyle={{ marginBottom: 30 }}
         />
         <CustomTextInput
-          label='Upišite dodatni komentar'
-          placeholder='Opis'
+          label="Upišite dodatni komentar"
+          placeholder="Opis"
           value={newForm.additionalComment}
           onChange={onChange}
           name={'additionalComment'}
           containerStyle={{ marginBottom: 30 }}
         />
         <CustomTextInput
-          label='Adresa preuzimanja'
-          placeholder='Adresa'
+          label="Adresa preuzimanja"
+          placeholder="Adresa"
           value={newForm.adress}
           onChange={onChange}
           name={'adress'}
@@ -96,8 +124,8 @@ const DonorFormScreen = () => {
           }}
         >
           <CustomTextInput
-            label='Vreme preuzimanja'
-            placeholder='Od'
+            label="Vreme preuzimanja"
+            placeholder="Od"
             value={newForm.pickUpStartTime}
             onChange={onChange}
             name={'pickUpStartTime'}
@@ -105,7 +133,7 @@ const DonorFormScreen = () => {
             isNumeric
           />
           <CustomTextInput
-            placeholder='Do'
+            placeholder="Do"
             value={newForm.pickUpEndTime}
             onChange={onChange}
             name={'pickUpEndTime'}
@@ -115,8 +143,8 @@ const DonorFormScreen = () => {
           />
         </View>
         <CustomTextInput
-          label='Telefon'
-          placeholder='Telefon'
+          label="Telefon"
+          placeholder="Telefon"
           value={newForm.phone}
           onChange={onChange}
           name={'phone'}
@@ -147,8 +175,8 @@ const DonorFormScreen = () => {
           }}
         >
           <CustomTextInput
-            label='Ispravnost obroka'
-            placeholder='Broj dana'
+            label="Ispravnost obroka"
+            placeholder="Broj dana"
             value={newForm.expirationDays}
             onChange={onChange}
             name={'expirationDays'}
@@ -156,7 +184,7 @@ const DonorFormScreen = () => {
             isNumeric
           />
           <CustomTextInput
-            placeholder='Broj sati'
+            placeholder="Broj sati"
             value={newForm.expirationHours}
             onChange={onChange}
             name={'expirationHours'}
@@ -170,7 +198,7 @@ const DonorFormScreen = () => {
             onPress={handleSubmit}
             disabled={false}
             backgroundColor={white}
-            content='Podeli obrok'
+            content="Podeli obrok"
           />
         </ButtonContainer>
       </KeyboardAwareScrollView>
@@ -178,4 +206,16 @@ const DonorFormScreen = () => {
   );
 };
 
-export default DonorFormScreen;
+DonorFormScreen.propTypes = {
+  deviceId: string,
+  setSidebarPosition: func,
+};
+
+const mapState = ({ device }) => ({
+  deviceId: device.id,
+});
+
+const mapDispatch = (dispatch) => ({
+  setSidebarPosition: (top) => dispatch(setSidebarPosition(top)),
+});
+export default connect(mapState, mapDispatch)(DonorFormScreen);
