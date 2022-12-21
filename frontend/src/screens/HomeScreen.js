@@ -40,7 +40,7 @@ const HomeScreen = ({
   navigation,
   deviceId,
   setReservations,
-  setDonations,
+  setDonations
 }) => {
   useEffect(() => {
     getMealsByDeviceid(deviceId)
@@ -56,8 +56,8 @@ const HomeScreen = ({
   }, []);
   return (
     <HomeContainer>
-      <Image resizeMode="contain" source={AppLogo} />
-      <BlackLogoImage resizeMode="contain" source={BlackLogo} />
+      <Image resizeMode='contain' source={AppLogo} />
+      <BlackLogoImage resizeMode='contain' source={BlackLogo} />
       <Description>
         <Paragraph>
           Aplikacija omogućava onima koji žele da podele hranu sa nekim, umesto
@@ -69,14 +69,14 @@ const HomeScreen = ({
       <Button
         onPress={() => navigation.navigate(screens.addMeal)}
         backgroundColor={darkOrange}
-        content="Podeli obrok"
+        content='Podeli obrok'
       />
       <Button
         onPress={() => {
           navigation.navigate(screens.map);
         }}
         backgroundColor={lightOrange}
-        content="Preuzmi obrok"
+        content='Preuzmi obrok'
       />
     </HomeContainer>
   );
@@ -86,16 +86,16 @@ HomeScreen.propTypes = {
   navigation: navigationPropType,
   deviceId: string,
   setReservations: func,
-  setDonations: func,
+  setDonations: func
 };
 
 const mapState = ({ device }) => ({
-  deviceId: device.id,
+  deviceId: device.id
 });
 
 const mapDispatch = (dispatch) => ({
   setDonations: (meals) => dispatch(setMealsByDeviceIdAction(meals)),
-  setReservations: (meals) => dispatch(setReservationsByDeviceId(meals)),
+  setReservations: (meals) => dispatch(setReservationsByDeviceId(meals))
 });
 
 export default connect(mapState, mapDispatch)(HomeScreen);
