@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { LogBox, StyleSheet, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import styled from 'styled-components/native';
 import { grey } from '../../constants/colors';
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     bottom: 0
   }
 });
-const MapPin = styled.Image`
+const MapPin = styled.ImageBackground`
   width: 50px;
   height: 50px;
 `;
@@ -67,17 +67,13 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
     setSidebarPosition(HEADER_HEIGHT.toFixed(2));
   }, []);
 
-  const onPressMarker = (activeMeal) => {
-    setShowMealModal(!showMealModal);
-    setActiveMealState(activeMeal);
-  };
-
-  const onReserveMeal = (mealId) => {
-    if (mealId) {
+  const onReserveMeal = (reservedMeal) => {
+    if (reservedMeal) {
+      setActiveMealState(reservedMeal);
       const body = {
         reservedByDeviceId: deviceId,
         cancelled: false,
-        mealId: mealId
+        mealId: reservedMeal.id
       };
       createReservationForMeal(body)
         .then(() => {
@@ -92,6 +88,13 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
         .catch((error) => console.log('error: ', error));
     }
   };
+
+  // const findByItems = (eq) => (meals) =>
+  //   meals.filter((x, i) => meals.find((y, j) => i !== j && eq(x, y)));
+
+  // const duplicatedItems = findByItems(
+  //   (a, b) => a.long === b.long && a.lat === b.lat
+  // );
 
   const onZoomIn = () => {
     setCurrentRegion({
@@ -110,6 +113,16 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
     });
   };
 
+  const onPressMarker = (meal) => {
+    setShowMealModal(true);
+    setActiveMealState([meal]);
+    // if (typeof meal === 'object' && !Array.isArray(meal) && meal !== null) {
+    //   setActiveMealState([meal]);
+    // } else {
+    //   setActiveMealState(duplicatedItems(meal));
+    // }
+  };
+
   return (
     <MapContainer>
       <MapView
@@ -123,15 +136,29 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
           longitudeDelta: 0.0421
         }}
       >
-        {meals?.map((meal, index) => (
-          <Marker
-            onPress={() => onPressMarker(meal)}
-            key={index}
-            coordinate={{ latitude: +meal.lat, longitude: +meal.long }}
-          >
-            <MapPin source={MapMarker} resizeMode='contain' />
-          </Marker>
-        ))}
+        {meals?.map((meal, index) => {
+          return (
+            <Marker
+              onPress={() => onPressMarker(meal)}
+              key={index}
+              coordinate={{ latitude: +meal.lat, longitude: +meal.long }}
+            >
+              <MapPin source={MapMarker} resizeMode='contain'>
+                {/* <Text
+                  style={{
+                    position: 'absolute',
+                    top: 18,
+                    left: 14,
+                    fontSize: 12,
+                    color: 'white'
+                  }}
+                >
+                  {duplicatedItems(meals).length}x
+                </Text> */}
+              </MapPin>
+            </Marker>
+          );
+        })}
       </MapView>
       <ZoomButton bottomPosition={'100px'} onPress={onZoomIn}>
         <ZoomContent>+</ZoomContent>
@@ -139,24 +166,15 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
       <ZoomButton bottomPosition={'60px'} onPress={onZoomOut}>
         <ZoomContent>-</ZoomContent>
       </ZoomButton>
-      {meals ? (
-        <MealInfoModal
-          isVisible={showMealModal}
-          closeModal={() => setShowMealModal(false)}
-          onReserveMeal={onReserveMeal}
-          meals={meals}
-        />
-      ) : null}
+      <MealInfoModal
+        isVisible={showMealModal}
+        closeModal={() => setShowMealModal(false)}
+        onReserveMeal={onReserveMeal}
+        meals={activeMealState}
+      />
 
       <ConfirmMealInfoModal
-        address={activeMealState?.address}
-        name={activeMealState?.name}
-        phone={activeMealState?.phone}
-        startPickupTime={activeMealState?.startPickupTime}
-        endPickupTime={activeMealState?.endPickupTime}
-        description={activeMealState?.description}
-        daysToExpiry={activeMealState?.daysToExpiry}
-        hoursToExpiry={activeMealState?.hoursToExpiry}
+        activeMealState={activeMealState}
         isVisible={showConfirmationModal}
         closeModal={() => setShowConfirmationModal(false)}
       />

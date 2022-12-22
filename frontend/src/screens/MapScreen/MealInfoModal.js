@@ -13,7 +13,7 @@ import styled from 'styled-components/native';
 import { white, lightOrange } from '../../constants/colors';
 import CloseIcon from '../../images/close-icon.png';
 import { ButtonContent } from '../../constants/textStyles';
-import { getHoursFromTimestamp } from '../../util/getHoursFromTimestamp';
+import moment from 'moment';
 
 const BoldText = styled.Text`
   color: ${white};
@@ -49,7 +49,8 @@ const MealInfoModal = ({
   onReserveMeal,
   meals
 }) => {
-  const renderModals = meals.map((item) => {
+  if (!meals?.length) return null;
+  const renderModals = meals?.map((item) => {
     return (
       <View key={item.id} style={styles.modalContainer}>
         <View2Styled>
@@ -66,13 +67,13 @@ const MealInfoModal = ({
             <View style={styles.timeToPickUpContainer}>
               <Text style={styles.pickUpTime}>Vreme preuzimanja:</Text>
               <View style={styles.timeContainer}>
-                <Text style={styles.boldText}>{`${getHoursFromTimestamp(
-                  item.startPickupTime
-                )}h `}</Text>
+                <Text style={styles.boldText}>
+                  {`${moment(item.startPickupTime).hour()}h `}
+                </Text>
                 <Text style={styles.boldText}>-</Text>
-                <Text style={styles.boldText}>{` ${getHoursFromTimestamp(
-                  item.endPickupTime
-                )}h`}</Text>
+                <Text style={styles.boldText}>
+                  {`${moment(item.endPickupTime).hour()}h `}
+                </Text>
               </View>
             </View>
             <View style={styles.mealExpirationContainer}>
@@ -95,7 +96,7 @@ const MealInfoModal = ({
           </View>
           <View style={styles.horizontalLine} />
           <TouchableOpacity
-            onPress={() => onReserveMeal(item.id)}
+            onPress={() => onReserveMeal(item)}
             style={styles.mainButton}
           >
             <ButtonContent>Rezerviši obrok</ButtonContent>
@@ -106,7 +107,7 @@ const MealInfoModal = ({
   });
 
   return (
-    <Modal visible={isVisible} transparent={true}>
+    <Modal visible={isVisible} transparent={true} animationType='fade'>
       <View1Styled>
         <Swiper
           horizontal

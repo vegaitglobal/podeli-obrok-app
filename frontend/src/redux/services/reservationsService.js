@@ -11,15 +11,16 @@ export const getReservationsByDeviceId = async (deviceId) => {
 //     "mealId": 1
 // }
 
-export const createReservationForMeal = async (reservation) =>
-  fetch(`${baseURL}/reservations`, {
+export const createReservationForMeal = async (reservation) => {
+  return fetch(`${baseURL}/reservations`, {
     method: 'POST',
     headers: {
       Accept: 'application/json; charset=utf-8',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(reservation),
+    body: JSON.stringify(reservation)
   });
+};
 
 export const cancelReservation = async (reservationId) => {
   const ax = axios.create({ baseURL });

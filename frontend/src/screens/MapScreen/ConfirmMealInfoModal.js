@@ -149,22 +149,13 @@ const IconContainer = styled.View`
   margin-top: -20px;
 `;
 
-const ConfirmMealInfoModal = ({
-  address,
-  startPickupTime,
-  endPickupTime,
-  name,
-  phone,
-  daysToExpiry,
-  hoursToExpiry,
-  description,
-  isVisible,
-  closeModal,
-}) => {
-  const pickupStartTime = moment(startPickupTime).hour();
-  const pickupEndTime = moment(endPickupTime).hour();
+const ConfirmMealInfoModal = ({ isVisible, closeModal, activeMealState }) => {
+  if (!activeMealState) return null;
+
+  const pickupStartTime = moment(activeMealState?.startPickupTime).hour();
+  const pickupEndTime = moment(activeMealState?.endPickupTime).hour();
   return (
-    <Modal visible={isVisible} transparent={true}>
+    <Modal visible={isVisible} transparent={true} animationType='fade'>
       <View1Styled>
         <View2Styled>
           <View
@@ -172,7 +163,7 @@ const ConfirmMealInfoModal = ({
               flexDirection: 'row-reverse',
               justifyContent: 'flex-start',
               marginBottom: 20,
-              marginLeft: 20,
+              marginLeft: 20
             }}
           >
             <Pressable onPress={closeModal}>
@@ -183,8 +174,8 @@ const ConfirmMealInfoModal = ({
             </Pressable>
           </View>
           <IconContainer>
-            <DasheCircleImage source={dashedCircle} resizeMode="contain" />
-            <CheckMarkImage source={checkMark} resizeMode="contain" />
+            <DasheCircleImage source={dashedCircle} resizeMode='contain' />
+            <CheckMarkImage source={checkMark} resizeMode='contain' />
           </IconContainer>
           <DescriptionContainer>
             <Description>
@@ -195,27 +186,27 @@ const ConfirmMealInfoModal = ({
           </DescriptionContainer>
           <Line />
           <MealDescription>
-            <BoldText>{name}</BoldText>
+            <BoldText>{activeMealState?.name}</BoldText>
             <Description style={{ textAlign: 'left' }}>
-              {description}
+              {activeMealState?.description}
             </Description>
           </MealDescription>
           <AdressTitle> Adresa preuzimanja:</AdressTitle>
-          <AdressDescription>{address}</AdressDescription>
+          <AdressDescription>{activeMealState?.address}</AdressDescription>
           <DeliveryContainer>
             <TimeLabel>Vreme preuzimanja:</TimeLabel>
             <Time>{`${pickupStartTime}h - ${pickupEndTime}h`}</Time>
           </DeliveryContainer>
           <PhoneContainer>
             <PhoneLabel>Telefon:</PhoneLabel>
-            <Number>{phone}</Number>
+            <Number>{activeMealState?.phone}</Number>
           </PhoneContainer>
           <CorrectnessContainer>
             <CorrectnessLabel>Ispravnost obroka:</CorrectnessLabel>
             <CorrDateTime>
-              {`${checkNumberDigit(daysToExpiry)} Dana ${checkNumberDigit(
-                hoursToExpiry,
-              )} Sati`}
+              {`${checkNumberDigit(
+                activeMealState?.daysToExpiry
+              )} Dana ${checkNumberDigit(activeMealState?.hoursToExpiry)} Sati`}
             </CorrDateTime>
           </CorrectnessContainer>
         </View2Styled>
