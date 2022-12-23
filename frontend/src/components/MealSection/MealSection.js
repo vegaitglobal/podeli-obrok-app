@@ -39,9 +39,10 @@ const MealSection = ({ meal, handleCancelMeal = () => {}, isUserDonor }) => {
   return (
     <View
       style={{
-        paddingVertical: 15,
+        paddingBottom: 15,
         borderBottomWidth: 1,
-        borderBottomColor: grey
+        borderBottomColor: grey,
+        marginBottom: 15
       }}
     >
       <MealName>{name}</MealName>

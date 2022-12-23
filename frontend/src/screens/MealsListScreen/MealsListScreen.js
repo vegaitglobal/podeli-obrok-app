@@ -56,8 +56,6 @@ const MealsListScreen = ({
     <MealText>{`${isUserDonor ? 'Moji' : 'Rezervisani'} obroci`}</MealText>
   );
 
-  console.log(isUserDonor);
-
   const renderMeals = ({ item }) => (
     <MealSection
       mealName={item?.name}
@@ -99,7 +97,8 @@ MealsListScreen.propTypes = {
 };
 
 const mapState = ({ donatedMeals, reservedMeals, device, sidebar }) => ({
-  meals: donatedMeals.length > 0 ? donatedMeals : reservedMeals,
+  // meals: donatedMeals.length > 0 ? donatedMeals : reservedMeals,
+  meals: sidebar.isMyMeals ? donatedMeals : reservedMeals,
   donatedMeals,
   deviceId: device.id,
   isUserDonor: sidebar.isMyMeals
