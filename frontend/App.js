@@ -18,8 +18,8 @@ const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: 'rgb(255, 255, 255)',
-  },
+    background: 'rgb(255, 255, 255)'
+  }
 };
 const App = ({ sidebarMenu, setDeviceId }) => {
   useEffect(() => {
@@ -40,16 +40,16 @@ const App = ({ sidebarMenu, setDeviceId }) => {
 
 App.propTypes = {
   setDeviceId: func,
-  sidebarMenu: bool,
+  sidebarMenu: bool
 };
 
 const mapStateToProps = ({ sidebar, device }) => ({
   sidebarMenu: sidebar.isActive,
-  deviceId: device.id,
+  deviceId: device.id
 });
 
 const mapDispatch = (dispatch) => ({
-  setDeviceId: (value) => dispatch(setDeviceId(value)),
+  setDeviceId: (value) => dispatch(setDeviceId(value))
 });
 
 export default connect(mapStateToProps, mapDispatch)(App);

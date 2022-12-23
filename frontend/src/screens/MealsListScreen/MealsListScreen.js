@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FlatList } from 'react-native';
-import { string, func } from 'prop-types';
+import { string, func, bool } from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import MealSection from '../../components/MealSection/MealSection';
@@ -34,6 +34,7 @@ const MealsListScreen = ({
   deviceId,
   setDonations,
   setReservations,
+  isUserDonor
 }) => {
   useEffect(() => {
     getMealsByDeviceid(deviceId)
@@ -50,10 +51,12 @@ const MealsListScreen = ({
       .catch((error) => console.log(error));
   }, []);
 
-  const isUserDonor = route?.params || donatedMeals.length > 0;
+  // const isUserDonor = route?.params || donatedMeals.length > 0;
   const heading = (
     <MealText>{`${isUserDonor ? 'Moji' : 'Rezervisani'} obroci`}</MealText>
   );
+
+  console.log(isUserDonor);
 
   const renderMeals = ({ item }) => (
     <MealSection
@@ -92,17 +95,19 @@ MealsListScreen.propTypes = {
   deviceId: string,
   setReservations: func,
   setDonations: func,
+  isUserDonor: bool
 };
 
-const mapState = ({ donatedMeals, reservedMeals, device }) => ({
+const mapState = ({ donatedMeals, reservedMeals, device, sidebar }) => ({
   meals: donatedMeals.length > 0 ? donatedMeals : reservedMeals,
   donatedMeals,
   deviceId: device.id,
+  isUserDonor: sidebar.isMyMeals
 });
 
 const mapDispatch = (dispatch) => ({
   setDonations: (meals) => dispatch(setMealsByDeviceIdAction(meals)),
-  setReservations: (meals) => dispatch(setReservationsByDeviceId(meals)),
+  setReservations: (meals) => dispatch(setReservationsByDeviceId(meals))
 });
 
 export default connect(mapState, mapDispatch)(MealsListScreen);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { func, string } from 'prop-types';
+import { func, string, bool } from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import { Paragraph } from '../../constants/textStyles';
@@ -11,7 +11,7 @@ import { setSidebarMenuActiveAction } from '../../redux/actions/sidebarMenuActio
 
 const SidebarContainer = styled.Text`
   position: absolute;
-  width: 180px;
+  width: 200px;
   height: 100%;
   right: 0px;
   top: ${({ topPosition }) => topPosition || 0}px;
@@ -26,7 +26,7 @@ export const ButtonContent = styled(Paragraph)`
   margin left: 15px;
 `;
 
-const SideBarMenu = ({ setSidebar, topPosition }) => {
+const SideBarMenu = ({ setSidebar, topPosition, isMyMeals }) => {
   const navigation = useNavigation();
   return (
     <SidebarContainer topPosition={topPosition}>
@@ -36,7 +36,9 @@ const SideBarMenu = ({ setSidebar, topPosition }) => {
           navigation.navigate(screens.mealsList);
         }}
       >
-        <ButtonContent>Moji obroci</ButtonContent>
+        <ButtonContent>
+          {isMyMeals ? 'Moji' : 'Rezervisani'} obroci
+        </ButtonContent>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
@@ -69,14 +71,16 @@ const SideBarMenu = ({ setSidebar, topPosition }) => {
 SideBarMenu.propTypes = {
   setSidebar: func,
   topPosition: string,
+  isMyMeals: bool
 };
 
 const mapStateToProps = ({ sidebar }) => ({
   topPosition: sidebar.topPosition,
+  isMyMeals: sidebar.isMyMeals
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setSidebar: (val) => dispatch(setSidebarMenuActiveAction(val)),
+  setSidebar: (val) => dispatch(setSidebarMenuActiveAction(val))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideBarMenu);

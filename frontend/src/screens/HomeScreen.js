@@ -13,6 +13,7 @@ import { getReservationsByDeviceId } from '../redux/services/reservationsService
 import { setReservationsByDeviceId } from '../redux/actions/reservationActions';
 import { setMealsByDeviceIdAction } from '../redux/actions/mealActions';
 import { getMealsByDeviceid } from '../redux/services/mealService';
+import { setMyMealsActiveAction } from '../redux/actions/sidebarMenuAction';
 
 const HomeContainer = styled.View`
   margin: 70px 16px 51px 16px;
@@ -40,7 +41,8 @@ const HomeScreen = ({
   navigation,
   deviceId,
   setReservations,
-  setDonations
+  setDonations,
+  setIsMyMeals
 }) => {
   useEffect(() => {
     getMealsByDeviceid(deviceId)
@@ -54,6 +56,17 @@ const HomeScreen = ({
       .then((res) => setReservations(res))
       .catch((error) => console.log(error));
   }, []);
+
+  const handleShareMeal = () => {
+    setIsMyMeals(true);
+    navigation.navigate(screens.addMeal);
+  };
+
+  const handleTakeMeal = () => {
+    setIsMyMeals(false);
+    navigation.navigate(screens.map);
+  };
+
   return (
     <HomeContainer>
       <Image resizeMode='contain' source={AppLogo} />
@@ -67,14 +80,12 @@ const HomeScreen = ({
         </Paragraph>
       </Description>
       <Button
-        onPress={() => navigation.navigate(screens.addMeal)}
+        onPress={handleShareMeal}
         backgroundColor={darkOrange}
         content='Podeli obrok'
       />
       <Button
-        onPress={() => {
-          navigation.navigate(screens.map);
-        }}
+        onPress={handleTakeMeal}
         backgroundColor={lightOrange}
         content='Preuzmi obrok'
       />
@@ -95,7 +106,8 @@ const mapState = ({ device }) => ({
 
 const mapDispatch = (dispatch) => ({
   setDonations: (meals) => dispatch(setMealsByDeviceIdAction(meals)),
-  setReservations: (meals) => dispatch(setReservationsByDeviceId(meals))
+  setReservations: (meals) => dispatch(setReservationsByDeviceId(meals)),
+  setIsMyMeals: (val) => dispatch(setMyMealsActiveAction(val))
 });
 
 export default connect(mapState, mapDispatch)(HomeScreen);
