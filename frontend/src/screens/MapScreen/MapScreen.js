@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { LogBox, StyleSheet, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import styled from 'styled-components/native';
 import { grey } from '../../constants/colors';
@@ -25,10 +25,10 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
-  },
+    bottom: 0
+  }
 });
-const MapPin = styled.Image`
+const MapPin = styled.ImageBackground`
   width: 50px;
   height: 50px;
 `;
@@ -51,7 +51,7 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
     latitude: 45.25167,
     longitude: 19.83694,
     latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    longitudeDelta: 0.0421
   });
   const [showMealModal, setShowMealModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -67,17 +67,13 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
     setSidebarPosition(HEADER_HEIGHT.toFixed(2));
   }, []);
 
-  const onPressMarker = (activeMeal) => {
-    setShowMealModal(!showMealModal);
-    setActiveMealState(activeMeal);
-  };
-
-  const onReserveMeal = () => {
-    if (activeMealState) {
+  const onReserveMeal = (reservedMeal) => {
+    if (reservedMeal) {
+      setActiveMealState(reservedMeal);
       const body = {
         reservedByDeviceId: deviceId,
         cancelled: false,
-        mealId: activeMealState.id,
+        mealId: reservedMeal.id
       };
       createReservationForMeal(body)
         .then(() => {
@@ -92,12 +88,13 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
         .catch((error) => console.log('error: ', error));
     }
   };
+
   const onZoomIn = () => {
     setCurrentRegion({
       latitude: currentRegion.latitude,
       longitude: currentRegion.longitude,
       latitudeDelta: currentRegion.latitudeDelta / 2,
-      longitudeDelta: currentRegion.longitudeDelta / 2,
+      longitudeDelta: currentRegion.longitudeDelta / 2
     });
   };
   const onZoomOut = () => {
@@ -105,8 +102,13 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
       latitude: currentRegion.latitude,
       longitude: currentRegion.longitude,
       latitudeDelta: currentRegion.latitudeDelta * 2,
-      longitudeDelta: currentRegion.longitudeDelta * 2,
+      longitudeDelta: currentRegion.longitudeDelta * 2
     });
+  };
+
+  const onPressMarker = (meal) => {
+    setShowMealModal(true);
+    setActiveMealState([meal]);
   };
 
   return (
@@ -119,18 +121,32 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
           latitude: 44.8125,
           longitude: 20.4612,
           latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          longitudeDelta: 0.0421
         }}
       >
-        {meals?.map((meal, index) => (
-          <Marker
-            onPress={() => onPressMarker(meal)}
-            key={index}
-            coordinate={{ latitude: +meal.lat, longitude: +meal.long }}
-          >
-            <MapPin source={MapMarker} resizeMode="contain" />
-          </Marker>
-        ))}
+        {meals?.map((meal, index) => {
+          return (
+            <Marker
+              onPress={() => onPressMarker(meal)}
+              key={index}
+              coordinate={{ latitude: +meal.lat, longitude: +meal.long }}
+            >
+              <MapPin source={MapMarker} resizeMode='contain'>
+                {/* <Text
+                  style={{
+                    position: 'absolute',
+                    top: 18,
+                    left: 14,
+                    fontSize: 12,
+                    color: 'white'
+                  }}
+                >
+                  {duplicatedItems(meals).length}x
+                </Text> */}
+              </MapPin>
+            </Marker>
+          );
+        })}
       </MapView>
       <ZoomButton bottomPosition={'100px'} onPress={onZoomIn}>
         <ZoomContent>+</ZoomContent>
@@ -142,23 +158,11 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
         isVisible={showMealModal}
         closeModal={() => setShowMealModal(false)}
         onReserveMeal={onReserveMeal}
-        mealName={activeMealState?.name}
-        description={activeMealState?.description}
-        address={activeMealState?.address}
-        pickUpStartTime={activeMealState?.startPickupTime}
-        pickUpEndTime={activeMealState?.endPickupTime}
-        daysToExpiry={activeMealState?.daysToExpiry}
-        hoursToExpiry={activeMealState?.hoursToExpiry}
+        meals={activeMealState}
       />
+
       <ConfirmMealInfoModal
-        address={activeMealState?.address}
-        name={activeMealState?.name}
-        phone={activeMealState?.phone}
-        startPickupTime={activeMealState?.startPickupTime}
-        endPickupTime={activeMealState?.endPickupTime}
-        description={activeMealState?.description}
-        daysToExpiry={activeMealState?.daysToExpiry}
-        hoursToExpiry={activeMealState?.hoursToExpiry}
+        activeMealState={activeMealState}
         isVisible={showConfirmationModal}
         closeModal={() => setShowConfirmationModal(false)}
       />
@@ -168,12 +172,12 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
 
 const mapState = ({ allMeals, device }) => ({
   meals: allMeals,
-  deviceId: device.id,
+  deviceId: device.id
 });
 
 const mapDispatch = (dispatch) => ({
   setMeals: (meals) => dispatch(setAllMealsAction(meals)),
-  setSidebarPosition: (top) => dispatch(setSidebarPosition(top)),
+  setSidebarPosition: (top) => dispatch(setSidebarPosition(top))
 });
 
 export default connect(mapState, mapDispatch)(MapScreen);

@@ -39,9 +39,10 @@ const MealSection = ({ meal, handleCancelMeal = () => {}, isUserDonor }) => {
   return (
     <View
       style={{
-        paddingVertical: 15,
+        paddingBottom: 15,
         borderBottomWidth: 1,
         borderBottomColor: grey,
+        marginBottom: 15
       }}
     >
       <MealName>{name}</MealName>
@@ -59,7 +60,7 @@ const MealSection = ({ meal, handleCancelMeal = () => {}, isUserDonor }) => {
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          marginRight: 50,
+          marginRight: 50
         }}
       >
         <View>
@@ -68,7 +69,7 @@ const MealSection = ({ meal, handleCancelMeal = () => {}, isUserDonor }) => {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              marginBottom: 10,
+              marginBottom: 10
             }}
           >
             <BoldText>{`${pickUpStartTimeConverted}h - ${pickUpEndTimeConverted}h`}</BoldText>
@@ -92,7 +93,7 @@ const MealSection = ({ meal, handleCancelMeal = () => {}, isUserDonor }) => {
             alignSelf: 'flex-end',
             fontWeight: '500',
             fontSize: 14,
-            lineHeight: 18,
+            lineHeight: 18
           }}
           onPress={handleCancelMeal}
         >
@@ -105,6 +106,6 @@ const MealSection = ({ meal, handleCancelMeal = () => {}, isUserDonor }) => {
 MealSection.propTypes = {
   meal: mealPropType,
   handleCancelMeal: func,
-  isUserDonor: bool,
+  isUserDonor: bool
 };
 export default MealSection;

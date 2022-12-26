@@ -13,6 +13,7 @@ import { getReservationsByDeviceId } from '../redux/services/reservationsService
 import { setReservationsByDeviceId } from '../redux/actions/reservationActions';
 import { setMealsByDeviceIdAction } from '../redux/actions/mealActions';
 import { getMealsByDeviceid } from '../redux/services/mealService';
+import { setMyMealsActiveAction } from '../redux/actions/sidebarMenuAction';
 
 const HomeContainer = styled.View`
   margin: 70px 16px 51px 16px;
@@ -41,6 +42,7 @@ const HomeScreen = ({
   deviceId,
   setReservations,
   setDonations,
+  setIsMyMeals
 }) => {
   useEffect(() => {
     getMealsByDeviceid(deviceId)
@@ -54,10 +56,21 @@ const HomeScreen = ({
       .then((res) => setReservations(res))
       .catch((error) => console.log(error));
   }, []);
+
+  const handleShareMeal = () => {
+    setIsMyMeals(true);
+    navigation.navigate(screens.addMeal);
+  };
+
+  const handleTakeMeal = () => {
+    setIsMyMeals(false);
+    navigation.navigate(screens.map);
+  };
+
   return (
     <HomeContainer>
-      <Image resizeMode="contain" source={AppLogo} />
-      <BlackLogoImage resizeMode="contain" source={BlackLogo} />
+      <Image resizeMode='contain' source={AppLogo} />
+      <BlackLogoImage resizeMode='contain' source={BlackLogo} />
       <Description>
         <Paragraph>
           Aplikacija omogućava onima koji žele da podele hranu sa nekim, umesto
@@ -67,16 +80,14 @@ const HomeScreen = ({
         </Paragraph>
       </Description>
       <Button
-        onPress={() => navigation.navigate(screens.addMeal)}
+        onPress={handleShareMeal}
         backgroundColor={darkOrange}
-        content="Podeli obrok"
+        content='Podeli obrok'
       />
       <Button
-        onPress={() => {
-          navigation.navigate(screens.map);
-        }}
+        onPress={handleTakeMeal}
         backgroundColor={lightOrange}
-        content="Preuzmi obrok"
+        content='Preuzmi obrok'
       />
     </HomeContainer>
   );
@@ -86,16 +97,17 @@ HomeScreen.propTypes = {
   navigation: navigationPropType,
   deviceId: string,
   setReservations: func,
-  setDonations: func,
+  setDonations: func
 };
 
 const mapState = ({ device }) => ({
-  deviceId: device.id,
+  deviceId: device.id
 });
 
 const mapDispatch = (dispatch) => ({
   setDonations: (meals) => dispatch(setMealsByDeviceIdAction(meals)),
   setReservations: (meals) => dispatch(setReservationsByDeviceId(meals)),
+  setIsMyMeals: (val) => dispatch(setMyMealsActiveAction(val))
 });
 
 export default connect(mapState, mapDispatch)(HomeScreen);

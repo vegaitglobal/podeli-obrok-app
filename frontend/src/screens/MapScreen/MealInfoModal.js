@@ -6,13 +6,14 @@ import {
   Text,
   View,
   TouchableOpacity,
+  StyleSheet
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import styled from 'styled-components/native';
 import { white, lightOrange } from '../../constants/colors';
 import CloseIcon from '../../images/close-icon.png';
 import { ButtonContent } from '../../constants/textStyles';
-import { checkNumberDigit } from '../../util/expirationDateUtil';
+import moment from 'moment';
 
 const BoldText = styled.Text`
   color: ${white};
@@ -45,224 +46,58 @@ export const View2Styled = styled.View`
 const MealInfoModal = ({
   isVisible = false,
   closeModal = () => {},
-  mealName,
-  description,
-  address,
-  pickUpStartTime,
-  pickUpEndTime,
-  daysToExpiry,
-  hoursToExpiry,
   onReserveMeal,
+  meals
 }) => {
-  const modalsMockData = [
-    {
-      id: 1,
-      mealName: 'Supa od sove',
-      description:
-        'Supa od sove na najfiniji nacin. Spremna za Zokija od strane najfinijih kuvara',
-      adress: 'Bulevar bulevara BB, (sprat nema)',
-      pickUpStartTime: 17,
-      pickUpEndTime: 19,
-      expirationDays: 2,
-      experationHours: 15,
-    },
-    {
-      id: 2,
-      mealName: 'Supa od jazavca',
-      description:
-        'Supa od jazavca na najfiniji nacin. Spremna za Zokija od strane najfinijih kuvara.',
-      adress: 'Bulevar bulevara BB, (sprat nema)',
-      pickUpStartTime: 11,
-      pickUpEndTime: 9,
-      expirationDays: 22,
-      experationHours: 15,
-    },
-    {
-      id: 3,
-      mealName: 'Supa od kenguretine',
-      description:
-        'Supa od kengura na najfiniji nacin. Spremna za Zokija od strane najfinijih kuvara. Ovi kuvari nikada ne peru ruke, pa je ova supa od posebnog ukusa.',
-      adress: 'Bulevar bulevara BB, (sprat 21, stan 11)',
-      pickUpStartTime: 11,
-      pickUpEndTime: 9,
-      expirationDays: 22,
-      experationHours: 15,
-    },
-  ];
-
-  const renderModals = modalsMockData.map((item) => {
+  if (!meals?.length) return null;
+  const renderModals = meals?.map((item) => {
     return (
-      <View
-        key={item.id}
-        style={{
-          height: '100%',
-          justifyContent: 'center',
-          paddingHorizontal: 20,
-        }}
-      >
+      <View key={item.id} style={styles.modalContainer}>
         <View2Styled>
-          <View style={{ padding: 15, marginLeft: 18 }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: 20,
-              }}
-            >
-              <Text
-                style={{
-                  color: 'white',
-                  fontWeight: '500',
-                  fontSize: 24,
-                  lineHeight: 28,
-                }}
-              >
-                {item.mealName}
-              </Text>
+          <View style={styles.modalContent}>
+            <View style={styles.header}>
+              <Text style={styles.mealName}>{item.name}</Text>
               <Pressable onPress={closeModal}>
-                <Image source={CloseIcon} style={{ width: 30, height: 30 }} />
+                <Image source={CloseIcon} style={styles.closeImg} />
               </Pressable>
             </View>
             <DescriptionStyled>{item.description}</DescriptionStyled>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 14,
-                lineHeight: 18,
-                marginBottom: 10,
-              }}
-            >
-              Adresa preuzimanja:
-            </Text>
-            <BoldText>{address}</BoldText>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 14,
-                  lineHeight: 18,
-                  marginBottom: 10,
-                }}
-              >
-                Vreme preuzimanja:
-              </Text>
-              <View style={{ flexDirection: 'row' }}>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontWeight: 'bold',
-                  }}
-                >{`${item.pickUpStartTime}h `}</Text>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  -
+            <Text style={styles.mealDesc}>Adresa preuzimanja:</Text>
+            <BoldText>{item.address}</BoldText>
+            <View style={styles.timeToPickUpContainer}>
+              <Text style={styles.pickUpTime}>Vreme preuzimanja:</Text>
+              <View style={styles.timeContainer}>
+                <Text style={styles.boldText}>
+                  {`${moment(item.startPickupTime).hour()}h `}
                 </Text>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontWeight: 'bold',
-                  }}
-                >{` ${item.pickUpEndTime}h`}</Text>
+                <Text style={styles.boldText}>-</Text>
+                <Text style={styles.boldText}>
+                  {`${moment(item.endPickupTime).hour()}h `}
+                </Text>
               </View>
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginTop: 15,
-              }}
-            >
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 14,
-                  lineHeight: 18,
-                  marginBottom: 10,
-                }}
-              >
-                Ispravnost obroka:
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  width: '30%',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <View style={{ alignItems: 'center' }}>
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontSize: 30,
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    {item.expirationDays}
+            <View style={styles.mealExpirationContainer}>
+              <Text style={styles.mealExpirationTitle}>Ispravnost obroka:</Text>
+              <View style={styles.expirationDaysAndHours}>
+                <View style={styles.alignedItems}>
+                  <Text style={styles.expirationDaysNumber}>
+                    {item.daysToExpiry}
                   </Text>
-                  <Text
-                    style={{
-                      color: 'white',
-                      lineHeight: 18,
-                      marginBottom: 10,
-                      fontWeight: '600',
-                    }}
-                  >
-                    Dana
-                  </Text>
+                  <Text style={styles.expirationDaysText}>Dana</Text>
                 </View>
-                <View style={{ alignItems: 'center' }}>
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontSize: 30,
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    {item.experationHours}
+                <View style={styles.alignedItems}>
+                  <Text style={styles.expirationDaysNumber}>
+                    {item.hoursToExpiry}
                   </Text>
-                  <Text
-                    style={{
-                      color: 'white',
-                      lineHeight: 18,
-                      marginBottom: 10,
-                      fontWeight: '600',
-                    }}
-                  >
-                    Sati
-                  </Text>
+                  <Text style={styles.expirationDaysText}>Sati</Text>
                 </View>
               </View>
             </View>
           </View>
-          <View
-            style={{
-              width: '100%',
-              height: 1,
-              backgroundColor: 'white',
-              marginTop: 20,
-            }}
-          />
+          <View style={styles.horizontalLine} />
           <TouchableOpacity
-            onPress={onReserveMeal}
-            style={{
-              textAlign: 'center',
-              textTransform: 'uppercase',
-              paddingVertical: 15,
-              color: 'white',
-              fontWeight: '600',
-            }}
+            onPress={() => onReserveMeal(item)}
+            style={styles.mainButton}
           >
             <ButtonContent>Rezerviši obrok</ButtonContent>
           </TouchableOpacity>
@@ -272,34 +107,13 @@ const MealInfoModal = ({
   });
 
   return (
-    <Modal visible={isVisible} transparent={true}>
+    <Modal visible={isVisible} transparent={true} animationType='fade'>
       <View1Styled>
         <Swiper
           horizontal
           loop={false}
-          dot={
-            <View
-              style={{
-                width: 10,
-                height: 10,
-                borderRadius: 50,
-                borderColor: 'white',
-                borderWidth: 1,
-                marginRight: 5,
-              }}
-            />
-          }
-          activeDot={
-            <View
-              style={{
-                width: 10,
-                height: 10,
-                borderRadius: 50,
-                backgroundColor: 'white',
-                marginRight: 5,
-              }}
-            />
-          }
+          dot={<View style={styles.swiperDot} />}
+          activeDot={<View style={styles.activeDot} />}
         >
           {renderModals}
         </Swiper>
@@ -309,3 +123,114 @@ const MealInfoModal = ({
 };
 
 export default MealInfoModal;
+
+const styles = StyleSheet.create({
+  swiperDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 50,
+    borderColor: 'white',
+    borderWidth: 1,
+    marginRight: 5
+  },
+  activeDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 50,
+    backgroundColor: 'white',
+    marginRight: 5
+  },
+  modalContainer: {
+    height: '100%',
+    justifyContent: 'center',
+    paddingHorizontal: 20
+  },
+  modalContent: {
+    padding: 15,
+    marginLeft: 18
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20
+  },
+  mealName: {
+    color: 'white',
+    fontWeight: '500',
+    fontSize: 24,
+    lineHeight: 28
+  },
+  closeImg: {
+    width: 30,
+    height: 30
+  },
+  mealDesc: {
+    color: 'white',
+    fontSize: 14,
+    lineHeight: 18,
+    marginBottom: 10
+  },
+  timeToPickUpContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  pickUpTime: {
+    color: 'white',
+    fontSize: 14,
+    lineHeight: 18,
+    marginBottom: 10
+  },
+  timeContainer: {
+    flexDirection: 'row'
+  },
+  boldText: {
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  mealExpirationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 15
+  },
+  mealExpirationTitle: {
+    color: 'white',
+    fontSize: 14,
+    lineHeight: 18,
+    marginBottom: 10
+  },
+  expirationDaysAndHours: {
+    flexDirection: 'row',
+    width: '30%',
+    justifyContent: 'space-between'
+  },
+  expirationDaysNumber: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold'
+  },
+  expirationDaysText: {
+    color: 'white',
+    lineHeight: 18,
+    marginBottom: 10,
+    fontWeight: '600'
+  },
+  alignedItems: {
+    alignItems: 'center'
+  },
+  horizontalLine: {
+    width: '100%',
+    height: 1,
+    backgroundColor: 'white',
+    marginTop: 20
+  },
+  mainButton: {
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    paddingVertical: 15,
+    color: 'white',
+    fontWeight: '600'
+  }
+});
