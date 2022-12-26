@@ -89,13 +89,6 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
     }
   };
 
-  // const findByItems = (eq) => (meals) =>
-  //   meals.filter((x, i) => meals.find((y, j) => i !== j && eq(x, y)));
-
-  // const duplicatedItems = findByItems(
-  //   (a, b) => a.long === b.long && a.lat === b.lat
-  // );
-
   const onZoomIn = () => {
     setCurrentRegion({
       latitude: currentRegion.latitude,
@@ -116,11 +109,6 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
   const onPressMarker = (meal) => {
     setShowMealModal(true);
     setActiveMealState([meal]);
-    // if (typeof meal === 'object' && !Array.isArray(meal) && meal !== null) {
-    //   setActiveMealState([meal]);
-    // } else {
-    //   setActiveMealState(duplicatedItems(meal));
-    // }
   };
 
   return (

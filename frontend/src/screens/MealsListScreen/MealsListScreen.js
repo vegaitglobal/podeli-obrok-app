@@ -8,7 +8,10 @@ import { black } from '../../constants/colors';
 import { mealsListPropType } from '../../constants/propTypes/mealsPropType';
 import { routePropType } from '../../constants/propTypes/navigationPropType';
 import { getMealsByDeviceid } from '../../redux/services/mealService';
-import { getReservationsByDeviceId } from '../../redux/services/reservationsService';
+import {
+  cancelReservation,
+  getReservationsByDeviceId
+} from '../../redux/services/reservationsService';
 import { setMealsByDeviceIdAction } from '../../redux/actions/mealActions';
 import { setReservationsByDeviceId } from '../../redux/actions/reservationActions';
 
@@ -56,6 +59,10 @@ const MealsListScreen = ({
     <MealText>{`${isUserDonor ? 'Moji' : 'Rezervisani'} obroci`}</MealText>
   );
 
+  const handleCancelMeal = (reservationId) => {
+    // cancelReservation(reservationId);
+  };
+
   const renderMeals = ({ item }) => (
     <MealSection
       mealName={item?.name}
@@ -67,7 +74,7 @@ const MealsListScreen = ({
       meal={item}
       isUserDonor={isUserDonor}
       // TODO
-      handleCancelMeal={() => console.log(item.id)}
+      handleCancelMeal={() => handleCancelMeal(item.id)}
     />
   );
 

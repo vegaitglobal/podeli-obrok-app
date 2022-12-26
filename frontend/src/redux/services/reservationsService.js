@@ -23,6 +23,7 @@ export const createReservationForMeal = async (reservation) => {
 };
 
 export const cancelReservation = async (reservationId) => {
-  const ax = axios.create({ baseURL });
-  return ax.delete(`/reservations?reservationId=${reservationId}`, payload);
+  return fetch(`${baseURL}/reservations?reservationId=${reservationId}`, {
+    method: 'DELETE'
+  });
 };
