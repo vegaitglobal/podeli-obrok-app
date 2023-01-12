@@ -13,6 +13,7 @@ services:
       DATABASE_HOST: "db"
       APP_PORT: "3000"
       APP_NAME: "share-meal"
+    restart: always
 
   db:
     image: postgres:13.5-alpine
@@ -26,3 +27,4 @@ services:
       POSTGRES_HOST_AUTH_METHOD: "trust"
     volumes:
       - ".:/app:rw"
+    restart: always
