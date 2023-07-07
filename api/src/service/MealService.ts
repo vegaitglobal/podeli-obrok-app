@@ -1,6 +1,6 @@
-import { Repository } from "typeorm";
-import { AppDataSource } from "../data-source";
-import { Meal } from "../entity/Meal";
+import { DeleteResult, Repository } from 'typeorm';
+import { AppDataSource } from '../data-source';
+import { Meal } from '../entity/Meal';
 
 export class MealService {
   private mealRepository: Repository<Meal> = AppDataSource.getRepository(Meal);
@@ -8,15 +8,18 @@ export class MealService {
   async getAll(createdByDeviceId?: string): Promise<Meal[]> {
     return this.mealRepository.find({
       where: {
-        createdByDeviceId: createdByDeviceId,
-      },
+        createdByDeviceId: createdByDeviceId
+      }
     });
   }
 
   async save(meal: Meal): Promise<Meal> {
-    console.log(meal);
     meal.expiresOn = this.calculateExpiresOn(meal);
     return this.mealRepository.save(meal);
+  }
+
+  async remove(mealId: number) {
+    return this.mealRepository.delete(mealId);
   }
 
   private calculateExpiresOn(meal: Meal): Date {

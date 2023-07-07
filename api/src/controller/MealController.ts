@@ -1,5 +1,5 @@
-import { Meal } from "../entity/Meal";
-import { MealService } from "../service/MealService";
+import { Meal } from '../entity/Meal';
+import { MealService } from '../service/MealService';
 
 export const all = async (req, res, next): Promise<Meal[]> => {
   const mealService: MealService = new MealService();
@@ -9,7 +9,6 @@ export const all = async (req, res, next): Promise<Meal[]> => {
 };
 
 export const create = async (req, res, next): Promise<Meal> => {
-  console.log(req.data);
   const mealService: MealService = new MealService();
   const meals = await mealService.save(req.body);
   return res.json(meals);
