@@ -1,5 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { Meal } from "./Meal";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  RelationId,
+  JoinColumn
+} from 'typeorm';
+import { Meal } from './Meal';
 
 @Entity()
 export class Reservation {
@@ -12,6 +19,9 @@ export class Reservation {
   @Column({ nullable: false })
   cancelled: boolean;
 
-  @ManyToOne(() => Meal, (meal) => meal.reservations)
+  @ManyToOne((type) => Meal, (meal) => meal.reservations)
   meal: Meal;
+
+  @Column({ nullable: true })
+  mealId: number;
 }

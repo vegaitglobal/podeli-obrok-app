@@ -1,7 +1,7 @@
-import { DeleteResult, Repository } from "typeorm";
-import { AppDataSource } from "../data-source";
-import { Meal } from "../entity/Meal";
-import { Reservation } from "../entity/Reservation";
+import { DeleteResult, Repository } from 'typeorm';
+import { AppDataSource } from '../data-source';
+import { Meal } from '../entity/Meal';
+import { Reservation } from '../entity/Reservation';
 
 export class ReservationService {
   private reservationRepository: Repository<Reservation> =
@@ -12,9 +12,9 @@ export class ReservationService {
   async getAll(reservedByDeviceId?: string): Promise<Reservation[]> {
     return this.reservationRepository.find({
       where: {
-        reservedByDeviceId: reservedByDeviceId,
+        reservedByDeviceId: reservedByDeviceId
       },
-      relations: ["meal"],
+      relations: ['meal']
     });
   }
 
@@ -29,7 +29,7 @@ export class ReservationService {
 
   async delete(reservationId: number): Promise<boolean> {
     const reservation = await this.reservationRepository.findOne({
-      where: { id: reservationId },
+      where: { id: reservationId }
     });
     if (!reservation) {
       return false;

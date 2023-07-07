@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Reservation } from "./Reservation";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Reservation } from './Reservation';
 
 @Entity()
 export class Meal {
@@ -39,12 +39,12 @@ export class Meal {
   @Column({ nullable: false })
   endPickupTime: Date;
 
-  @Column({ type: "decimal", nullable: false })
+  @Column({ type: 'decimal', nullable: false })
   lat: number;
 
-  @Column({ type: "decimal", nullable: false })
+  @Column({ type: 'decimal', nullable: false })
   long: number;
 
-  @OneToMany(() => Reservation, (reservation) => reservation.meal)
+  @OneToMany((type) => Reservation, (reservation) => reservation.meal)
   reservations: Reservation[];
 }

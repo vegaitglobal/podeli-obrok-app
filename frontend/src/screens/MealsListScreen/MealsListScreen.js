@@ -33,11 +33,11 @@ const Heading = styled.View`
 const MealsListScreen = ({
   route,
   meals,
-  donatedMeals,
   deviceId,
   setDonations,
   setReservations,
-  isUserDonor
+  isUserDonor,
+  isMyMeals
 }) => {
   useEffect(() => {
     getMealsByDeviceid(deviceId)
@@ -54,35 +54,33 @@ const MealsListScreen = ({
       .catch((error) => console.log(error));
   }, []);
 
-  // const isUserDonor = route?.params || donatedMeals.length > 0;
   const heading = (
     <MealText>{`${isUserDonor ? 'Moji' : 'Rezervisani'} obroci`}</MealText>
   );
 
   const handleCancelMeal = (reservationId) => {
-    // cancelReservation(reservationId);
+    cancelReservation(reservationId);
   };
 
-  const renderMeals = ({ item }) => (
-    <MealSection
-      mealName={item?.name}
-      mealDescription={item?.description}
-      pickUpStartTime={item?.startPickupTime}
-      pickUpEndTime={item?.endPickupTime}
-      donorAddress={item?.address}
-      donorPhone={item?.phone}
-      meal={item}
-      isUserDonor={isUserDonor}
-      // TODO
-      handleCancelMeal={() => handleCancelMeal(item.id)}
-    />
-  );
+  const renderMeals = ({ item }) => {
+    if (!item) {
+      return;
+    }
+    return (
+      <MealSection
+        meal={item}
+        isUserDonor={isUserDonor}
+        // TODO
+        handleCancelMeal={() => handleCancelMeal(item.id)}
+      />
+    );
+  };
 
   return meals.length > 0 ? (
     <FlatList
       showsVerticalScrollIndicator={false}
       style={{ padding: 20 }}
-      data={meals}
+      data={isMyMeals ? meals : meals.map((res) => res.meal)}
       renderItem={renderMeals}
       ListHeaderComponent={heading}
     />
@@ -96,7 +94,6 @@ const MealsListScreen = ({
 MealsListScreen.propTypes = {
   route: routePropType,
   meals: mealsListPropType,
-  donatedMeals: mealsListPropType,
   deviceId: string,
   setReservations: func,
   setDonations: func,
@@ -104,11 +101,10 @@ MealsListScreen.propTypes = {
 };
 
 const mapState = ({ donatedMeals, reservedMeals, device, sidebar }) => ({
-  // meals: donatedMeals.length > 0 ? donatedMeals : reservedMeals,
   meals: sidebar.isMyMeals ? donatedMeals : reservedMeals,
-  donatedMeals,
   deviceId: device.id,
-  isUserDonor: sidebar.isMyMeals
+  isUserDonor: sidebar.isMyMeals,
+  isMyMeals: sidebar.isMyMeals
 });
 
 const mapDispatch = (dispatch) => ({

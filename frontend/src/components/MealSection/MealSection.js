@@ -32,10 +32,9 @@ const BoldText = styled.Text`
   line-height: 18px;
 `;
 const MealSection = ({ meal, handleCancelMeal = () => {}, isUserDonor }) => {
-  const { name, description, startPickupTime, endPickupTime, address, phone } =
-    meal;
-  const pickUpStartTimeConverted = moment(startPickupTime).hour();
-  const pickUpEndTimeConverted = moment(endPickupTime).hour();
+  const pickUpStartTimeConverted = moment(meal?.startPickupTime).hour();
+  const pickUpEndTimeConverted = moment(meal?.endPickupTime).hour();
+
   return (
     <View
       style={{
@@ -45,14 +44,14 @@ const MealSection = ({ meal, handleCancelMeal = () => {}, isUserDonor }) => {
         marginBottom: 15
       }}
     >
-      <MealName>{name}</MealName>
+      <MealName>{meal?.name}</MealName>
 
       {isUserDonor ? (
-        <MealDescription>{description}</MealDescription>
+        <MealDescription>{meal?.description}</MealDescription>
       ) : (
         <View style={{ marginBottom: 10 }}>
           <Text>Adresa preuzimanja</Text>
-          <BoldText>{address}</BoldText>
+          <BoldText>{meal?.address}</BoldText>
         </View>
       )}
 
@@ -80,7 +79,7 @@ const MealSection = ({ meal, handleCancelMeal = () => {}, isUserDonor }) => {
             <Text style={{ marginBottom: 2, fontWeight: '400', color: grey }}>
               Telefon:
             </Text>
-            <BoldText>{phone}</BoldText>
+            <BoldText>{meal?.phone}</BoldText>
           </View>
         )}
       </View>
