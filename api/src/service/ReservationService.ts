@@ -12,7 +12,8 @@ export class ReservationService {
   async getAll(reservedByDeviceId?: string): Promise<Reservation[]> {
     return this.reservationRepository.find({
       where: {
-        reservedByDeviceId: reservedByDeviceId
+        reservedByDeviceId: reservedByDeviceId,
+        cancelled: false
       },
       relations: ['meal']
     });
