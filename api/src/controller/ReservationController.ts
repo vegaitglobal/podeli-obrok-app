@@ -1,7 +1,6 @@
 import { Reservation } from '../entity/Reservation';
 import { ReservationService } from '../service/ReservationService';
 import { ErrorMessage } from '../interface/Error';
-import { MealService } from '../service/MealService';
 
 export const all = async (req, res, _next): Promise<Reservation[]> => {
   const reservationService: ReservationService = new ReservationService();
@@ -35,8 +34,8 @@ export const deleteReservations = async (
   _next
 ): Promise<Reservation | ErrorMessage> => {
   const reservationService: ReservationService = new ReservationService();
-  const reservationId = req.query.reservationId?.toString();
-  const deleted = await reservationService.delete(reservationId);
+  const reservationId = req.query.reservationId;
+  const deleted = await reservationService.delete(Number(reservationId));
   if (!deleted) {
     return res.json({
       error: 'Bad request',

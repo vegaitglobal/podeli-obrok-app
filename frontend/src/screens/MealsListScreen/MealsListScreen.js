@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { string, func, bool } from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
@@ -14,8 +14,9 @@ import {
 } from '../../redux/services/reservationsService';
 import { setMealsByDeviceIdAction } from '../../redux/actions/mealActions';
 import { setReservationsByDeviceId } from '../../redux/actions/reservationActions';
+import ReservationSection from '../../components/ReservationSection/ReservationSection';
 
-const MealText = styled.Text`
+export const MealText = styled.Text`
   line-height: 27px;
   font-size: 20px;
   font-weight: 500;
@@ -36,8 +37,7 @@ const MealsListScreen = ({
   deviceId,
   setDonations,
   setReservations,
-  isUserDonor,
-  isMyMeals
+  isUserDonor
 }) => {
   useEffect(() => {
     getMealsByDeviceid(deviceId)
@@ -63,16 +63,18 @@ const MealsListScreen = ({
   };
 
   const renderMeals = ({ item }) => {
-    if (!item) {
-      return;
-    }
     return (
-      <MealSection
-        meal={item}
-        isUserDonor={isUserDonor}
-        // TODO
-        handleCancelMeal={() => handleCancelMeal(item.id)}
-      />
+      <>
+        {isUserDonor ? (
+          <MealSection meal={item} />
+        ) : (
+          <ReservationSection
+            meal={item.meal}
+            handleCancelMeal={() => handleCancelMeal(item.id)}
+            isCancelled={item.cancelled}
+          />
+        )}
+      </>
     );
   };
 
@@ -80,7 +82,7 @@ const MealsListScreen = ({
     <FlatList
       showsVerticalScrollIndicator={false}
       style={{ padding: 20 }}
-      data={isMyMeals ? meals : meals.map((res) => res.meal)}
+      data={meals}
       renderItem={renderMeals}
       ListHeaderComponent={heading}
     />
@@ -103,8 +105,7 @@ MealsListScreen.propTypes = {
 const mapState = ({ donatedMeals, reservedMeals, device, sidebar }) => ({
   meals: sidebar.isMyMeals ? donatedMeals : reservedMeals,
   deviceId: device.id,
-  isUserDonor: sidebar.isMyMeals,
-  isMyMeals: sidebar.isMyMeals
+  isUserDonor: sidebar.isMyMeals
 });
 
 const mapDispatch = (dispatch) => ({

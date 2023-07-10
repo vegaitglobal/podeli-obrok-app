@@ -1,9 +1,9 @@
 import moment from 'moment';
 import React from 'react';
 import { func } from 'prop-types';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import styled from 'styled-components/native';
-import { black, grey } from '../../constants/colors';
+import { black, grey, lightOrange } from '../../constants/colors';
 import { mealPropType } from '../../constants/propTypes/mealsPropType';
 
 const MealName = styled.Text`
@@ -14,10 +14,7 @@ const MealName = styled.Text`
   margin-bottom: 9px;
   color: ${black};
 `;
-const MealDescription = styled.Text`
-  margin-bottom: 10px;
-  font-family: 'Roboto';
-`;
+
 const PickUpTimeLabel = styled.Text`
   margin-bottom: 2px;
   color: ${grey};
@@ -31,7 +28,14 @@ const BoldText = styled.Text`
   font-size: 14px;
   line-height: 18px;
 `;
-const MealSection = ({ meal }) => {
+const ReservationSection = ({
+  meal,
+  handleCancelMeal = () => {},
+  isCancelled
+}) => {
+  if (!meal || isCancelled === true) {
+    return null;
+  }
   const pickUpStartTimeConverted = moment(meal?.startPickupTime).hour();
   const pickUpEndTimeConverted = moment(meal?.endPickupTime).hour();
 
@@ -46,7 +50,10 @@ const MealSection = ({ meal }) => {
     >
       <MealName>{meal?.name}</MealName>
 
-      <MealDescription>{meal?.description}</MealDescription>
+      <View style={{ marginBottom: 10 }}>
+        <Text>Adresa preuzimanja</Text>
+        <BoldText>{meal?.address}</BoldText>
+      </View>
 
       <View
         style={{
@@ -67,12 +74,32 @@ const MealSection = ({ meal }) => {
             <BoldText>{`${pickUpStartTimeConverted}h - ${pickUpEndTimeConverted}h`}</BoldText>
           </View>
         </View>
+        <View>
+          <Text style={{ marginBottom: 2, fontWeight: '400', color: grey }}>
+            Telefon:
+          </Text>
+          <BoldText>{meal?.phone}</BoldText>
+        </View>
       </View>
+
+      <Text
+        style={{
+          color: lightOrange,
+          textTransform: 'uppercase',
+          alignSelf: 'flex-end',
+          fontWeight: '500',
+          fontSize: 14,
+          lineHeight: 18
+        }}
+        onPress={handleCancelMeal}
+      >
+        otkaži obrok
+      </Text>
     </View>
   );
 };
-MealSection.propTypes = {
+ReservationSection.propTypes = {
   meal: mealPropType,
   handleCancelMeal: func
 };
-export default MealSection;
+export default ReservationSection;
