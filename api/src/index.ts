@@ -3,9 +3,9 @@ import * as bodyParser from "body-parser";
 import { AppDataSource } from "./data-source";
 import meal from "./routes/meal";
 import reservation from "./routes/reservation";
-import {createProxyMiddleware} from "http-proxy-middleware";
+import { createProxyMiddleware } from "http-proxy-middleware";
 import * as url from "url";
-import {Request, Response} from "express";
+import { Request, Response } from "express";
 
 AppDataSource.initialize()
   .then(async () => {
