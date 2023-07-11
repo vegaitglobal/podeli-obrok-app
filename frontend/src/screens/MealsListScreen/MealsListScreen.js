@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
-import { FlatList, View } from 'react-native';
-import { string, func, bool } from 'prop-types';
+import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import MealSection from '../../components/MealSection/MealSection';
 import { black } from '../../constants/colors';
-import { mealsListPropType } from '../../constants/propTypes/mealsPropType';
-import { routePropType } from '../../constants/propTypes/navigationPropType';
 import { getMealsByDeviceid } from '../../redux/services/mealService';
 import {
-  cancelReservation,
+  cancelReservationService,
   getReservationsByDeviceId
 } from '../../redux/services/reservationsService';
 import { setMealsByDeviceIdAction } from '../../redux/actions/mealActions';
@@ -32,7 +29,6 @@ const Heading = styled.View`
 `;
 
 const MealsListScreen = ({
-  route,
   meals,
   deviceId,
   setDonations,
@@ -58,11 +54,16 @@ const MealsListScreen = ({
     <MealText>{`${isUserDonor ? 'Moji' : 'Rezervisani'} obroci`}</MealText>
   );
 
-  const handleCancelMeal = (reservationId) => {
-    cancelReservation(reservationId);
+  const handleCancelReservation = (reservationId) => {
+    cancelReservationService(reservationId)
+      .then((response) => response.json())
+      .then((res) => {
+        setReservations(meals.filter((m) => m.id !== reservationId));
+      })
+      .catch((error) => console.log(error));
   };
 
-  const renderMeals = ({ item }) => {
+  const renderItems = ({ item }) => {
     return (
       <>
         {isUserDonor ? (
@@ -70,7 +71,7 @@ const MealsListScreen = ({
         ) : (
           <ReservationSection
             meal={item.meal}
-            handleCancelMeal={() => handleCancelMeal(item.id)}
+            handleCancelReservation={() => handleCancelReservation(item.id)}
             isCancelled={item.cancelled}
           />
         )}
@@ -83,7 +84,7 @@ const MealsListScreen = ({
       showsVerticalScrollIndicator={false}
       style={{ padding: 20 }}
       data={meals}
-      renderItem={renderMeals}
+      renderItem={renderItems}
       ListHeaderComponent={heading}
     />
   ) : (
@@ -91,15 +92,6 @@ const MealsListScreen = ({
       <MealText>Trenutno nema obroka u listi</MealText>
     </Heading>
   );
-};
-
-MealsListScreen.propTypes = {
-  route: routePropType,
-  meals: mealsListPropType,
-  deviceId: string,
-  setReservations: func,
-  setDonations: func,
-  isUserDonor: bool
 };
 
 const mapState = ({ donatedMeals, reservedMeals, device, sidebar }) => ({

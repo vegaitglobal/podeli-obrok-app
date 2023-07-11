@@ -1,10 +1,8 @@
 import moment from 'moment';
 import React from 'react';
-import { func } from 'prop-types';
 import { Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import { black, grey, lightOrange } from '../../constants/colors';
-import { mealPropType } from '../../constants/propTypes/mealsPropType';
 
 const MealName = styled.Text`
   line-height: 24px;
@@ -30,7 +28,7 @@ const BoldText = styled.Text`
 `;
 const ReservationSection = ({
   meal,
-  handleCancelMeal = () => {},
+  handleCancelReservation = () => {},
   isCancelled
 }) => {
   if (!meal || isCancelled === true) {
@@ -91,15 +89,12 @@ const ReservationSection = ({
           fontSize: 14,
           lineHeight: 18
         }}
-        onPress={handleCancelMeal}
+        onPress={handleCancelReservation}
       >
         otkaži obrok
       </Text>
     </View>
   );
 };
-ReservationSection.propTypes = {
-  meal: mealPropType,
-  handleCancelMeal: func
-};
+
 export default ReservationSection;

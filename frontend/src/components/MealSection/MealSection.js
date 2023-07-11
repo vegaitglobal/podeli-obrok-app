@@ -1,10 +1,8 @@
 import moment from 'moment';
 import React from 'react';
-import { func } from 'prop-types';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
 import { black, grey } from '../../constants/colors';
-import { mealPropType } from '../../constants/propTypes/mealsPropType';
 
 const MealName = styled.Text`
   line-height: 24px;
@@ -71,8 +69,5 @@ const MealSection = ({ meal }) => {
     </View>
   );
 };
-MealSection.propTypes = {
-  meal: mealPropType,
-  handleCancelMeal: func
-};
+
 export default MealSection;
