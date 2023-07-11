@@ -2,10 +2,10 @@ version: "3.4"
 
 services:
   web:
+    build: .
     depends_on:
       - db
       - osm-search
-    image: codeforacause/podeli-obrok:#{TAG_NUMBER}#
     container_name: podeli-obrok-api
     ports:
       - "21000:3000"
@@ -30,7 +30,7 @@ services:
     image: postgres:13.5-alpine
     container_name: podeli-obrok-db
     ports:
-      - 5432
+      - "5432:5432"
     environment:
       POSTGRES_DB: "share-meal"
       POSTGRESS_USER: "postgres"
