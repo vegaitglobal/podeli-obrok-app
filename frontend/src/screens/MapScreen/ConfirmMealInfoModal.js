@@ -49,7 +49,7 @@ const Line = styled.View`
 const MealDescription = styled.View`
   margin: 15px 21px 15px 22px;
 `;
-const AdressTitle = styled.Text`
+const AddressTitle = styled.Text`
   margin-top: 15px;
   margin-left: 22px;
   margin-right: 21px;
@@ -57,7 +57,7 @@ const AdressTitle = styled.Text`
   font-size: 16px;
   line-height: 18px;
 `;
-const AdressDescription = styled.Text`
+const AddressDescription = styled.Text`
   color: ${white};
   font-size: 14px;
   margin-top: 15px;
@@ -191,8 +191,8 @@ const ConfirmMealInfoModal = ({ isVisible, closeModal, activeMealState }) => {
               {activeMealState?.description}
             </Description>
           </MealDescription>
-          <AdressTitle> Adresa preuzimanja:</AdressTitle>
-          <AdressDescription>{activeMealState?.address}</AdressDescription>
+          <AddressTitle> Adresa preuzimanja:</AddressTitle>
+          <AddressDescription>{activeMealState?.address}</AddressDescription>
           <DeliveryContainer>
             <TimeLabel>Vreme preuzimanja:</TimeLabel>
             <Time>{`${pickupStartTime}h - ${pickupEndTime}h`}</Time>

@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { setSidebarPosition } from '../../redux/actions/sidebarMenuAction';
 import { useHeaderHeight } from '@react-navigation/elements';
+import * as RootNavigation from "../../navigation/RootNavigation";
+import {screens} from "../../constants/screens";
 
 const ButtonContainer = styled.View`
   margin-bottom: 43px;
@@ -21,7 +23,7 @@ const DonorFormScreen = ({ deviceId, setSidebarPosition }) => {
   const initialState = {
     mealName: '',
     additionalComment: '',
-    adress: '',
+    address: '',
     pickUpStartTime: '',
     pickUpEndTime: '',
     phone: '',
@@ -61,7 +63,7 @@ const DonorFormScreen = ({ deviceId, setSidebarPosition }) => {
       createdByDeviceId: deviceId,
       name: newForm.mealName,
       description: newForm.additionalComment,
-      address: newForm.adress,
+      address: newForm.address,
       phone: newForm.phone,
       smsOnly: onlyWithMessage,
       daysToExpiry: +newForm.expirationDays,
@@ -77,7 +79,11 @@ const DonorFormScreen = ({ deviceId, setSidebarPosition }) => {
       lat: 45.2599285,
       long: 19.8312298,
     };
-    createMeal(payload);
+    createMeal(payload)
+      .then(() => {
+        RootNavigation.navigate(screens.createdMeal);
+      })
+      .catch((error) => console.log('error: ', error));
   };
 
   return (
@@ -110,9 +116,9 @@ const DonorFormScreen = ({ deviceId, setSidebarPosition }) => {
         <CustomTextInput
           label="Adresa preuzimanja"
           placeholder="Adresa"
-          value={newForm.adress}
+          value={newForm.address}
           onChange={onChange}
-          name={'adress'}
+          name={'address'}
           containerStyle={{ marginBottom: 30 }}
         />
         <View

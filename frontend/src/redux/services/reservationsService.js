@@ -1,4 +1,4 @@
-import { baseURL } from './mealService';
+const baseURL = process.env.API_BASE_URL;
 
 export const getReservationsByDeviceId = async (deviceId) => {
   return fetch(`${baseURL}/reservations?reservedByDeviceId=${deviceId}`);

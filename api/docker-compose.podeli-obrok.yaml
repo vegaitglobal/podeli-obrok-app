@@ -2,7 +2,10 @@ version: "3.4"
 
 services:
   web:
-    image: codeforacause/podeli-obrok:#{TAG_NUMBER}#
+    build: .
+    depends_on:
+      - db
+      - osm-search
     container_name: podeli-obrok-api
     ports:
       - "21000:3000"
@@ -13,13 +16,21 @@ services:
       DATABASE_HOST: "db"
       APP_PORT: "3000"
       APP_NAME: "share-meal"
+      OSM_SEARCH_API: "osm-search"
     restart: always
+
+  osm-search:
+    image: mediagis/nominatim:4.2
+    container_name: osm-search-api
+    environment:
+      PBF_URL: "https://download.geofabrik.de/europe/serbia-latest.osm.pbf"
+      REPLICATION_URL: "https://download.geofabrik.de/europe/serbia-updates"
 
   db:
     image: postgres:13.5-alpine
     container_name: podeli-obrok-db
     ports:
-      - 5432
+      - "5432:5432"
     environment:
       POSTGRES_DB: "share-meal"
       POSTGRESS_USER: "postgres"

@@ -1,7 +1,4 @@
-import { screens } from '../../constants/screens';
-import * as RootNavigation from '../../navigation/RootNavigation';
-
-export const baseURL = 'http://10.0.2.2:3002';
+const baseURL = process.env.API_BASE_URL;
 
 // get available meals
 export const getAllMeals = () => {
@@ -37,9 +34,5 @@ export const createMeal = async (meal) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(meal)
-  })
-    .then(() => {
-      RootNavigation.navigate(screens.createdMeal);
-    })
-    .catch((error) => console.log('error: ', error));
+  });
 };

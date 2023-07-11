@@ -1,4 +1,4 @@
-import { DeleteResult, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AppDataSource } from '../data-source';
 import { Meal } from '../entity/Meal';
 import { Reservation } from '../entity/Reservation';
