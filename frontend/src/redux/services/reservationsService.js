@@ -4,13 +4,6 @@ export const getReservationsByDeviceId = async (deviceId) => {
   return fetch(`${baseURL}/reservations?reservedByDeviceId=${deviceId}`);
 };
 
-// payload example for createReservationForMeal
-// {
-//     "reservedByDeviceId": "69",
-//     "cancelled": false,
-//     "mealId": 1
-// }
-
 export const createReservationForMeal = async (reservation) => {
   return fetch(`${baseURL}/reservations`, {
     method: 'POST',
@@ -22,7 +15,7 @@ export const createReservationForMeal = async (reservation) => {
   });
 };
 
-export const cancelReservation = async (reservationId) => {
+export const cancelReservationService = async (reservationId) => {
   return fetch(`${baseURL}/reservations?reservationId=${reservationId}`, {
     method: 'DELETE'
   });

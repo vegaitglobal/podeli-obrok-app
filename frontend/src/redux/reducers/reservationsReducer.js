@@ -1,6 +1,6 @@
 import { SET_RESERVATIONS_BY_DEVICE_ID } from '../actions/reservationActions';
 
-const initialState = null;
+const initialState = [];
 
 const reservationReducer = (state = initialState, action) => {
   switch (action.type) {

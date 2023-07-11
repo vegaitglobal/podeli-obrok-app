@@ -131,19 +131,7 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
               key={index}
               coordinate={{ latitude: +meal.lat, longitude: +meal.long }}
             >
-              <MapPin source={MapMarker} resizeMode='contain'>
-                {/* <Text
-                  style={{
-                    position: 'absolute',
-                    top: 18,
-                    left: 14,
-                    fontSize: 12,
-                    color: 'white'
-                  }}
-                >
-                  {duplicatedItems(meals).length}x
-                </Text> */}
-              </MapPin>
+              <MapPin source={MapMarker} resizeMode='contain'></MapPin>
             </Marker>
           );
         })}
