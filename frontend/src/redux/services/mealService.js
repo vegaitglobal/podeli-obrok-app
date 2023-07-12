@@ -1,13 +1,13 @@
-const baseURL = process.env.API_BASE_URL;
+import { API_BASE_URL } from '@env';
 
 // get available meals
 export const getAllMeals = () => {
-  return fetch(`${baseURL}/meals`);
+  return fetch(`${API_BASE_URL}/meals`);
 };
 
 // get donated meals for a user
 export const getMealsByDeviceid = async (deviceId) => {
-  return fetch(`${baseURL}/meals?createdByDeviceId=${deviceId}`);
+  return fetch(`${API_BASE_URL}/meals?createdByDeviceId=${deviceId}`);
 };
 
 // payload for create meal:
@@ -27,7 +27,7 @@ export const getMealsByDeviceid = async (deviceId) => {
 //   "long": -56.656
 // }
 export const createMeal = async (meal) => {
-  return fetch(`${baseURL}/meals`, {
+  return fetch(`${API_BASE_URL}/meals`, {
     method: 'POST',
     headers: {
       Accept: 'application/json; charset=utf-8',

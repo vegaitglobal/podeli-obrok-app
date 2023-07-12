@@ -1,11 +1,11 @@
-const baseURL = process.env.API_BASE_URL;
+import { API_BASE_URL } from '@env';
 
 export const getReservationsByDeviceId = async (deviceId) => {
-  return fetch(`${baseURL}/reservations?reservedByDeviceId=${deviceId}`);
+  return fetch(`${API_BASE_URL}/reservations?reservedByDeviceId=${deviceId}`);
 };
 
 export const createReservationForMeal = async (reservation) => {
-  return fetch(`${baseURL}/reservations`, {
+  return fetch(`${API_BASE_URL}/reservations`, {
     method: 'POST',
     headers: {
       Accept: 'application/json; charset=utf-8',
@@ -16,7 +16,7 @@ export const createReservationForMeal = async (reservation) => {
 };
 
 export const cancelReservationService = async (reservationId) => {
-  return fetch(`${baseURL}/reservations?reservationId=${reservationId}`, {
+  return fetch(`${API_BASE_URL}/reservations?reservationId=${reservationId}`, {
     method: 'DELETE'
   });
 };

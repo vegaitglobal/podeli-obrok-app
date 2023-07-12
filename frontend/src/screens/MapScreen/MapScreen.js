@@ -63,6 +63,9 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
       .then((response) => response.json())
       .then((res) => {
         setMeals(res);
+      })
+      .catch((error) => {
+        console.log('FATCHING ALL MEAL ERROR', error);
       });
     setSidebarPosition(HEADER_HEIGHT.toFixed(2));
   }, []);
