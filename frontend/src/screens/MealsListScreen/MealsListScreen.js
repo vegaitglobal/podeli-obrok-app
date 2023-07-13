@@ -41,13 +41,15 @@ const MealsListScreen = ({
       .then((res) => {
         setDonations(res);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log('[ERROR]: get meals by device id', error));
     getReservationsByDeviceId(deviceId)
       .then((response) => response.json())
       .then((res) => {
         setReservations(res);
       })
-      .catch((error) => console.log(error));
+      .catch((error) =>
+        console.log('[ERROR]: get reservations by device id', error)
+      );
   }, []);
 
   const heading = (
@@ -60,7 +62,9 @@ const MealsListScreen = ({
       .then((res) => {
         setReservations(meals.filter((m) => m.id !== reservationId));
       })
-      .catch((error) => console.log(error));
+      .catch((error) =>
+        console.log('[ERROR]: cancel reservations by device id', error)
+      );
   };
 
   const renderItems = ({ item }) => {
@@ -79,7 +83,7 @@ const MealsListScreen = ({
     );
   };
 
-  return meals.length > 0 ? (
+  return meals?.length > 0 ? (
     <FlatList
       showsVerticalScrollIndicator={false}
       style={{ padding: 20 }}

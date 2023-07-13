@@ -58,8 +58,8 @@ const ButtonWraper = styled.View`
 const CreatedMealScreen = ({ navigation, deviceId, setDonatedMeals }) => {
   return (
     <ViewWraper>
-      <DasheCircleImage source={dashedCircle} resizeMode="contain" />
-      <CheckMarkImage source={checkMark} resizeMode="contain" />
+      <DasheCircleImage source={dashedCircle} resizeMode='contain' />
+      <CheckMarkImage source={checkMark} resizeMode='contain' />
       <StyledParagraph>
         Informacije o obroku koji želite da podelite su uspešno poslate.
       </StyledParagraph>
@@ -76,7 +76,9 @@ const CreatedMealScreen = ({ navigation, deviceId, setDonatedMeals }) => {
                 setDonatedMeals(res);
                 navigation.navigate(screens.mealsList, { isUserDonor: true });
               })
-              .catch((error) => console.log(error));
+              .catch((error) =>
+                console.log('[ERROR]: get meals by device id', error)
+              );
           }}
         >
           <ButtonContent>Moji obroci</ButtonContent>
@@ -89,15 +91,15 @@ const CreatedMealScreen = ({ navigation, deviceId, setDonatedMeals }) => {
 CreatedMealScreen.propTypes = {
   navigation: navigationPropType,
   setDonatedMeals: func,
-  deviceId: string,
+  deviceId: string
 };
 
 const mapState = ({ device }) => ({
-  deviceId: device.id,
+  deviceId: device.id
 });
 
 const mapDispatch = (dispatch) => ({
-  setDonatedMeals: (meals) => dispatch(setMealsByDeviceIdAction(meals)),
+  setDonatedMeals: (meals) => dispatch(setMealsByDeviceIdAction(meals))
 });
 
 export default connect(mapState, mapDispatch)(CreatedMealScreen);

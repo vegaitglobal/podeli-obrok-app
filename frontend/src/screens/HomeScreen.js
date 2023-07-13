@@ -14,6 +14,7 @@ import { setReservationsByDeviceId } from '../redux/actions/reservationActions';
 import { setMealsByDeviceIdAction } from '../redux/actions/mealActions';
 import { getMealsByDeviceid } from '../redux/services/mealService';
 import { setMyMealsActiveAction } from '../redux/actions/sidebarMenuAction';
+import Config from 'react-native-config';
 
 const HomeContainer = styled.View`
   margin: 70px 16px 51px 16px;
@@ -44,18 +45,20 @@ const HomeScreen = ({
   setDonations,
   setIsMyMeals
 }) => {
-  useEffect(() => {
-    getMealsByDeviceid(deviceId)
-      .then((response) => response.json())
-      .then((res) => {
-        setDonations(res);
-      })
-      .catch((error) => console.log(error));
-    getReservationsByDeviceId(deviceId)
-      .then((response) => response.json())
-      .then((res) => setReservations(res))
-      .catch((error) => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   getMealsByDeviceid(deviceId)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       setDonations(res);
+  //     })
+  //     .catch((error) => console.log('[ERROR]: get meals by device id', error));
+  //   getReservationsByDeviceId(deviceId)
+  //     .then((response) => response.json())
+  //     .then((res) => setReservations(res))
+  //     .catch((error) =>
+  //       console.log('[ERROR]: get reservations by device id', error)
+  //     );
+  // }, []);
 
   const handleShareMeal = () => {
     setIsMyMeals(true);

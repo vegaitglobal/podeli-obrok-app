@@ -1,11 +1,13 @@
-import { API_BASE_URL } from '@env';
+import Config from 'react-native-config';
+
+const baseUrl = Config.API_BASE_URL;
 
 export const getReservationsByDeviceId = async (deviceId) => {
-  return fetch(`${API_BASE_URL}/reservations?reservedByDeviceId=${deviceId}`);
+  return fetch(`${baseUrl}/reservations?reservedByDeviceId=${deviceId}`);
 };
 
 export const createReservationForMeal = async (reservation) => {
-  return fetch(`${API_BASE_URL}/reservations`, {
+  return fetch(`${baseUrl}/reservations`, {
     method: 'POST',
     headers: {
       Accept: 'application/json; charset=utf-8',
@@ -16,7 +18,7 @@ export const createReservationForMeal = async (reservation) => {
 };
 
 export const cancelReservationService = async (reservationId) => {
-  return fetch(`${API_BASE_URL}/reservations?reservationId=${reservationId}`, {
+  return fetch(`${baseUrl}/reservations?reservationId=${reservationId}`, {
     method: 'DELETE'
   });
 };
