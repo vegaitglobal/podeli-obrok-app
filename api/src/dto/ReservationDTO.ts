@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsBoolean, IsNumber } from "class-validator";
+import { IsString, IsNotEmpty, IsBoolean, IsNumber } from 'class-validator';
 export class ReservationDTO {
   @IsString()
   @IsNotEmpty()
