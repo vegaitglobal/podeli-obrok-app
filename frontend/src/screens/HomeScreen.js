@@ -15,6 +15,7 @@ import { setMealsByDeviceIdAction } from '../redux/actions/mealActions';
 import { getMealsByDeviceid } from '../redux/services/mealService';
 import { setMyMealsActiveAction } from '../redux/actions/sidebarMenuAction';
 import Config from 'react-native-config';
+import { ScrollView } from 'react-native';
 
 const HomeContainer = styled.View`
   margin: 70px 16px 51px 16px;
@@ -71,28 +72,30 @@ const HomeScreen = ({
   };
 
   return (
-    <HomeContainer>
-      <Image resizeMode='contain' source={AppLogo} />
-      <BlackLogoImage resizeMode='contain' source={BlackLogo} />
-      <Description>
-        <Paragraph>
-          Aplikacija omogućava onima koji žele da podele hranu sa nekim, umesto
-          da je bace, da to lakše urade. U par klikova, obrok koji želite da
-          podelite sa nekim naći će se na Gugl mapi i postaće vidljiv svima
-          kojima taj obrok treba.
-        </Paragraph>
-      </Description>
-      <Button
-        onPress={handleShareMeal}
-        backgroundColor={darkOrange}
-        content='Podeli obrok'
-      />
-      <Button
-        onPress={handleTakeMeal}
-        backgroundColor={lightOrange}
-        content='Preuzmi obrok'
-      />
-    </HomeContainer>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <HomeContainer>
+        <Image resizeMode='contain' source={AppLogo} />
+        <BlackLogoImage resizeMode='contain' source={BlackLogo} />
+        <Description>
+          <Paragraph>
+            Aplikacija omogućava onima koji žele da podele hranu sa nekim,
+            umesto da je bace, da to lakše urade. U par klikova, obrok koji
+            želite da podelite sa nekim naći će se na Gugl mapi i postaće
+            vidljiv svima kojima taj obrok treba.
+          </Paragraph>
+        </Description>
+        <Button
+          onPress={handleShareMeal}
+          backgroundColor={darkOrange}
+          content='Podeli obrok'
+        />
+        <Button
+          onPress={handleTakeMeal}
+          backgroundColor={lightOrange}
+          content='Preuzmi obrok'
+        />
+      </HomeContainer>
+    </ScrollView>
   );
 };
 
