@@ -114,10 +114,6 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
     setActiveMealState([meal]);
   };
 
-  console.log('====================================');
-  console.log('meals', meals);
-  console.log('====================================');
-
   return (
     <MapContainer>
       <MapView
