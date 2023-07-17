@@ -6,8 +6,8 @@ import {
   ValidateIf,
   IsInt,
   IsNumber,
-  IsBoolean,
-} from "class-validator";
+  IsBoolean
+} from 'class-validator';
 export class MealDTO {
   @IsString()
   @IsNotEmpty()
@@ -44,12 +44,12 @@ export class MealDTO {
   @ValidateIf((o) => o.endPickupTime > o.startPickupTime)
   endPickupTime: Date;
 
-  @IsNumber({ maxDecimalPlaces: 10 })
+  @IsNumber()
   @Min(-90)
   @Max(90)
   lat: number;
 
-  @IsNumber({ maxDecimalPlaces: 10 })
+  @IsNumber()
   @Min(-180)
   @Max(180)
   long: number;

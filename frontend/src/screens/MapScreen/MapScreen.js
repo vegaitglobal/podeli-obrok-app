@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { LogBox, StyleSheet, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import styled from 'styled-components/native';
 import { grey } from '../../constants/colors';
@@ -63,6 +63,9 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
       .then((response) => response.json())
       .then((res) => {
         setMeals(res);
+      })
+      .catch((error) => {
+        console.log('FETCHING ALL MEAL ERROR', error);
       });
     setSidebarPosition(HEADER_HEIGHT.toFixed(2));
   }, []);
