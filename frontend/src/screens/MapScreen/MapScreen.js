@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import styled from 'styled-components/native';
-import { grey } from '../../constants/colors';
+import { black, grey } from '../../constants/colors';
 import { ZoomContent } from '../../constants/textStyles';
 import ConfirmMealInfoModal from './ConfirmMealInfoModal';
 import MapMarker from '../../images/mapPin.png';
@@ -46,6 +46,12 @@ const ZoomButton = styled.TouchableOpacity`
   margin-top: 20px;
 `;
 
+const NumberOfMeals = styled.Text`
+  color: black;
+  margin-top: -7px;
+  margin-left: 30px;
+`;
+
 const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 45.25167,
@@ -57,6 +63,7 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [activeMealState, setActiveMealState] = useState(null);
   const HEADER_HEIGHT = useHeaderHeight();
+  const mealCountMap = {};
 
   useEffect(() => {
     getAllMeals()
@@ -128,13 +135,19 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
         }}
       >
         {meals?.map((meal, index) => {
+          const locationKey = `${meal.lat}-${meal.long}`;
+          mealCountMap[locationKey] = (mealCountMap[locationKey] || 0) + 1;
           return (
             <Marker
               onPress={() => onPressMarker(meal)}
               key={index}
               coordinate={{ latitude: +meal.lat, longitude: +meal.long }}
             >
-              <MapPin source={MapMarker} resizeMode='contain'></MapPin>
+              <MapPin source={MapMarker} resizeMode='contain'>
+                {mealCountMap[locationKey] > 1 && (
+                  <NumberOfMeals>{mealCountMap[locationKey]}x</NumberOfMeals>
+                )}
+              </MapPin>
             </Marker>
           );
         })}
