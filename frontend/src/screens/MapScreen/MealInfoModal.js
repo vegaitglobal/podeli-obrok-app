@@ -114,6 +114,7 @@ const MealInfoModal = ({
           loop={false}
           dot={<View style={styles.swiperDot} />}
           activeDot={<View style={styles.activeDot} />}
+          index={0}
         >
           {renderModals}
         </Swiper>
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 50,
-    borderColor: 'white',
+    borderColor: white,
     borderWidth: 1,
     marginRight: 5
   },
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 50,
-    backgroundColor: 'white',
+    backgroundColor: white,
     marginRight: 5
   },
   modalContainer: {
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   mealName: {
-    color: 'white',
+    color: white,
     fontWeight: '500',
     fontSize: 24,
     lineHeight: 28
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     height: 30
   },
   mealDesc: {
-    color: 'white',
+    color: white,
     fontSize: 14,
     lineHeight: 18,
     marginBottom: 10
@@ -186,7 +187,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   boldText: {
-    color: 'white',
+    color: white,
     fontWeight: 'bold'
   },
   mealExpirationContainer: {
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
     marginTop: 15
   },
   mealExpirationTitle: {
-    color: 'white',
+    color: white,
     fontSize: 14,
     lineHeight: 18,
     marginBottom: 10
@@ -207,12 +208,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   expirationDaysNumber: {
-    color: 'white',
+    color: white,
     fontSize: 30,
     fontWeight: 'bold'
   },
   expirationDaysText: {
-    color: 'white',
+    color: white,
     lineHeight: 18,
     marginBottom: 10,
     fontWeight: '600'
@@ -223,14 +224,14 @@ const styles = StyleSheet.create({
   horizontalLine: {
     width: '100%',
     height: 1,
-    backgroundColor: 'white',
+    backgroundColor: white,
     marginTop: 20
   },
   mainButton: {
     textAlign: 'center',
     textTransform: 'uppercase',
     paddingVertical: 15,
-    color: 'white',
+    color: white,
     fontWeight: '600'
   }
 });

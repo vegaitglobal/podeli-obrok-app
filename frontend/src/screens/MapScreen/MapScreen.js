@@ -117,8 +117,11 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
   };
 
   const onPressMarker = (meal) => {
+    const mealsAtLocation = meals.filter(
+      (m) => m.lat === meal.lat && m.long === meal.long
+    );
     setShowMealModal(true);
-    setActiveMealState([meal]);
+    setActiveMealState(mealsAtLocation);
   };
 
   return (
@@ -137,6 +140,7 @@ const MapScreen = ({ meals, setMeals, setSidebarPosition, deviceId }) => {
         {meals?.map((meal, index) => {
           const locationKey = `${meal.lat}-${meal.long}`;
           mealCountMap[locationKey] = (mealCountMap[locationKey] || 0) + 1;
+
           return (
             <Marker
               onPress={() => onPressMarker(meal)}
