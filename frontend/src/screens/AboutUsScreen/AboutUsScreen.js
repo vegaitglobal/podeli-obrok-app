@@ -2,10 +2,11 @@ import React from 'react';
 import {
   Text,
   View,
-  Image,
-  StyleSheet,
   Linking,
   Pressable,
+  ScrollView,
+  StyleSheet,
+  Image
 } from 'react-native';
 import styled from 'styled-components';
 import { Paragraph } from '../../constants/textStyles';
@@ -14,74 +15,36 @@ import { black, lightOrange } from '../../constants/colors';
 import facebook from '../../images/facebook.png';
 import instagram from '../../images/instagram.png';
 
-const ViewWraper = styled(View)`
-  padding-top: 30px;
-  padding-left: 24px;
-  padding-right: 32px;
-`;
-
-const Title = styled(Text)`
-  margin-bottom: 13px;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 27px;
-`;
-
-const LogoImage = styled.Image`
-  width: 150px;
-  height: 70px;
-  align-self: center;
-  margin: 20px 20px;
-`;
-
-const FacebookImage = styled.Image`
-  width: 30px;
-  height: 30px;
-  align-self: center;
-  margin-right: 10px;
-`;
-
-const InstagramImage = styled.Image`
-  width: 30px;
-  height: 30px;
-  align-self: center;
-`;
-
 const StyledParagraph = styled(Paragraph)`
   text-align: left;
 `;
 
-const SocialParagraph = styled(Text)`
-  font-weight: 500;
-  font-type: 'Roboto';
-  color: ${black};
-  margin-top: 15px;
-`;
-
-const SocialIcons = styled(View)`
-  flex-direction: row;
-  margin-top: 16px;
-`;
-
-const ReadMore = styled(Text)`
-  color: ${lightOrange};
-  text-decoration-line: underline;
-  text-align: center;
-  text-transform: uppercase;
-  margin-top: 30px;
-`;
-
 const AboutUsScreen = () => {
+  const onPressFacebook = () => {
+    Linking.openURL('https://www.facebook.com/NSHCentar');
+  };
+
+  const onPressInstagram = () => {
+    Linking.openURL('https://www.instagram.com/nshcentar/');
+  };
+
+  const onPressReadMore = () => {
+    Linking.openURL('http://nshc.org.rs');
+  };
+
   return (
-    <ViewWraper>
-      <Title>O nama</Title>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}
+    >
+      <Text style={styles.title}>O nama</Text>
       <StyledParagraph>
         Novosadski humanitarni centar (NSHC) je neprofitna i dobrotvorna
         organizacija koja od 1998. doprinosi stvaranju humanog društva kroz
         pružanje podrške ugroženom stanovništvu, podsticanje aktivizma građana,
         istraživački rad i obrazovanje.
       </StyledParagraph>
-      <LogoImage source={NshcLogo} resizeMode='contain' />
+      <Image source={NshcLogo} resizeMode='contain' style={styles.logo} />
       <StyledParagraph style={{ marginBottom: 15 }}>
         NSHC pomaže posebno osetljivim grupama: siromašnima, samohranim
         roditeljima, starijim osobama, deci i mladima, i drugim.
@@ -92,26 +55,66 @@ const AboutUsScreen = () => {
         bilo da se radi o jednom obroku ili većoj količini namirnica, sa onima
         kojima će ta hrana dobro doći.
       </StyledParagraph>
-      <SocialParagraph>Pratite nas na društvenim mrežama</SocialParagraph>
-      <SocialIcons>
-        <Pressable
-          onPress={() => Linking.openURL('https://www.facebook.com/NSHCentar')}
-        >
-          <FacebookImage source={facebook} resizeMode='contain' />
+      <Text style={styles.socialsParagraph}>
+        Pratite nas na društvenim mrežama
+      </Text>
+      <View style={styles.socialIconsContainer}>
+        <Pressable onPress={onPressFacebook}>
+          <Image source={facebook} style={styles.socialImage} />
         </Pressable>
-        <Pressable
-          onPress={() =>
-            Linking.openURL('https://www.instagram.com/nshcentar/')
-          }
-        >
-          <InstagramImage source={instagram} resizeMode='contain' />
+        <Pressable onPress={onPressInstagram}>
+          <Image source={instagram} style={styles.socialImage} />
         </Pressable>
-      </SocialIcons>
-      <ReadMore onPress={() => Linking.openURL('http://nshc.org.rs')}>
-        procitaj vise
-      </ReadMore>
-    </ViewWraper>
+      </View>
+      <Text style={styles.readMore} onPress={onPressReadMore}>
+        pročitaj više
+      </Text>
+    </ScrollView>
   );
 };
 
 export default AboutUsScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 30,
+    paddingLeft: 24,
+    paddingRight: 32,
+    paddingBottom: 40
+  },
+  title: {
+    marginBottom: 13,
+    fontSize: 20,
+    fontWeight: '500',
+    lineHeight: 27
+  },
+  logo: {
+    width: 150,
+    height: 70,
+    alignSelf: 'center',
+    marginVertical: 20
+  },
+  socialsParagraph: {
+    fontWeight: '500',
+    fontFamily: 'Roboto',
+    color: black,
+    marginTop: 15
+  },
+  socialIconsContainer: {
+    flexDirection: 'row',
+    marginTop: 16,
+    justifyContent: 'space-between',
+    width: '25%'
+  },
+  socialImage: {
+    width: 30,
+    height: 30
+  },
+  readMore: {
+    color: lightOrange,
+    textAlign: 'center',
+    marginTop: 30,
+    textDecorationLine: 'underline',
+    textTransform: 'uppercase'
+  }
+});
