@@ -1,15 +1,9 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, ScrollView, StyleSheet } from 'react-native';
 import styled from 'styled-components';
 import { lightOrange } from '../../constants/colors';
 import { Paragraph } from '../../constants/textStyles';
 import AppIcon from '../../images/AppIcon.png';
-
-const ViewWraper = styled(View)`
-  padding-top: 30px;
-  padding-left: 24px;
-  padding-right: 32px;
-`;
 
 const Title = styled(Text)`
   margin-bottom: 13px;
@@ -39,7 +33,10 @@ const Name = styled(Text)`
 
 const AuthorWordScreen = () => {
   return (
-    <ViewWraper>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}
+    >
       <Title>Reč autora</Title>
       <StyledParagraph>
         U vremenu blještavila, površnosti, novca, nezahvalnosti, samohvalisanja,
@@ -54,8 +51,17 @@ const AuthorWordScreen = () => {
       <Text style={{ color: lightOrange }}>
         master inženjer elektrotehnike i računarstva
       </Text>
-    </ViewWraper>
+    </ScrollView>
   );
 };
 
 export default AuthorWordScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 30,
+    paddingLeft: 24,
+    paddingRight: 32,
+    paddingBottom: 32
+  }
+});

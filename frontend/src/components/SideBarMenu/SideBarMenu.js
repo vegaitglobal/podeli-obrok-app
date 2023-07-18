@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Platform, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { func, string, bool } from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
@@ -14,7 +14,8 @@ const SidebarContainer = styled.Text`
   width: 200px;
   height: 100%;
   right: 0px;
-  top: ${({ topPosition }) => topPosition || 0}px;
+  top: ${({ topPosition }) =>
+    Platform.OS === 'ios' ? topPosition - 10 : topPosition || 0}px;
   background: ${lightOrange};
 `;
 export const ButtonContent = styled(Paragraph)`

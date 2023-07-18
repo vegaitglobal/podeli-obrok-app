@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import MealSection from '../../components/MealSection/MealSection';
@@ -86,7 +86,7 @@ const MealsListScreen = ({
   return meals?.length > 0 ? (
     <FlatList
       showsVerticalScrollIndicator={false}
-      style={{ padding: 20 }}
+      style={styles.container}
       data={meals}
       renderItem={renderItems}
       ListHeaderComponent={heading}
@@ -110,3 +110,7 @@ const mapDispatch = (dispatch) => ({
 });
 
 export default connect(mapState, mapDispatch)(MealsListScreen);
+
+const styles = StyleSheet.create({
+  container: { padding: 20, marginBottom: 30 }
+});
