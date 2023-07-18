@@ -1,15 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { View, Text, Linking } from 'react-native';
+import { View, Text, Linking, ScrollView, StyleSheet } from 'react-native';
 import { Paragraph } from '../../constants/textStyles';
 import { lightOrange } from '../../constants/colors';
 import Heart from '../../images/heart.png';
-
-const ViewWraper = styled(View)`
-  padding-top: 30px;
-  padding-left: 24px;
-  padding-right: 32px;
-`;
 
 const Title = styled(Text)`
   margin-bottom: 13px;
@@ -53,7 +47,10 @@ const HeartImage = styled.Image`
 
 const DonationsScreen = () => {
   return (
-    <ViewWraper>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
       <Title>Donacija</Title>
       <StyledParagraph>
         Svaka podrška je dobrodošla, bez obzira da li je mala ili velika!
@@ -79,8 +76,17 @@ const DonationsScreen = () => {
         <Thanks>Hvala!</Thanks>
         <HeartImage source={Heart} resizeMode='contain' />
       </ThanksWraper>
-    </ViewWraper>
+    </ScrollView>
   );
 };
 
 export default DonationsScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 30,
+    paddingLeft: 24,
+    paddingRight: 32,
+    paddingBottom: 32
+  }
+});
