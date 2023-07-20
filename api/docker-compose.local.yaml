@@ -18,24 +18,33 @@ services:
       APP_NAME: "share-meal"
       OSM_SEARCH_API: "osm-search"
     restart: always
+    networks:
+      - osm-network
 
   osm-search:
-    image: mediagis/nominatim:4.1
+    image: mediagis/nominatim:4.0
     container_name: osm-search-api
-    depends_on:
-      - db
     environment:
       PBF_URL: "https://download.geofabrik.de/europe/serbia-latest.osm.pbf"
       REPLICATION_URL: "https://download.geofabrik.de/europe/serbia-updates"
-      NOMINATIM_DATABASE_DSN: "pgsql:dbname=nominatim;hostaddr=db;user=postgres;password=postgres"
+      POSTGRES_SHARED_BUFFERS: 256MB
+    volumes:
+      - ./volumes/nominatim:/var/lib/postgresql/14/main
+    networks:
+      - osm-network
   db:
     image: postgres:13.5-alpine
     container_name: podeli-obrok-db
     environment:
       POSTGRES_DB: "share-meal"
-      POSTGRESS_USER: "postgres"
+      POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_HOST_AUTH_METHOD: "trust"
-    volumes: 
+    volumes:
       - ./volumes/db:/var/lib/postgresql/data
     restart: always
+    networks:
+      - osm-network
+
+networks:
+    osm-network:
