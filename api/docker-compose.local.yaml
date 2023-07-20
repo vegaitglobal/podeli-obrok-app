@@ -20,7 +20,7 @@ services:
     restart: always
 
   osm-search:
-    image: mediagis/nominatim:4.2
+    image: mediagis/nominatim:4.2.3
     container_name: osm-search-api
     environment:
       PBF_URL: "https://download.geofabrik.de/europe/serbia-latest.osm.pbf"
