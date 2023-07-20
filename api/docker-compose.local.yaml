@@ -14,6 +14,7 @@ services:
       DATABASE_USERNAME: "postgres"
       DATABASE_PASSWORD: "postgres"
       DATABASE_HOST: "db"
+      DATABASE_PORT: "15432"
       APP_PORT: "3000"
       APP_NAME: "share-meal"
       OSM_SEARCH_API: "osm-search"
@@ -27,28 +28,30 @@ services:
     environment:
       PBF_URL: "https://download.geofabrik.de/europe/serbia-latest.osm.pbf"
       REPLICATION_URL: "https://download.geofabrik.de/europe/serbia-updates"
-      NOMINATIM_DATABASE_DSN: "pgsql:dbname=nominatim:15432;hostaddr=db-nominatim;user=postgres;password=postgres"
+      NOMINATIM_DATABASE_DSN: "pgsql:dbname=nominatim;hostaddr=db-nominatim;user=postgres;password=postgres"
   db:
     image: postgres:13.5-alpine
     container_name: podeli-obrok-db
     ports:
-      - "5432:5432"
+      - "15432:5432"
     environment:
       POSTGRES_DB: "share-meal"
       POSTGRESS_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_HOST_AUTH_METHOD: "trust"
-    volumes:
-      - ".:/app:rw"
+    volumes: 
+      - ./volumes/share-meal:/var/lib/postgresql/data
     restart: always
   db-nominatim:
     image: postgres:13.5-alpine
     container_name: nominatim-db
     ports:
-      - "15432:5432"
+      - "5432:5432"
     environment:
       POSTGRES_DB: "nominatim"
       POSTGRESS_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_HOST_AUTH_METHOD: "trust"
+    volumes: 
+      - ./volumes/nominatim:/var/lib/postgresql/data
     restart: always
