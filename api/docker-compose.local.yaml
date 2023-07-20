@@ -43,7 +43,7 @@ services:
     restart: always
   db-nominatim:
     image: postgres:13.5-alpine
-    container_name: podeli-obrok-db
+    container_name: nominatim-db
     ports:
       - "5432:5432"
     environment:
