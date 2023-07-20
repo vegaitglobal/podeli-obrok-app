@@ -24,34 +24,19 @@ services:
     image: mediagis/nominatim:4.1
     container_name: osm-search-api
     depends_on:
-      - db-nominatim
+      - db
     environment:
       PBF_URL: "https://download.geofabrik.de/europe/serbia-latest.osm.pbf"
       REPLICATION_URL: "https://download.geofabrik.de/europe/serbia-updates"
-      NOMINATIM_DATABASE_DSN: "pgsql:dbname=nominatim;hostaddr=db-nominatim;user=postgres;password=postgres"
+      NOMINATIM_DATABASE_DSN: "pgsql:dbname=nominatim;hostaddr=db;user=postgres;password=postgres"
   db:
     image: postgres:13.5-alpine
     container_name: podeli-obrok-db
-    ports:
-      - "15432:5432"
     environment:
       POSTGRES_DB: "share-meal"
       POSTGRESS_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_HOST_AUTH_METHOD: "trust"
     volumes: 
-      - ./volumes/share-meal:/var/lib/postgresql/data
-    restart: always
-  db-nominatim:
-    image: postgres:13.5-alpine
-    container_name: nominatim-db
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: "nominatim"
-      POSTGRESS_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-      POSTGRES_HOST_AUTH_METHOD: "trust"
-    volumes: 
-      - ./volumes/nominatim:/var/lib/postgresql/data
+      - ./volumes/db:/var/lib/postgresql/data
     restart: always
