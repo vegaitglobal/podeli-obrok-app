@@ -27,7 +27,7 @@ services:
     environment:
       PBF_URL: "https://download.geofabrik.de/europe/serbia-latest.osm.pbf"
       REPLICATION_URL: "https://download.geofabrik.de/europe/serbia-updates"
-      NOMINATIM_DATABASE_DSN: "pgsql:dbname=nominatim;hostaddr=db-nominatim;user=postgres;password=postgres"
+      NOMINATIM_DATABASE_DSN: "pgsql:dbname=nominatim:15432;hostaddr=db-nominatim;user=postgres;password=postgres"
   db:
     image: postgres:13.5-alpine
     container_name: podeli-obrok-db
@@ -45,7 +45,7 @@ services:
     image: postgres:13.5-alpine
     container_name: nominatim-db
     ports:
-      - "5432:5432"
+      - "15432:5432"
     environment:
       POSTGRES_DB: "nominatim"
       POSTGRESS_USER: "postgres"
