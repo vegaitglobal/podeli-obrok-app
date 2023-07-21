@@ -1,11 +1,11 @@
 import React from 'react';
-import { Image, Modal, Pressable, View } from 'react-native';
+import { Image, Modal, Pressable, ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
-import { white } from '../../constants/colors';
+import { lightOrange, white } from '../../constants/colors';
 import CloseIcon from '../../images/close-icon.png';
 import checkMark from '../../images/checkMark.png';
 import dashedCircle from '../../images/dashedCircle.png';
-import { View1Styled, View2Styled } from './MealInfoModal';
+import { View1Styled } from './MealInfoModal';
 import { Paragraph } from '../../constants/textStyles';
 import { checkNumberDigit } from '../../util/expirationDateUtil';
 import moment from 'moment';
@@ -157,7 +157,14 @@ const ConfirmMealInfoModal = ({ isVisible, closeModal, activeMealState }) => {
   return (
     <Modal visible={isVisible} transparent={true} animationType='fade'>
       <View1Styled>
-        <View2Styled>
+        <ScrollView
+          style={{
+            backgroundColor: lightOrange,
+            borderRadius: 20,
+            width: '90%',
+            maxHeight: '90%'
+          }}
+        >
           <View
             style={{
               flexDirection: 'row-reverse',
@@ -209,7 +216,7 @@ const ConfirmMealInfoModal = ({ isVisible, closeModal, activeMealState }) => {
               )} Dana ${checkNumberDigit(activeMealState?.hoursToExpiry)} Sati`}
             </CorrDateTime>
           </CorrectnessContainer>
-        </View2Styled>
+        </ScrollView>
       </View1Styled>
     </Modal>
   );
