@@ -1,15 +1,16 @@
 import React from 'react';
-import { Text, ScrollView, StyleSheet } from 'react-native';
-import styled from 'styled-components';
-import { lightOrange } from '../../constants/colors';
+import { ScrollView, StyleSheet } from 'react-native';
+import styled from 'styled-components/native';
+import { grey, lightOrange } from '../../constants/colors';
 import { Paragraph } from '../../constants/textStyles';
 import AppIcon from '../../images/AppIcon.png';
 
-const Title = styled(Text)`
+const Title = styled.Text`
   margin-bottom: 13px;
   font-size: 20px;
   font-weight: 500;
   line-height: 27px;
+  color: ${grey};
 `;
 
 const StyledParagraph = styled(Paragraph)`
@@ -23,12 +24,17 @@ const LogoImage = styled.Image`
   margin: 29px 20px;
 `;
 
-const Name = styled(Text)`
+const Name = styled.Text`
   text-transform: uppercase;
   font-style: italic;
   font-type: 'Roboto';
   font-weight: 600;
   margin-bottom: 5px;
+  color: ${grey};
+`;
+
+const NameSublabel = styled.Text`
+  color: ${lightOrange};
 `;
 
 const AuthorWordScreen = () => {
@@ -48,9 +54,7 @@ const AuthorWordScreen = () => {
       </StyledParagraph>
       <LogoImage source={AppIcon} resizeMode='contain' />
       <Name>Darian Pudić,</Name>
-      <Text style={{ color: lightOrange }}>
-        master inženjer elektrotehnike i računarstva
-      </Text>
+      <NameSublabel>master inženjer elektrotehnike i računarstva</NameSublabel>
     </ScrollView>
   );
 };
@@ -62,6 +66,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingLeft: 24,
     paddingRight: 32,
-    paddingBottom: 32
-  }
+    paddingBottom: 32,
+  },
 });

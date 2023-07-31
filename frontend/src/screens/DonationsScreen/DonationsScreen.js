@@ -1,18 +1,19 @@
 import React from 'react';
-import styled from 'styled-components';
-import { View, Text, Linking, ScrollView, StyleSheet } from 'react-native';
+import styled from 'styled-components/native';
+import { Linking, ScrollView, StyleSheet } from 'react-native';
 import { Paragraph } from '../../constants/textStyles';
-import { lightOrange } from '../../constants/colors';
+import { grey, lightOrange } from '../../constants/colors';
 import Heart from '../../images/heart.png';
 
-const Title = styled(Text)`
+const Title = styled.Text`
   margin-bottom: 13px;
   font-size: 20px;
   font-weight: 500;
   line-height: 27px;
+  color: ${grey};
 `;
 
-const Bold = styled(Text)`
+const Bold = styled.Text`
   font-weight: 600;
 `;
 
@@ -21,18 +22,18 @@ const StyledParagraph = styled(Paragraph)`
   margin-top: 20px;
 `;
 
-const Link = styled(Text)`
+const Link = styled.Text`
   color: ${lightOrange};
   text-decoration-line: underline;
 `;
 
-const ThanksWraper = styled(View)`
+const ThanksWraper = styled.View`
   flex-direction: row;
   margin-top: 35px;
 `;
 
-const Thanks = styled(Text)`
-color: ${lightOrange}
+const Thanks = styled.Text`
+  color: ${lightOrange}
   text-transform: uppercase;
   font-type: 'Roboto';
   font-weight: 600;
@@ -87,6 +88,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingLeft: 24,
     paddingRight: 32,
-    paddingBottom: 32
-  }
+    paddingBottom: 32,
+  },
 });

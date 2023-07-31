@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { func, string } from 'prop-types';
 import styled from 'styled-components/native';
 import { lightOrange, white } from '../../constants/colors';
@@ -12,7 +12,7 @@ import { setMealsByDeviceIdAction } from '../../redux/actions/mealActions';
 import { connect } from 'react-redux';
 import { navigationPropType } from '../../constants/propTypes/navigationPropType';
 
-const ViewWraper = styled(View)`
+const ViewWraper = styled.View`
   padding-top: 30px;
   padding-left: 24px;
   padding-right: 32px;
@@ -77,7 +77,7 @@ const CreatedMealScreen = ({ navigation, deviceId, setDonatedMeals }) => {
                 navigation.navigate(screens.mealsList, { isUserDonor: true });
               })
               .catch((error) =>
-                console.log('[ERROR]: get meals by device id', error)
+                console.log('[ERROR]: get meals by device id', error),
               );
           }}
         >
@@ -91,15 +91,15 @@ const CreatedMealScreen = ({ navigation, deviceId, setDonatedMeals }) => {
 CreatedMealScreen.propTypes = {
   navigation: navigationPropType,
   setDonatedMeals: func,
-  deviceId: string
+  deviceId: string,
 };
 
 const mapState = ({ device }) => ({
-  deviceId: device.id
+  deviceId: device.id,
 });
 
 const mapDispatch = (dispatch) => ({
-  setDonatedMeals: (meals) => dispatch(setMealsByDeviceIdAction(meals))
+  setDonatedMeals: (meals) => dispatch(setMealsByDeviceIdAction(meals)),
 });
 
 export default connect(mapState, mapDispatch)(CreatedMealScreen);

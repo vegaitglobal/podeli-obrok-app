@@ -6,12 +6,12 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Image
+  Image,
 } from 'react-native';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { Paragraph } from '../../constants/textStyles';
 import NshcLogo from '../../images/Nshc-logo.png';
-import { black, lightOrange } from '../../constants/colors';
+import { black, grey, lightOrange } from '../../constants/colors';
 import facebook from '../../images/facebook.png';
 import instagram from '../../images/instagram.png';
 
@@ -80,41 +80,42 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingLeft: 24,
     paddingRight: 32,
-    paddingBottom: 40
+    paddingBottom: 40,
   },
   title: {
     marginBottom: 13,
     fontSize: 20,
     fontWeight: '500',
-    lineHeight: 27
+    lineHeight: 27,
+    color: grey,
   },
   logo: {
     width: 150,
     height: 70,
     alignSelf: 'center',
-    marginVertical: 20
+    marginVertical: 20,
   },
   socialsParagraph: {
     fontWeight: '500',
     fontFamily: 'Roboto',
     color: black,
-    marginTop: 15
+    marginTop: 15,
   },
   socialIconsContainer: {
     flexDirection: 'row',
     marginTop: 16,
     justifyContent: 'space-between',
-    width: '25%'
+    width: '25%',
   },
   socialImage: {
     width: 30,
-    height: 30
+    height: 30,
   },
   readMore: {
     color: lightOrange,
     textAlign: 'center',
     marginTop: 30,
     textDecorationLine: 'underline',
-    textTransform: 'uppercase'
-  }
+    textTransform: 'uppercase',
+  },
 });
