@@ -1,15 +1,13 @@
-import Config from 'react-native-config';
-
-const baseUrl = Config.API_BASE_URL;
-
 // get available meals
 export const getAllMeals = () => {
-  return fetch(`${baseUrl}/meals`);
+  return fetch(`${process.env.API_BASE_URL}/meals`);
 };
 
 // get donated meals for a user
 export const getMealsByDeviceid = async (deviceId) => {
-  return fetch(`${baseUrl}/meals?createdByDeviceId=${deviceId}`);
+  return fetch(
+    `${process.env.API_BASE_URL}/meals?createdByDeviceId=${deviceId}`,
+  );
 };
 
 // payload for create meal:
@@ -29,12 +27,12 @@ export const getMealsByDeviceid = async (deviceId) => {
 //   "long": -56.656
 // }
 export const createMeal = async (meal) => {
-  return fetch(`${baseUrl}/meals`, {
+  return fetch(`${process.env.API_BASE_URL}/meals`, {
     method: 'POST',
     headers: {
       Accept: 'application/json; charset=utf-8',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(meal)
+    body: JSON.stringify(meal),
   });
 };

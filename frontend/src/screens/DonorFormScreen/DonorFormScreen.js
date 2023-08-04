@@ -27,7 +27,7 @@ const DonorFormScreen = ({ deviceId, setSidebarPosition }) => {
     expirationDays: '',
     expirationHours: '',
     lat: 0,
-    long: 0
+    long: 0,
   };
 
   const [newForm, setNewForm] = useState(initialState);
@@ -46,13 +46,14 @@ const DonorFormScreen = ({ deviceId, setSidebarPosition }) => {
         getAddresses(value)
           .then((response) => response.json())
           .then((res) => {
+            console.log({ res });
             setAddresses(res);
           })
           .catch((error) => {
             console.log('FETCHING ADDRESSES ERROR', error);
           });
       }, 1000),
-    []
+    [],
   );
 
   const checkboxHandler = () => {
@@ -76,7 +77,7 @@ const DonorFormScreen = ({ deviceId, setSidebarPosition }) => {
       ...prevForm,
       lat: address.lat.toString().slice(0, 10),
       long: address.lon.toString().slice(0, 10),
-      address: address.display_name
+      address: address.display_name,
     }));
     setShowSuggestions(false);
   };
@@ -111,7 +112,7 @@ const DonorFormScreen = ({ deviceId, setSidebarPosition }) => {
         .set('minute', 0)
         .format(),
       lat: Number(newForm.lat),
-      long: Number(newForm.long)
+      long: Number(newForm.long),
     };
     createMeal(payload)
       .then(() => {
@@ -242,64 +243,63 @@ const DonorFormScreen = ({ deviceId, setSidebarPosition }) => {
 
 DonorFormScreen.propTypes = {
   deviceId: string,
-  setSidebarPosition: func
+  setSidebarPosition: func,
 };
 
 const mapState = ({ device }) => ({
-  deviceId: device.id
+  deviceId: device.id,
 });
 
 const mapDispatch = (dispatch) => ({
-  setSidebarPosition: (top) => dispatch(setSidebarPosition(top))
+  setSidebarPosition: (top) => dispatch(setSidebarPosition(top)),
 });
 export default connect(mapState, mapDispatch)(DonorFormScreen);
 
 const styles = StyleSheet.create({
   screenContainer: {
-    flex: 1,
     backgroundColor: lightOrange,
     paddingHorizontal: 15,
-    paddingVertical: 20
+    paddingVertical: 20,
   },
   inputContainer: {
-    marginBottom: 30
+    marginBottom: 30,
   },
   suggestedAddress: {
     backgroundColor: white,
     color: black,
     borderBottomWidth: 0.5,
     borderBottomColor: black,
-    padding: 5
+    padding: 5,
   },
   suggestedAddressesContainer: {
     width: '100%',
     maxHeight: 300,
     marginTop: -20,
     marginBottom: 20,
-    borderRadius: 20
+    borderRadius: 20,
   },
   twoInputsRow: {
     flexDirection: 'row',
     marginBottom: 30,
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   oneInputInRow: {
-    width: '48%'
+    width: '48%',
   },
   phoneInput: {
-    marginBottom: 10
+    marginBottom: 10,
   },
   checkBoxAndMess: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 30
+    marginBottom: 30,
   },
   checkBoxMess: {
     padding: 5,
-    color: white
+    color: white,
   },
   buttonContainer: {
-    marginBottom: 40
-  }
+    marginBottom: 40,
+  },
 });
