@@ -2,7 +2,7 @@
 
 Steps to run this project:
 
-1. docker compose -f docker-compose.podeli-obrok.yaml up --build web
+1. docker compose -f docker-compose.local.yaml up --build web
 
 Deploy with PM2:
 

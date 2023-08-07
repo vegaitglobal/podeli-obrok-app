@@ -15,24 +15,40 @@ export class MealService {
     }
     return this.mealRepository
       .createQueryBuilder()
-      .select()
       .where(
         'id NOT IN (select distinct "mealId" from reservation where cancelled = false and "mealId" is not null)'
       )
-      .getMany();
+      .getMany()
+        .then(meals => {
+          for(let meal of meals) {
+            [meal.daysToExpiry, meal.hoursToExpiry] = this.calculateDaysAndHoursToExpiry(meal.expiresOn);
+          }
+
+          return meals;
+        });
   }
 
   async save(meal: Meal): Promise<Meal> {
-    meal.expiresOn = this.calculateExpiresOn(meal);
+    meal.expiresOn = this.calculateExpiryTime(meal.daysToExpiry, meal.hoursToExpiry);
     return this.mealRepository.save(meal);
   }
 
-  private calculateExpiresOn(meal: Meal): Date {
+  private calculateExpiryTime(daysToExpiry: number, hoursToExpiry: number): Date {
     const expiresOn: Date = new Date();
     expiresOn.setHours(
-      expiresOn.getHours() + meal.daysToExpiry * 24 + meal.hoursToExpiry
+      expiresOn.getHours() + daysToExpiry * 24 + hoursToExpiry
     );
 
     return expiresOn;
+  }
+
+  private calculateDaysAndHoursToExpiry(expiryTime: Date): [number, number] {
+    const now: Date = new Date();
+
+    const differenceInMilliseconds = expiryTime.getTime() - now.getTime();
+    const differenceInDays = Math.floor(differenceInMilliseconds / (1000 * 3600 * 24));
+    const differenceInHours = Math.ceil(differenceInMilliseconds / (1000 * 3600) - differenceInDays * 24);
+
+    return [Math.max(0, differenceInDays), Math.max(0, differenceInHours)];
   }
 }
