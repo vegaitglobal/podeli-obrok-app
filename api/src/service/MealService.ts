@@ -24,7 +24,7 @@ export class MealService {
             [meal.daysToExpiry, meal.hoursToExpiry] = this.calculateDaysAndHoursToExpiry(meal.expiresOn);
           }
 
-          return meals;
+          return meals.filter(m => m.hoursToExpiry !== 0 || m.daysToExpiry !== 0);
         });
   }
 
