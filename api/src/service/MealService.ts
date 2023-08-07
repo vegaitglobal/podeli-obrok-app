@@ -16,7 +16,7 @@ export class MealService {
     return this.mealRepository
       .createQueryBuilder()
       .where(
-        'id NOT IN (select distinct "mealId" from reservation where cancelled = false and "mealId" is not null)'
+        'id NOT IN (select distinct "mealId" from reservation where cancelled = false and "mealId" is not null) and now() < "Meal"."expiresOn"'
       )
       .getMany()
         .then(meals => {
@@ -46,8 +46,13 @@ export class MealService {
     const now: Date = new Date();
 
     const differenceInMilliseconds = expiryTime.getTime() - now.getTime();
-    const differenceInDays = Math.floor(differenceInMilliseconds / (1000 * 3600 * 24));
-    const differenceInHours = Math.ceil(differenceInMilliseconds / (1000 * 3600) - differenceInDays * 24);
+    let differenceInDays = Math.floor(differenceInMilliseconds / (1000 * 3600 * 24));
+    let differenceInHours = Math.ceil(differenceInMilliseconds / (1000 * 3600) - differenceInDays * 24);
+
+    if (differenceInHours === 24) {
+      differenceInDays += 1;
+      differenceInHours = 0;
+    }
 
     return [Math.max(0, differenceInDays), Math.max(0, differenceInHours)];
   }

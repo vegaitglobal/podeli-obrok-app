@@ -35,6 +35,8 @@ services:
   db:
     image: postgres:13.5-alpine
     container_name: podeli-obrok-db
+    ports:
+      - "21432:5432"
     environment:
       POSTGRES_DB: "share-meal"
       POSTGRES_USER: "postgres"
